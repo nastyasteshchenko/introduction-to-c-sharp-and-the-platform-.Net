@@ -8,8 +8,26 @@ public static class MainProgram
 
     public static void Main(string[] args)
     {
-        var employeeRepository = EmployeeRepository.Load();
+        var employeeRepository = LoadEmployeeRepository();
+        if (employeeRepository == null)
+        {
+            return;
+        }
+
         var hackathonStarter = new HackathonManager(employeeRepository);
         hackathonStarter.StartCertainTimes(Times);
+    }
+
+    private static EmployeeRepository? LoadEmployeeRepository()
+    {
+        try
+        {
+            return EmployeeRepository.Load();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Error while loading employee repository. " + e.Message);
+            return null;
+        }
     }
 }

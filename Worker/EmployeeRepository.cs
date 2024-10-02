@@ -25,9 +25,8 @@ public class EmployeeRepository
         return new EmployeeRepository(juniors, teamLeads);
     }
 
-    private static List<Employee> ReadEmployeesFromCsvFile(string filePath)
+    private static List<Employee> ReadEmployeesFromCsvFile(string filePath) 
     {
-        //TODO handle exception
         var reader = new StreamReader(filePath);
         var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture) 
         {
