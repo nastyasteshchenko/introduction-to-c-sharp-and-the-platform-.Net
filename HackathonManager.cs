@@ -15,11 +15,12 @@ public class HackathonManager(EmployeeRepository employeeRepository)
                 WishlistsGenerator.GenerateWishlists(juniors, teamLeads);
             var teamLeadsWishlist =
                 WishlistsGenerator.GenerateWishlists(teamLeads, juniors);
-            var teams = TeamBuildingStrategy.BuildTeams(teamLeads, juniors, teamLeadsWishlist, juniorsWishlist);
+            var teams = 
+                TeamBuildingStrategy.BuildTeams(teamLeads, juniors, teamLeadsWishlist, juniorsWishlist);
             
             statisticsManager.AddStatistics(teams, teamLeadsWishlist, juniorsWishlist);
 
-            statisticsManager.PrintCurrentHarmonicMean();
+           // statisticsManager.PrintCurrentHarmonicMean();
         }
 
         statisticsManager.SummarizeResults();
