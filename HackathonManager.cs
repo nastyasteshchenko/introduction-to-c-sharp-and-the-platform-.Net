@@ -6,7 +6,7 @@ using TeamBuilding;
 
 public class HackathonManager(EmployeeRepository employeeRepository)
 {
-    public void StartCertainTimes(int numberOfTimesToStart)
+    public void StartHackathonCertainTimes(int numberOfTimesToStart)
     {
         var statisticsManager = new StatisticsManager();
         var juniors = employeeRepository.Juniors;
@@ -14,17 +14,17 @@ public class HackathonManager(EmployeeRepository employeeRepository)
 
         for (var i = 0; i < numberOfTimesToStart; i++)
         {
-            Console.WriteLine($"Hackathon № {i} started.");
+            Console.WriteLine($"Hackathon № {i + 1} started.");
             var juniorsWishlist =
                 WishlistsGenerator.GenerateWishlists(juniors, teamLeads);
             var teamLeadsWishlist =
                 WishlistsGenerator.GenerateWishlists(teamLeads, juniors);
-            var teams = 
+            var teams =
                 TeamBuildingStrategy.BuildTeams(teamLeads, juniors, teamLeadsWishlist, juniorsWishlist);
-            
+
             statisticsManager.AddStatistics(teams, teamLeadsWishlist, juniorsWishlist);
 
-           // statisticsManager.PrintCurrentHarmonicMean();
+            // statisticsManager.PrintCurrentHarmonicMean();
         }
 
         statisticsManager.SummarizeResults();
