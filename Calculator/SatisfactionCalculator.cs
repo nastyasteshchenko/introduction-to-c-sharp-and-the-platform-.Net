@@ -1,11 +1,11 @@
-namespace Nsu.Hackathon.Problem;
+namespace Nsu.Hackathon.Problem.Calculator;
 
 using Preferences;
 using TeamBuilding;
 
-public static class SatisfactionCounter
+public static class SatisfactionCalculator
 {
-    public static List<int> CountSatisfaction(List<Team> teams,
+    public static List<int> CalculateSatisfaction(List<Team> teams,
         List<Wishlist> teamLeadsWishlists, List<Wishlist> juniorsWishlists)
     {
         var juniorsDesiredEmployees =

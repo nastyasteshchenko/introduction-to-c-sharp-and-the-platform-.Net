@@ -1,4 +1,4 @@
-namespace Nsu.Hackathon.Problem;
+namespace Nsu.Hackathon.Problem.Manager;
 
 using Preferences;
 using Worker;
@@ -24,7 +24,7 @@ public class HackathonManager(EmployeeRepository employeeRepository)
 
             statisticsManager.AddStatistics(teams, teamLeadsWishlist, juniorsWishlist);
 
-            // statisticsManager.PrintCurrentHarmonicMean();
+            statisticsManager.PrintCurrentHarmonicMean();
         }
 
         statisticsManager.SummarizeResults();

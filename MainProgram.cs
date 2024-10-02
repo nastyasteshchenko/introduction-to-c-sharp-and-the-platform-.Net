@@ -1,6 +1,7 @@
 ﻿namespace Nsu.Hackathon.Problem;
 
 using Worker;
+using Manager;
 
 public static class MainProgram
 {

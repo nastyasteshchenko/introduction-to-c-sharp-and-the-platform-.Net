@@ -1,4 +1,4 @@
-namespace Nsu.Hackathon.Problem;
+namespace Nsu.Hackathon.Problem.Manager;
 
 using Preferences;
 using Calculator;
@@ -15,7 +15,7 @@ public class StatisticsManager
     public void AddStatistics(List<Team> teams,
         List<Wishlist> teamLeadsWishlists, List<Wishlist> juniorsWishlists)
     {
-        var indexes = SatisfactionCounter.CountSatisfaction(teams, teamLeadsWishlists, juniorsWishlists);
+        var indexes = SatisfactionCalculator.CalculateSatisfaction(teams, teamLeadsWishlists, juniorsWishlists);
         _allHackathonsSatisfactionIndexes.AddRange(indexes);
 
         _currentHackathonHarmonicMean = HarmonicMeanCalculator.CalculateHarmonicMean(indexes);
