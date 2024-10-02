@@ -1,4 +1,4 @@
-namespace Nsu.Hackathon.Problem;
+namespace Nsu.Hackathon.Problem.Calculator;
 
 public static class HarmonicMeanCalculator
 {

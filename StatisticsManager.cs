@@ -1,5 +1,9 @@
 namespace Nsu.Hackathon.Problem;
 
+using Preferences;
+using Calculator;
+using TeamBuilding;
+
 public class StatisticsManager
 {
     private readonly List<int> _allHackathonsSatisfactionIndexes = [];
@@ -28,7 +32,7 @@ public class StatisticsManager
     {
         Console.WriteLine($"Current harmonic mean: {_currentHackathonHarmonicMean:0.000}");
     }
-    
+
     public void PrintResults()
     {
         Console.WriteLine($"Total harmonic mean: {_totalHarmonicMean:0.000}");

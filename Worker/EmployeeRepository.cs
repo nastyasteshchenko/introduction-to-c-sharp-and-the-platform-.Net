@@ -2,7 +2,7 @@ using System.Globalization;
 using CsvHelper;
 using CsvHelper.Configuration;
 
-namespace Nsu.Hackathon.Problem;
+namespace Nsu.Hackathon.Problem.Worker;
 
 public class EmployeeRepository
 {

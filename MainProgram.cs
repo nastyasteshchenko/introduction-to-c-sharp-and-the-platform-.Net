@@ -1,5 +1,7 @@
 ﻿namespace Nsu.Hackathon.Problem;
 
+using Worker;
+
 public static class MainProgram
 {
     private const int Times = 1000;

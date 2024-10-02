@@ -1,5 +1,9 @@
 namespace Nsu.Hackathon.Problem;
 
+using Preferences;
+using Worker;
+using TeamBuilding;
+
 public class HackathonManager(EmployeeRepository employeeRepository)
 {
     public void StartCertainTimes(int numberOfTimesToStart)

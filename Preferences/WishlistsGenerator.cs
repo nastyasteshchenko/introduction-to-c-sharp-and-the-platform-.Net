@@ -1,6 +1,8 @@
 using System.Runtime.InteropServices;
 
-namespace Nsu.Hackathon.Problem;
+namespace Nsu.Hackathon.Problem.Preferences;
+
+using Worker;
 
 public static class WishlistsGenerator
 {

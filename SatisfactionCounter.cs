@@ -1,5 +1,8 @@
 namespace Nsu.Hackathon.Problem;
 
+using Preferences;
+using TeamBuilding;
+
 public static class SatisfactionCounter
 {
     public static List<int> CountSatisfaction(List<Team> teams,

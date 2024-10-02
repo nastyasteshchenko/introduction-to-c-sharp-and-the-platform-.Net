@@ -1,4 +1,7 @@
-namespace Nsu.Hackathon.Problem;
+namespace Nsu.Hackathon.Problem.TeamBuilding;
+
+using Preferences;
+using Worker;
 
 public static class TeamBuildingStrategy
 {
@@ -55,7 +58,7 @@ public static class TeamBuildingStrategy
         }
 
         var teams = teamLeadsPartners
-            .Select(entry => new Team(entry.Key, entry.Value))
+            .Select(entry => new Team(entry.Key, entry.Value!))
             .ToList();
 
         return teams;
