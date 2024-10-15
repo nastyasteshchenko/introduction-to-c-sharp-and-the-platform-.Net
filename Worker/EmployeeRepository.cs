@@ -9,21 +9,8 @@ public class EmployeeRepository
     private const string JuniorResourcesFile = "./Resources/Juniors20.csv";
     private const string TeamLeadsResourcesFile = "./Resources/Teamleads20.csv";
 
-    public List<Employee> Juniors { get; }
-    public List<Employee> TeamLeads { get; }
-
-    private EmployeeRepository(List<Employee> juniors, List<Employee> teamLeads)
-    {
-        Juniors = juniors;
-        TeamLeads = teamLeads;
-    }
-
-    public static EmployeeRepository Load()
-    {
-        var juniors = ReadEmployeesFromCsvFile(JuniorResourcesFile);
-        var teamLeads = ReadEmployeesFromCsvFile(TeamLeadsResourcesFile);
-        return new EmployeeRepository(juniors, teamLeads);
-    }
+    public List<Employee> Juniors { get; } = ReadEmployeesFromCsvFile(JuniorResourcesFile);
+    public List<Employee> TeamLeads { get; } = ReadEmployeesFromCsvFile(TeamLeadsResourcesFile);
 
     private static List<Employee> ReadEmployeesFromCsvFile(string filePath)
     {

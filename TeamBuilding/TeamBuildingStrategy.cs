@@ -3,11 +3,11 @@ namespace Nsu.Hackathon.Problem.TeamBuilding;
 using Preferences;
 using Worker;
 
-internal static class TeamBuildingStrategy
+public class TeamBuildingStrategy
 {
     private const Employee? NoPair = null;
 
-    public static List<Team> BuildTeams(List<Wishlist> teamLeadsWishlists, List<Wishlist> juniorsWishlists)
+    public List<Team> BuildTeams(List<Wishlist> teamLeadsWishlists, List<Wishlist> juniorsWishlists)
     {
         var juniors = juniorsWishlists.Select(x => x.Employee).ToList();
         var teamLeads = teamLeadsWishlists.Select(x => x.Employee).ToList();

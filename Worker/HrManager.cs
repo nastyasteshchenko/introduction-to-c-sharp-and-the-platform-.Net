@@ -3,10 +3,10 @@ using Nsu.Hackathon.Problem.TeamBuilding;
 
 namespace Nsu.Hackathon.Problem.Worker;
 
-public static class HrManager
+public class HrManager(TeamBuildingStrategy teamBuildingStrategy)
 {
-    public static List<Team> BuildTeams(List<Wishlist> teamLeadsWishlists, List<Wishlist> juniorsWishlists)
+    public List<Team> BuildTeams(List<Wishlist> teamLeadsWishlists, List<Wishlist> juniorsWishlists)
     {
-        return TeamBuildingStrategy.BuildTeams(teamLeadsWishlists, juniorsWishlists);
+        return teamBuildingStrategy.BuildTeams(teamLeadsWishlists, juniorsWishlists);
     }
 }

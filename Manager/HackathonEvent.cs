@@ -3,22 +3,26 @@ namespace Nsu.Hackathon.Problem.Manager;
 using Preferences;
 using Worker;
 
-public class HackathonEvent(EmployeeRepository employeeRepository, HrDirector hrDirector)
+public class HackathonEvent(EmployeeRepository employeeRepository, HrManager hrManager, HrDirector hrDirector)
 {
-    private readonly List<Employee> _juniors = employeeRepository.Juniors;
-    private readonly List<Employee> _teamLeads = employeeRepository.TeamLeads;
-
     public void Start()
     {
         var juniorsWishlist =
-            WishlistsGenerator.GenerateWishlists(_juniors, _teamLeads);
+            WishlistsGenerator.GenerateWishlists(employeeRepository!.Juniors,
+                employeeRepository.TeamLeads);
         var teamLeadsWishlist =
-            WishlistsGenerator.GenerateWishlists(_teamLeads, _juniors);
+            WishlistsGenerator.GenerateWishlists(employeeRepository.TeamLeads,
+                employeeRepository.Juniors);
         var teams =
-            HrManager.BuildTeams(teamLeadsWishlist, juniorsWishlist);
+            hrManager.BuildTeams(teamLeadsWishlist, juniorsWishlist);
 
         hrDirector.CalculateStatistics(teams, teamLeadsWishlist, juniorsWishlist);
-
         hrDirector.SayCurrentHackathonStatistics();
+    }
+
+    public void PrintSummarizedCompletedHackathonsStatistics()
+    {
+        hrDirector.SummarizeResults();
+        hrDirector.SayTotalHackathonsStatistics();
     }
 }

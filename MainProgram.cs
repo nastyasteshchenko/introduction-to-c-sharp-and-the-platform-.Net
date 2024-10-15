@@ -1,34 +1,29 @@
-﻿namespace Nsu.Hackathon.Problem;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Nsu.Hackathon.Problem.TeamBuilding;
+
+namespace Nsu.Hackathon.Problem;
 
 using Worker;
 using Manager;
 
 public static class MainProgram
 {
-    private const int Times = 1000;
-
     public static void Main(string[] args)
     {
-        var employeeRepository = LoadEmployeeRepository();
-        if (employeeRepository == null)
-        {
-            return;
-        }
+        var host = Host.CreateDefaultBuilder(args)
+            .ConfigureServices((hostContext, services) =>
+            {
+                services.AddHostedService<HackathonHostedService>();
+                services.AddTransient<HackathonEvent>();
+                services.AddTransient<TeamBuildingStrategy>();
+                services.AddTransient<HrManager>();
+                services.AddTransient<HrDirector>();
+                services.AddTransient<HackathonEventsManager>();
+                services.AddTransient<EmployeeRepository>();
+            })
+            .Build();
 
-        var hackathonManager = new HackathonEventsManager(employeeRepository);
-        hackathonManager.StartEventCertainTimes(Times);
-    }
-
-    private static EmployeeRepository? LoadEmployeeRepository()
-    {
-        try
-        {
-            return EmployeeRepository.Load();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("Error while loading employee repository. " + e.Message);
-            return null;
-        }
+        host.Run();
     }
 }
