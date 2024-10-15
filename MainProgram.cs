@@ -12,14 +12,13 @@ public static class MainProgram
     public static void Main(string[] args)
     {
         var host = Host.CreateDefaultBuilder(args)
-            .ConfigureServices((hostContext, services) =>
+            .ConfigureServices((_, services) =>
             {
                 services.AddHostedService<HackathonWorker>();
                 services.AddTransient<HackathonEvent>();
                 services.AddTransient<TeamBuildingStrategy>();
                 services.AddTransient<HrManager>();
                 services.AddTransient<HrDirector>();
-                services.AddTransient<HackathonEventsManager>();
                 services.AddTransient<EmployeeRepository>();
             })
             .Build();

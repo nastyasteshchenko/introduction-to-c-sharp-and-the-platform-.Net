@@ -1,4 +1,4 @@
-namespace Nsu.Hackathon.Problem.Manager;
+namespace Nsu.Hackathon.Problem;
 
 using Preferences;
 using Worker;
@@ -8,7 +8,7 @@ public class HackathonEvent(EmployeeRepository employeeRepository, HrManager hrM
     public void Start()
     {
         var juniorsWishlist =
-            WishlistsGenerator.GenerateWishlists(employeeRepository!.Juniors,
+            WishlistsGenerator.GenerateWishlists(employeeRepository.Juniors,
                 employeeRepository.TeamLeads);
         var teamLeadsWishlist =
             WishlistsGenerator.GenerateWishlists(employeeRepository.TeamLeads,
