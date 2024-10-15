@@ -16,7 +16,7 @@ public class HackathonEvent(EmployeeRepository employeeRepository, HrManager hrM
         var teams =
             hrManager.BuildTeams(teamLeadsWishlist, juniorsWishlist);
 
-        hrDirector.CalculateStatistics(teams, teamLeadsWishlist, juniorsWishlist);
+        hrDirector.SaveStatistics(teams, teamLeadsWishlist, juniorsWishlist);
         hrDirector.SayCurrentHackathonStatistics();
     }
 

@@ -5,7 +5,6 @@ using Nsu.Hackathon.Problem.TeamBuilding;
 namespace Nsu.Hackathon.Problem;
 
 using Worker;
-using Manager;
 
 public static class MainProgram
 {

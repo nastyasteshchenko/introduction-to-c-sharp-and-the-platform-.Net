@@ -12,7 +12,7 @@ public class StatisticsManager
     public double TotalHarmonicMeanAverage { get; private set; }
     public double TotalHarmonicMean { get; private set; }
 
-    public void CalculateStatistics(List<Team> teams,
+    public void SaveStatistics(List<Team> teams,
         List<Wishlist> teamLeadsWishlists, List<Wishlist> juniorsWishlists)
     {
         var indexes = SatisfactionCalculator.CalculateSatisfaction(teams, teamLeadsWishlists, juniorsWishlists);

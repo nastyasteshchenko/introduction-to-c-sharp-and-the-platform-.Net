@@ -8,10 +8,10 @@ public class HrDirector
 {
     private readonly StatisticsManager _statisticsManager = new();
 
-    public void CalculateStatistics
+    public void SaveStatistics
         (List<Team> teams, List<Wishlist> teamLeadsWishlists, List<Wishlist> juniorsWishlists)
     {
-        _statisticsManager.CalculateStatistics(teams, teamLeadsWishlists, juniorsWishlists);
+        _statisticsManager.SaveStatistics(teams, teamLeadsWishlists, juniorsWishlists);
     }
 
     public void SummarizeResults()
