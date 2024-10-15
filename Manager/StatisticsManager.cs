@@ -8,34 +8,23 @@ public class StatisticsManager
 {
     private readonly List<int> _allHackathonsSatisfactionIndexes = [];
     private readonly List<double> _allHackathonsHarmonicMeans = [];
-    private double _currentHackathonHarmonicMean;
-    private double _totalHarmonicMeanAverage;
-    private double _totalHarmonicMean;
+    public double CurrentHackathonHarmonicMean { get; private set; }
+    public double TotalHarmonicMeanAverage { get; private set; }
+    public double TotalHarmonicMean { get; private set; }
 
-    public void AddStatistics(List<Team> teams,
+    public void CalculateStatistics(List<Team> teams,
         List<Wishlist> teamLeadsWishlists, List<Wishlist> juniorsWishlists)
     {
         var indexes = SatisfactionCalculator.CalculateSatisfaction(teams, teamLeadsWishlists, juniorsWishlists);
         _allHackathonsSatisfactionIndexes.AddRange(indexes);
 
-        _currentHackathonHarmonicMean = HarmonicMeanCalculator.CalculateHarmonicMean(indexes);
-        _allHackathonsHarmonicMeans.Add(_currentHackathonHarmonicMean);
+        CurrentHackathonHarmonicMean = HarmonicMeanCalculator.CalculateHarmonicMean(indexes);
+        _allHackathonsHarmonicMeans.Add(CurrentHackathonHarmonicMean);
     }
 
     public void SummarizeResults()
     {
-        _totalHarmonicMeanAverage = AverageCalculator.CalculateAverage(_allHackathonsHarmonicMeans);
-        _totalHarmonicMean = HarmonicMeanCalculator.CalculateHarmonicMean(_allHackathonsSatisfactionIndexes);
-    }
-
-    public void PrintCurrentHarmonicMean()
-    {
-        Console.WriteLine($"Current harmonic mean: {_currentHackathonHarmonicMean:0.000}");
-    }
-
-    public void PrintResults()
-    {
-        Console.WriteLine($"Total harmonic mean: {_totalHarmonicMean:0.000}");
-        Console.WriteLine($"Total harmonic mean average: {_totalHarmonicMeanAverage:0.000}");
+        TotalHarmonicMeanAverage = _allHackathonsHarmonicMeans.Average();
+        TotalHarmonicMean = HarmonicMeanCalculator.CalculateHarmonicMean(_allHackathonsSatisfactionIndexes);
     }
 }

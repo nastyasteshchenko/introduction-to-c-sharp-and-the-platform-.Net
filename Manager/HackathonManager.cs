@@ -2,13 +2,12 @@ namespace Nsu.Hackathon.Problem.Manager;
 
 using Preferences;
 using Worker;
-using TeamBuilding;
 
 public class HackathonManager(EmployeeRepository employeeRepository)
 {
     public void StartHackathonCertainTimes(int numberOfTimesToStart)
     {
-        var statisticsManager = new StatisticsManager();
+        var hrDirector = new HrDirector();
         var juniors = employeeRepository.Juniors;
         var teamLeads = employeeRepository.TeamLeads;
 
@@ -20,14 +19,14 @@ public class HackathonManager(EmployeeRepository employeeRepository)
             var teamLeadsWishlist =
                 WishlistsGenerator.GenerateWishlists(teamLeads, juniors);
             var teams =
-                TeamBuildingStrategy.BuildTeams(teamLeads, juniors, teamLeadsWishlist, juniorsWishlist);
+                HrManager.BuildTeams(teamLeadsWishlist, juniorsWishlist);
 
-            statisticsManager.AddStatistics(teams, teamLeadsWishlist, juniorsWishlist);
+            hrDirector.CalculateStatistics(teams, teamLeadsWishlist, juniorsWishlist);
 
-            statisticsManager.PrintCurrentHarmonicMean();
+            hrDirector.SayCurrentHackathonStatistics();
         }
 
-        statisticsManager.SummarizeResults();
-        statisticsManager.PrintResults();
+        hrDirector.SummarizeResults();
+        hrDirector.SayTotalHackathonsStatistics();
     }
 }
