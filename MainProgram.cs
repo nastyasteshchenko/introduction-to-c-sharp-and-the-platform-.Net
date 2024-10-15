@@ -15,8 +15,8 @@ public static class MainProgram
             return;
         }
 
-        var hackathonManager = new HackathonManager(employeeRepository);
-        hackathonManager.StartHackathonCertainTimes(Times);
+        var hackathonManager = new HackathonEventsManager(employeeRepository);
+        hackathonManager.StartEventCertainTimes(Times);
     }
 
     private static EmployeeRepository? LoadEmployeeRepository()

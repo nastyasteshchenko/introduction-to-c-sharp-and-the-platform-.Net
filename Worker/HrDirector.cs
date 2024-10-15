@@ -2,7 +2,7 @@ using Nsu.Hackathon.Problem.Manager;
 using Nsu.Hackathon.Problem.Preferences;
 using Nsu.Hackathon.Problem.TeamBuilding;
 
-namespace Nsu.Hackathon.Problem;
+namespace Nsu.Hackathon.Problem.Worker;
 
 public class HrDirector
 {
@@ -18,7 +18,7 @@ public class HrDirector
     {
         _statisticsManager.SummarizeResults();
     }
-    
+
     public void SayCurrentHackathonStatistics()
     {
         Console.WriteLine($"Current harmonic mean: {_statisticsManager.CurrentHackathonHarmonicMean:0.000}");
