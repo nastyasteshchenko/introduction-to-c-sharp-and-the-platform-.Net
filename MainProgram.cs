@@ -14,7 +14,7 @@ public static class MainProgram
         var host = Host.CreateDefaultBuilder(args)
             .ConfigureServices((hostContext, services) =>
             {
-                services.AddHostedService<HackathonHostedService>();
+                services.AddHostedService<HackathonWorker>();
                 services.AddTransient<HackathonEvent>();
                 services.AddTransient<TeamBuildingStrategy>();
                 services.AddTransient<HrManager>();

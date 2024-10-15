@@ -3,7 +3,7 @@ using Nsu.Hackathon.Problem.Manager;
 
 namespace Nsu.Hackathon.Problem;
 
-public class HackathonHostedService(HackathonEventsManager hackathonEventsManager) : IHostedService
+public class HackathonWorker(HackathonEventsManager hackathonEventsManager) : IHostedService
 {
     private const int Times = 1000;
 
