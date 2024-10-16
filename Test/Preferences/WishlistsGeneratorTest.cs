@@ -6,6 +6,7 @@ using Nsu.Hackathon.Problem.Worker;
 
 public class WishlistsGeneratorTest
 {
+
     [Test]
     public void GeneratingWishlistsTest()
     {
@@ -25,7 +26,7 @@ public class WishlistsGeneratorTest
         var juniorsWishlists = WishlistsGenerator.GenerateWishlists(juniors, teamLeads);
         var teamLeadsWishlists =
             WishlistsGenerator.GenerateWishlists(teamLeads, juniors);
-
+        
         Assert.Multiple(() =>
         {
             Assert.That(juniorsWishlists, Has.Count.EqualTo(juniors.Count));
@@ -35,19 +36,37 @@ public class WishlistsGeneratorTest
         foreach (var desiredEmployees
                  in juniorsWishlists.Select(juniorWishlist => juniorWishlist.DesiredEmployees))
         {
-            Assert.That(desiredEmployees, Does.Contain(teamLead1));
-            Assert.That(desiredEmployees, Does.Contain(teamLead2));
-            Assert.That(desiredEmployees, Does.Contain(teamLead3));
-            Assert.That(desiredEmployees, Does.Contain(teamLead4));
+            Assert.That(desiredEmployees, Has.Member(teamLead1));
+            Assert.That(desiredEmployees, Has.Member(teamLead2));
+            Assert.That(desiredEmployees, Has.Member(teamLead3));
+            Assert.That(desiredEmployees, Has.Member(teamLead4));
         }
 
         foreach (var desiredEmployees
                  in teamLeadsWishlists.Select(teamLeadWishlist => teamLeadWishlist.DesiredEmployees))
         {
-            Assert.That(desiredEmployees, Does.Contain(junior1));
-            Assert.That(desiredEmployees, Does.Contain(junior2));
-            Assert.That(desiredEmployees, Does.Contain(junior3));
-            Assert.That(desiredEmployees, Does.Contain(junior4));
+            Assert.That(desiredEmployees, Has.Member(junior1));
+            Assert.That(desiredEmployees, Has.Member(junior2));
+            Assert.That(desiredEmployees, Has.Member(junior3));
+            Assert.That(desiredEmployees, Has.Member(junior4));
         }
+
+        var teamLeadsFromTeamLeadsWishlists =
+            teamLeadsWishlists.Select(teamLeadWishlist => teamLeadWishlist.Employee)
+                .ToList();
+
+        Assert.That(teamLeadsFromTeamLeadsWishlists, Has.Member(teamLead1));
+        Assert.That(teamLeadsFromTeamLeadsWishlists, Has.Member(teamLead2));
+        Assert.That(teamLeadsFromTeamLeadsWishlists, Has.Member(teamLead3));
+        Assert.That(teamLeadsFromTeamLeadsWishlists, Has.Member(teamLead4));
+
+        var juniorsFromJuniorsWishlists =
+            juniorsWishlists.Select(juniorWishlist => juniorWishlist.Employee)
+                .ToList();
+
+        Assert.That(juniorsFromJuniorsWishlists, Has.Member(junior1));
+        Assert.That(juniorsFromJuniorsWishlists, Has.Member(junior2));
+        Assert.That(juniorsFromJuniorsWishlists, Has.Member(junior3));
+        Assert.That(juniorsFromJuniorsWishlists, Has.Member(junior4));
     }
 }
