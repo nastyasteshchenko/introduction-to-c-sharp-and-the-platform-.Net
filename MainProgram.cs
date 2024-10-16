@@ -15,7 +15,7 @@ public static class MainProgram
             {
                 services.AddHostedService<HackathonWorker>();
                 services.AddTransient<HackathonEvent>();
-                services.AddTransient<TeamBuildingStrategy>();
+                services.AddTransient<ITeamBuildingStrategy, TeamBuildingStrategy>();
                 services.AddTransient<HrManager>();
                 services.AddTransient<HrDirector>();
                 services.AddTransient<EmployeeRepository>();

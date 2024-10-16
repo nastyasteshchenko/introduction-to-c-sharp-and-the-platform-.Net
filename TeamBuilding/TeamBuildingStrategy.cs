@@ -3,7 +3,7 @@ namespace Nsu.Hackathon.Problem.TeamBuilding;
 using Preferences;
 using Worker;
 
-public class TeamBuildingStrategy
+public class TeamBuildingStrategy : ITeamBuildingStrategy
 {
     private const Employee? NoPair = null;
 

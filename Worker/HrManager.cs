@@ -3,7 +3,7 @@ using Nsu.Hackathon.Problem.TeamBuilding;
 
 namespace Nsu.Hackathon.Problem.Worker;
 
-public class HrManager(TeamBuildingStrategy teamBuildingStrategy)
+public class HrManager(ITeamBuildingStrategy teamBuildingStrategy)
 {
     public List<Team> BuildTeams(List<Wishlist> teamLeadsWishlists, List<Wishlist> juniorsWishlists)
     {
