@@ -3,20 +3,14 @@ namespace Nsu.Hackathon.Problem;
 using Preferences;
 using Worker;
 
-public class HackathonEvent(EmployeeRepository employeeRepository, HrManager hrManager, HrDirector hrDirector)
+public class HackathonEvent(HrManager hrManager, HrDirector hrDirector)
 {
-    public void Start()
+    public void Start(List<Wishlist> teamLeadsWishlists, List<Wishlist> juniorsWishlists)
     {
-        var juniorsWishlist =
-            WishlistsGenerator.GenerateWishlists(employeeRepository.Juniors,
-                employeeRepository.TeamLeads);
-        var teamLeadsWishlist =
-            WishlistsGenerator.GenerateWishlists(employeeRepository.TeamLeads,
-                employeeRepository.Juniors);
         var teams =
-            hrManager.BuildTeams(teamLeadsWishlist, juniorsWishlist);
+            hrManager.BuildTeams(teamLeadsWishlists, juniorsWishlists);
 
-        hrDirector.SaveStatistics(teams, teamLeadsWishlist, juniorsWishlist);
+        hrDirector.SaveStatistics(teams, teamLeadsWishlists, juniorsWishlists);
         hrDirector.SayCurrentHackathonStatistics();
     }
 
