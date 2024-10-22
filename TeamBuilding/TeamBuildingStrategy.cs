@@ -11,7 +11,7 @@ public class TeamBuildingStrategy : ITeamBuildingStrategy
     {
         var juniors = juniorsWishlists.Select(x => x.Employee).ToList();
         var teamLeads = teamLeadsWishlists.Select(x => x.Employee).ToList();
-        
+
         var teamLeadsPartners = teamLeads.ToDictionary(junior => junior, _ => NoPair);
 
         var juniorsDesiredEmployees =
@@ -30,38 +30,35 @@ public class TeamBuildingStrategy : ITeamBuildingStrategy
             var junior = freeJuniors.Dequeue();
             var juniorPreferences = juniorsDesiredEmployees[junior];
 
-            var isFreeCurrentJunior = true;
             foreach (var preferTeamLead in juniorPreferences)
             {
-                if (!isFreeCurrentJunior)
-                {
-                    continue;
-                }
-
                 var currentTeamLeadPartner = teamLeadsPartners[preferTeamLead];
                 if (currentTeamLeadPartner == NoPair)
                 {
                     teamLeadsPartners[preferTeamLead] = junior;
-                    isFreeCurrentJunior = false;
+                    break;
                 }
-                else
-                {
-                    var teamLeadPreferences = teamLeadsDesiredEmployees[preferTeamLead];
-                    if (TeamLeadPrefersJ1OverJ(teamLeadPreferences, junior, currentTeamLeadPartner))
-                    {
-                        continue;
-                    }
 
-                    teamLeadsPartners[preferTeamLead] = junior;
-                    isFreeCurrentJunior = false;
-                    freeJuniors.Enqueue(currentTeamLeadPartner);
+                var teamLeadPreferences = teamLeadsDesiredEmployees[preferTeamLead];
+                if (TeamLeadPrefersJ1OverJ(teamLeadPreferences, junior, currentTeamLeadPartner))
+                {
+                    continue;
                 }
+
+                teamLeadsPartners[preferTeamLead] = junior;
+                freeJuniors.Enqueue(currentTeamLeadPartner);
+                break;
             }
         }
 
         var teams = teamLeadsPartners
             .Select(entry => new Team(entry.Key, entry.Value!))
             .ToList();
+
+        foreach (var team in teams)
+        {
+            Console.WriteLine(team);
+        }
 
         return teams;
     }
