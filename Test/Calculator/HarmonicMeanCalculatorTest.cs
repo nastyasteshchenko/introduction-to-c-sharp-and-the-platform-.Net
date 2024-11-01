@@ -7,7 +7,7 @@ public class HarmonicMeanCalculatorTest
     [Test]
     public void SingleValueTest()
     {
-        var values = new List<int>() { 2 };
+        var values = new List<int> { 2 };
 
         Assert.That(HarmonicMeanCalculator.CalculateHarmonicMean(values), Is.EqualTo(2));
     }
@@ -15,7 +15,7 @@ public class HarmonicMeanCalculatorTest
     [Test]
     public void SameValuesTest()
     {
-        var values = new List<int>() { 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10 };
+        var values = new List<int> { 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10 };
 
         Assert.That(HarmonicMeanCalculator.CalculateHarmonicMean(values), Is.EqualTo(10));
     }
