@@ -7,10 +7,10 @@ namespace Nsu.Hackathon.Problem;
 public class Hackathon
 {
     public long Id { get; set; }
-    public List<EmployeeEntity> Juniors { get; set; } = [];
-    public List<EmployeeEntity> TeamLeads { get; set; } = [];
-    public List<WishlistEntity> JuniorsWishlists { get; set; } = [];
-    public List<WishlistEntity> TeamLeadsWishlists { get; set; } = [];
-    public List<TeamEntity> Teams { get; set; } = [];
+    public List<Employee> Juniors { get; set; } = [];
+    public List<Employee> TeamLeads { get; set; } = [];
+    public List<Wishlist> JuniorsWishlists { get; set; } = [];
+    public List<Wishlist> TeamLeadsWishlists { get; set; } = [];
+    public List<Team> Teams { get; set; } = [];
     public double HarmonicMean { get; set; }
 }

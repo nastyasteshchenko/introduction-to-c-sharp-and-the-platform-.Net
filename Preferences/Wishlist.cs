@@ -1,5 +1,13 @@
-using Nsu.Hackathon.Problem.Worker;
-
 namespace Nsu.Hackathon.Problem.Preferences;
 
-public record Wishlist(EmployeeEntity Employee, List<EmployeeEntity> DesiredEmployees);
+using Worker;
+
+public class Wishlist
+{
+    public long Id { get; set; }
+    public long PriorityNumber { get; set; } 
+    public long EmployeeId { get; set; }
+    public Employee Employee { get; set; } = null!;
+    public long DesiredEmployeeId { get; set; }
+    public Employee DesiredEmployee { get; set; } = null!;
+}

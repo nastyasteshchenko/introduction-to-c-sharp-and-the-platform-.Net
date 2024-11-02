@@ -14,7 +14,7 @@ public class HrDirector
     private double _totalHarmonicMean;
 
     public void SaveStatistics
-        (List<TeamEntity> teams, List<Wishlist> teamLeadsWishlists, List<Wishlist> juniorsWishlists)
+        (List<Team> teams, List<Preference> teamLeadsWishlists, List<Preference> juniorsWishlists)
     {
         var indexes = SatisfactionCalculator.CalculateSatisfaction(teams, teamLeadsWishlists, juniorsWishlists);
         _allHackathonsSatisfactionIndexes.AddRange(indexes);

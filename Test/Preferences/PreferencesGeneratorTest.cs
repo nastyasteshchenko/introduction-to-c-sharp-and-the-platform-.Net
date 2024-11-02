@@ -4,9 +4,8 @@ namespace Test.Preferences;
 
 using Nsu.Hackathon.Problem.Worker;
 
-public class WishlistsGeneratorTest
+public class PreferencesGeneratorTest
 {
-
     [Test]
     public void GeneratingWishlistsTest()
     {
@@ -14,7 +13,7 @@ public class WishlistsGeneratorTest
         var junior2 = new Employee(2, "Яшина Яна");
         var junior3 = new Employee(3, "Никитина Вероника");
         var junior4 = new Employee(4, "Рябинин Александр");
-
+    
         var teamLead1 = new Employee(1, "Филиппова Ульяна");
         var teamLead2 = new Employee(2, "Николаев Григорий");
         var teamLead3 = new Employee(3, "Андреева Вероника");
@@ -23,10 +22,10 @@ public class WishlistsGeneratorTest
         var juniors = new List<Employee> { junior1, junior2, junior3, junior4 };
         var teamLeads = new List<Employee> { teamLead1, teamLead2, teamLead3, teamLead4 };
 
-        var juniorsWishlists = WishlistsGenerator.GenerateWishlists(juniors, teamLeads);
+        var juniorsWishlists = PreferencesGenerator.GeneratePreferences(juniors, teamLeads);
         var teamLeadsWishlists =
-            WishlistsGenerator.GenerateWishlists(teamLeads, juniors);
-        
+            PreferencesGenerator.GeneratePreferences(teamLeads, juniors);
+
         Assert.Multiple(() =>
         {
             Assert.That(juniorsWishlists, Has.Count.EqualTo(juniors.Count));

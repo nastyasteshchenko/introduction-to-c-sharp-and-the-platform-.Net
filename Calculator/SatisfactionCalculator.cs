@@ -5,8 +5,8 @@ using TeamBuilding;
 
 public static class SatisfactionCalculator
 {
-    public static List<int> CalculateSatisfaction(List<TeamEntity> teams,
-        List<Wishlist> teamLeadsWishlists, List<Wishlist> juniorsWishlists)
+    public static List<int> CalculateSatisfaction(List<Team> teams,
+        List<Preference> teamLeadsWishlists, List<Preference> juniorsWishlists)
     {
         var juniorsDesiredEmployees =
             juniorsWishlists.ToDictionary(w => w.Employee, w => w.DesiredEmployees);

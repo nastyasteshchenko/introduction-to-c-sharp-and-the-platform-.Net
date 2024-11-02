@@ -5,21 +5,21 @@ using Worker;
 
 public class TeamBuildingStrategy : ITeamBuildingStrategy
 {
-    private const EmployeeEntity? NoPair = null;
+    private const Employee? NoPair = null;
 
-    public List<TeamEntity> BuildTeams(List<Wishlist> teamLeadsWishlists, List<Wishlist> juniorsWishlists)
+    public List<Team> BuildTeams(List<Preference> teamLeadsPreferences, List<Preference> juniorsPreferences)
     {
-        var juniors = juniorsWishlists.Select(x => x.Employee).ToList();
-        var teamLeads = teamLeadsWishlists.Select(x => x.Employee).ToList();
+        var juniors = juniorsPreferences.Select(x => x.Employee).ToList();
+        var teamLeads = teamLeadsPreferences.Select(x => x.Employee).ToList();
         
         var teamLeadsPartners = teamLeads.ToDictionary(junior => junior, _ => NoPair);
         
         var juniorsDesiredEmployees =
-            juniorsWishlists.ToDictionary(w => w.Employee, w => w.DesiredEmployees);
+            juniorsPreferences.ToDictionary(w => w.Employee, w => w.DesiredEmployees);
         var teamLeadsDesiredEmployees =
-            teamLeadsWishlists.ToDictionary(w => w.Employee, w => w.DesiredEmployees);
+            teamLeadsPreferences.ToDictionary(w => w.Employee, w => w.DesiredEmployees);
         
-        var freeJuniors = new Queue<EmployeeEntity>();
+        var freeJuniors = new Queue<Employee>();
         foreach (var employee in juniors)
         {
             freeJuniors.Enqueue(employee);
@@ -54,7 +54,7 @@ public class TeamBuildingStrategy : ITeamBuildingStrategy
         var teams = teamLeadsPartners
             .Select(entry =>
             {
-                var team = new TeamEntity()
+                var team = new Team()
                 {
                     TeamLead = entry.Key,
                     Junior = entry.Value!
@@ -71,7 +71,7 @@ public class TeamBuildingStrategy : ITeamBuildingStrategy
         return teams;
     }
 
-    private static bool TeamLeadPrefersJ1OverJ(List<EmployeeEntity> teamLeadPreferences, EmployeeEntity junior, EmployeeEntity junior1)
+    private static bool TeamLeadPrefersJ1OverJ(List<Employee> teamLeadPreferences, Employee junior, Employee junior1)
     {
         foreach (var preferJunior in teamLeadPreferences)
         {

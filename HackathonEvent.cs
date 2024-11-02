@@ -5,12 +5,12 @@ using Worker;
 
 public class HackathonEvent(HrManager hrManager, HrDirector hrDirector)
 {
-    public void Start(List<Wishlist> teamLeadsWishlists, List<Wishlist> juniorsWishlists)
+    public void Start(List<Preference> teamLeadsPreferences, List<Preference> juniorsPreferences)
     {
         var teams =
-            hrManager.BuildTeams(teamLeadsWishlists, juniorsWishlists);
+            hrManager.BuildTeams(teamLeadsPreferences, juniorsPreferences);
 
-        hrDirector.SaveStatistics(teams, teamLeadsWishlists, juniorsWishlists);
+        hrDirector.SaveStatistics(teams, teamLeadsPreferences, juniorsPreferences);
         hrDirector.SayCurrentHackathonStatistics();
     }
 

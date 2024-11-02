@@ -8,9 +8,9 @@ namespace Nsu.Hackathon.Problem;
 public sealed class HackathonContext : DbContext
 {
     // public DbSet<Hackathon> Hackathons { get; set; }
-    public DbSet<EmployeeEntity> Juniors { get; set; }
-    public DbSet<EmployeeEntity> TeamLeads { get; set; }
-    public DbSet<WishlistEntity> Wishlists { get; set; }
+    public DbSet<Employee> Juniors { get; set; }
+    public DbSet<Employee> TeamLeads { get; set; }
+    public DbSet<Wishlist> Wishlists { get; set; }
     // public DbSet<Team> Teams { get; set; }
 
     public HackathonContext()
@@ -27,20 +27,20 @@ public sealed class HackathonContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<WishlistEntity>()
+        modelBuilder.Entity<Wishlist>()
             .HasOne(w => w.Employee)
             .WithMany()
             .HasForeignKey(w => w.EmployeeId)
             .OnDelete(DeleteBehavior.NoAction);
 
-        modelBuilder.Entity<WishlistEntity>()
+        modelBuilder.Entity<Wishlist>()
             .HasOne(w => w.DesiredEmployee)
             .WithMany() 
             .HasForeignKey(w => w.DesiredEmployeeId)
             .OnDelete(DeleteBehavior.NoAction);
 
-        modelBuilder.Entity<EmployeeEntity>()
-            .HasMany<WishlistEntity>(e => e.Wishlists)
+        modelBuilder.Entity<Employee>()
+            .HasMany<Wishlist>(e => e.Wishlists)
             .WithOne(w => w.Employee);
     }
 }

@@ -31,11 +31,11 @@ public class HackathonWorker(
 
         for (var i = 0; i < Times; i++)
         {
-            var juniorsWishlists = GenerateWishlists(juniors, teamLeads);
-            var teamLeadsWishlists = GenerateWishlists(teamLeads, juniors);
+            var juniorsPreferences = GeneratePreferences(juniors, teamLeads);
+            var teamLeadsPreferences = GeneratePreferences(teamLeads, juniors);
 
             Console.WriteLine($"Hackathon № {i + 1} started.");
-            hackathonEvent.Start(teamLeadsWishlists, juniorsWishlists);
+            hackathonEvent.Start(teamLeadsPreferences, juniorsPreferences);
         }
 
         hackathonEvent.PrintSummarizedCompletedHackathonsStatistics();
@@ -49,15 +49,27 @@ public class HackathonWorker(
         return Task.CompletedTask;
     }
 
-    private List<Wishlist> GenerateWishlists(List<EmployeeEntity> employees, List<EmployeeEntity> desiredEmployees)
+    private List<Preference> GeneratePreferences(List<Employee> employees, List<Employee> desiredEmployees)
     {
-        var wishlists =
-            WishlistsGenerator.GenerateWishlists(employees, desiredEmployees);
+        var preferences =
+            PreferencesGenerator.GeneratePreferences(employees, desiredEmployees);
 
-        hackathonContext.Wishlists.AddRange(wishlists);
+        List<Wishlist> wishlistsEntities = [];
+
+        foreach (var wishlist in preferences)
+        {
+            var we = wishlist.DesiredEmployees.Select(de => new Wishlist
+            {
+                Employee = wishlist.Employee,
+                DesiredEmployee = de,
+                PriorityNumber = wishlist.DesiredEmployees.IndexOf(de)
+            });
+            wishlistsEntities.AddRange(we);
+        }
+
+        hackathonContext.Wishlists.AddRange(wishlistsEntities);
         hackathonContext.SaveChanges();
 
-        return employees.Select(e =>
-            new Wishlist(e, e.Wishlists.Select(w => w.DesiredEmployee).ToList())).ToList();
+        return preferences;
     }
 }
