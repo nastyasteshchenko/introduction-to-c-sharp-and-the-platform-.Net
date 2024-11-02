@@ -19,6 +19,7 @@ public static class MainProgram
                 services.AddTransient<HrManager>();
                 services.AddTransient<HrDirector>();
                 services.AddTransient<EmployeeRepository>();
+                services.AddTransient<HackathonContext>();
             })
             .Build();
 

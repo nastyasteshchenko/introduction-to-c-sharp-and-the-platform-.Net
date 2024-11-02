@@ -6,14 +6,23 @@ using Worker;
 
 public static class WishlistsGenerator
 {
-    public static List<Wishlist> GenerateWishlists(List<Employee> employees, List<Employee> desiredEmployees)
+    public static List<WishlistEntity> GenerateWishlists(List<EmployeeEntity> employees, List<EmployeeEntity> desiredEmployees)
     {
-        List<Wishlist> wishlists = [];
+        List<WishlistEntity> wishlists = [];
         foreach (var employee in employees)
         {
-            var desiredEmployeesClone = new List<Employee>(desiredEmployees);
+            var desiredEmployeesClone = new List<EmployeeEntity>(desiredEmployees);
             Random.Shared.Shuffle(CollectionsMarshal.AsSpan(desiredEmployeesClone));
-            wishlists.Add(new Wishlist(employee, desiredEmployeesClone));
+            var employeeWishlist = desiredEmployeesClone.Select(e =>
+            {
+                var wishlist = new WishlistEntity()
+                {
+                    Employee = employee,
+                    DesiredEmployee = e
+                };
+                return wishlist;
+            }).ToList();
+            wishlists.AddRange(employeeWishlist);
         }
 
         return wishlists;

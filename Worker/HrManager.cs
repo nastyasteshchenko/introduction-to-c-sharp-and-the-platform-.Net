@@ -5,7 +5,7 @@ namespace Nsu.Hackathon.Problem.Worker;
 
 public class HrManager(ITeamBuildingStrategy teamBuildingStrategy)
 {
-    public List<Team> BuildTeams(List<Wishlist> teamLeadsWishlists, List<Wishlist> juniorsWishlists)
+    public List<TeamEntity> BuildTeams(List<Wishlist> teamLeadsWishlists, List<Wishlist> juniorsWishlists)
     {
         return teamBuildingStrategy.BuildTeams(teamLeadsWishlists, juniorsWishlists);
     }

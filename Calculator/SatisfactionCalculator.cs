@@ -5,14 +5,14 @@ using TeamBuilding;
 
 public static class SatisfactionCalculator
 {
-    public static List<int> CalculateSatisfaction(List<Team> teams,
+    public static List<int> CalculateSatisfaction(List<TeamEntity> teams,
         List<Wishlist> teamLeadsWishlists, List<Wishlist> juniorsWishlists)
     {
         var juniorsDesiredEmployees =
             juniorsWishlists.ToDictionary(w => w.Employee, w => w.DesiredEmployees);
         var teamLeadsDesiredEmployees =
             teamLeadsWishlists.ToDictionary(w => w.Employee, w => w.DesiredEmployees);
-
+        
         var satisfaction = new List<int>();
         foreach (var team in teams)
         {

@@ -5,31 +5,31 @@ using Worker;
 
 public class TeamBuildingStrategy : ITeamBuildingStrategy
 {
-    private const Employee? NoPair = null;
+    private const EmployeeEntity? NoPair = null;
 
-    public List<Team> BuildTeams(List<Wishlist> teamLeadsWishlists, List<Wishlist> juniorsWishlists)
+    public List<TeamEntity> BuildTeams(List<Wishlist> teamLeadsWishlists, List<Wishlist> juniorsWishlists)
     {
         var juniors = juniorsWishlists.Select(x => x.Employee).ToList();
         var teamLeads = teamLeadsWishlists.Select(x => x.Employee).ToList();
-
+        
         var teamLeadsPartners = teamLeads.ToDictionary(junior => junior, _ => NoPair);
-
+        
         var juniorsDesiredEmployees =
             juniorsWishlists.ToDictionary(w => w.Employee, w => w.DesiredEmployees);
         var teamLeadsDesiredEmployees =
             teamLeadsWishlists.ToDictionary(w => w.Employee, w => w.DesiredEmployees);
-
-        var freeJuniors = new Queue<Employee>();
+        
+        var freeJuniors = new Queue<EmployeeEntity>();
         foreach (var employee in juniors)
         {
             freeJuniors.Enqueue(employee);
         }
-
+        
         while (freeJuniors.Count > 0)
         {
             var junior = freeJuniors.Dequeue();
             var juniorPreferences = juniorsDesiredEmployees[junior];
-
+        
             foreach (var preferTeamLead in juniorPreferences)
             {
                 var currentTeamLeadPartner = teamLeadsPartners[preferTeamLead];
@@ -38,23 +38,31 @@ public class TeamBuildingStrategy : ITeamBuildingStrategy
                     teamLeadsPartners[preferTeamLead] = junior;
                     break;
                 }
-
+        
                 var teamLeadPreferences = teamLeadsDesiredEmployees[preferTeamLead];
                 if (TeamLeadPrefersJ1OverJ(teamLeadPreferences, junior, currentTeamLeadPartner))
                 {
                     continue;
                 }
-
+        
                 teamLeadsPartners[preferTeamLead] = junior;
                 freeJuniors.Enqueue(currentTeamLeadPartner);
                 break;
             }
         }
-
+        
         var teams = teamLeadsPartners
-            .Select(entry => new Team(entry.Key, entry.Value!))
+            .Select(entry =>
+            {
+                var team = new TeamEntity()
+                {
+                    TeamLead = entry.Key,
+                    Junior = entry.Value!
+                };
+                return team;
+            })
             .ToList();
-
+        
         foreach (var team in teams)
         {
             Console.WriteLine(team);
@@ -63,7 +71,7 @@ public class TeamBuildingStrategy : ITeamBuildingStrategy
         return teams;
     }
 
-    private static bool TeamLeadPrefersJ1OverJ(List<Employee> teamLeadPreferences, Employee junior, Employee junior1)
+    private static bool TeamLeadPrefersJ1OverJ(List<EmployeeEntity> teamLeadPreferences, EmployeeEntity junior, EmployeeEntity junior1)
     {
         foreach (var preferJunior in teamLeadPreferences)
         {
