@@ -2,7 +2,7 @@ using Nsu.Hackathon.Problem.Preferences;
 
 namespace Nsu.Hackathon.Problem.Worker;
 
-public abstract class Employee
+public class Employee
 {
     public long Id { get; set; }
     public string Name { get; set; } = null!;

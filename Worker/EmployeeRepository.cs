@@ -17,8 +17,7 @@ public class EmployeeRepository
         var reader = new StreamReader(filePath);
         var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)
         {
-            MissingFieldFound = null,
-            HeaderValidated = null
+            Delimiter = ";"
         });
         
         List<Employee> employees;

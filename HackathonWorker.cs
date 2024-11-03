@@ -25,10 +25,16 @@ public class HackathonWorker(
         var juniors = employeeRepository.Juniors;
         var teamLeads = employeeRepository.TeamLeads;
 
-        hackathonContext.Employees.AddRange(juniors);
-        hackathonContext.Employees.AddRange(teamLeads);
-
-        hackathonContext.SaveChanges();
+        hackathonContext.BulkInsert(juniors, options =>
+        {
+            options.InsertIfNotExists = true;
+            options.ColumnPrimaryKeyExpression = customer => customer.Id;
+        });
+        hackathonContext.BulkInsert(teamLeads, options =>
+        {
+            options.InsertIfNotExists = true;
+            options.ColumnPrimaryKeyExpression = customer => customer.Id;
+        });
 
         for (var i = 0; i < Times; i++)
         {
@@ -36,12 +42,11 @@ public class HackathonWorker(
             var teamLeadsPreferences = PreferencesGenerator.GeneratePreferences(teamLeads, juniors);
 
             Console.WriteLine($"Hackathon № {i + 1} started.");
-            
-            var hackathon = hackathonEvent.Start(hackathonContext.Employees.ToList(), teamLeadsPreferences,
+
+            var hackathon = hackathonEvent.Start(juniors.Concat(teamLeads).ToList(), teamLeadsPreferences,
                 juniorsPreferences);
-            
-            hackathonContext.Hackathons.Add(hackathon);
-            hackathonContext.SaveChanges();
+
+            hackathonContext.BulkInsert([hackathon]);
         }
 
         hackathonEvent.PrintSummarizedCompletedHackathonsStatistics();

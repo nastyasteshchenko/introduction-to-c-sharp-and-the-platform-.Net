@@ -54,6 +54,10 @@ public sealed class HackathonContext : DbContext
     private static void BuildEmployeeModel(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Employee>()
+            .Property(e => e.Id)
+            .ValueGeneratedNever();
+        
+        modelBuilder.Entity<Employee>()
             .HasMany<Wishlist>(e => e.Wishlists)
             .WithOne(w => w.Employee);
     }

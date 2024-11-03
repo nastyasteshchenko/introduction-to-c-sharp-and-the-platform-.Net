@@ -14,10 +14,10 @@ public class PreferencesGeneratorTest
         var junior3 = CreateJunior(3, "Никитина Вероника");
         var junior4 = CreateJunior(4, "Рябинин Александр");
 
-        var teamLead1 = CreateTeamLead(1, "Филиппова Ульяна");
-        var teamLead2 = CreateTeamLead(2, "Николаев Григорий");
-        var teamLead3 = CreateTeamLead(3, "Андреева Вероника");
-        var teamLead4 = CreateTeamLead(4, "Коротков Михаил");
+        var teamLead1 = CreateTeamLead(5, "Филиппова Ульяна");
+        var teamLead2 = CreateTeamLead(6, "Николаев Григорий");
+        var teamLead3 = CreateTeamLead(7, "Андреева Вероника");
+        var teamLead4 = CreateTeamLead(8, "Коротков Михаил");
 
         var juniors = new List<Employee> { junior1, junior2, junior3, junior4 };
         var teamLeads = new List<Employee> { teamLead1, teamLead2, teamLead3, teamLead4 };
