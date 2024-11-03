@@ -9,15 +9,15 @@ public class PreferencesGeneratorTest
     [Test]
     public void GeneratingWishlistsTest()
     {
-        var junior1 = new Employee(1, "Юдин Адам");
-        var junior2 = new Employee(2, "Яшина Яна");
-        var junior3 = new Employee(3, "Никитина Вероника");
-        var junior4 = new Employee(4, "Рябинин Александр");
-    
-        var teamLead1 = new Employee(1, "Филиппова Ульяна");
-        var teamLead2 = new Employee(2, "Николаев Григорий");
-        var teamLead3 = new Employee(3, "Андреева Вероника");
-        var teamLead4 = new Employee(4, "Коротков Михаил");
+        var junior1 = CreateJunior(1, "Юдин Адам");
+        var junior2 = CreateJunior(2, "Яшина Яна");
+        var junior3 = CreateJunior(3, "Никитина Вероника");
+        var junior4 = CreateJunior(4, "Рябинин Александр");
+
+        var teamLead1 = CreateTeamLead(1, "Филиппова Ульяна");
+        var teamLead2 = CreateTeamLead(2, "Николаев Григорий");
+        var teamLead3 = CreateTeamLead(3, "Андреева Вероника");
+        var teamLead4 = CreateTeamLead(4, "Коротков Михаил");
 
         var juniors = new List<Employee> { junior1, junior2, junior3, junior4 };
         var teamLeads = new List<Employee> { teamLead1, teamLead2, teamLead3, teamLead4 };
@@ -67,5 +67,23 @@ public class PreferencesGeneratorTest
         Assert.That(juniorsFromJuniorsWishlists, Has.Member(junior2));
         Assert.That(juniorsFromJuniorsWishlists, Has.Member(junior3));
         Assert.That(juniorsFromJuniorsWishlists, Has.Member(junior4));
+    }
+
+    private static Junior CreateJunior(long id, string name)
+    {
+        return new Junior
+        {
+            Id = id,
+            Name = name
+        };
+    }
+    
+    private static TeamLead CreateTeamLead(long id, string name)
+    {
+        return new TeamLead
+        {
+            Id = id,
+            Name = name
+        };
     }
 }

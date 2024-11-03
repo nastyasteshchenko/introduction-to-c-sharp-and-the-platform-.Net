@@ -20,7 +20,17 @@ public class EmployeeRepository
             MissingFieldFound = null,
             HeaderValidated = null
         });
-        var employees = csv.GetRecords<Employee>().ToList();
+        
+        List<Employee> employees;
+        if (filePath.Equals(JuniorResourcesFile))
+        {
+            employees = [..csv.GetRecords<Junior>().ToList().Cast<Employee>()];
+        }
+        else
+        {
+            employees = [..csv.GetRecords<TeamLead>().ToList().Cast<Employee>()];
+        }
+
         reader.Close();
         return employees;
     }

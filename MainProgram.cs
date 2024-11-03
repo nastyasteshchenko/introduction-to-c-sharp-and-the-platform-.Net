@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Nsu.Hackathon.Problem.Hackathon;
 using Nsu.Hackathon.Problem.TeamBuilding;
 
 namespace Nsu.Hackathon.Problem;

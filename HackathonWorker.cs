@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Hosting;
+using Nsu.Hackathon.Problem.Hackathon;
 using Nsu.Hackathon.Problem.Preferences;
 using Nsu.Hackathon.Problem.Worker;
 
@@ -24,52 +25,31 @@ public class HackathonWorker(
         var juniors = employeeRepository.Juniors;
         var teamLeads = employeeRepository.TeamLeads;
 
-        hackathonContext.Juniors.AddRange(juniors);
-        hackathonContext.TeamLeads.AddRange(teamLeads);
+        hackathonContext.Employees.AddRange(juniors);
+        hackathonContext.Employees.AddRange(teamLeads);
 
         hackathonContext.SaveChanges();
 
         for (var i = 0; i < Times; i++)
         {
-            var juniorsPreferences = GeneratePreferences(juniors, teamLeads);
-            var teamLeadsPreferences = GeneratePreferences(teamLeads, juniors);
+            var juniorsPreferences = PreferencesGenerator.GeneratePreferences(juniors, teamLeads);
+            var teamLeadsPreferences = PreferencesGenerator.GeneratePreferences(teamLeads, juniors);
 
             Console.WriteLine($"Hackathon № {i + 1} started.");
-            hackathonEvent.Start(teamLeadsPreferences, juniorsPreferences);
+            
+            var hackathon = hackathonEvent.Start(hackathonContext.Employees.ToList(), teamLeadsPreferences,
+                juniorsPreferences);
+            
+            hackathonContext.Hackathons.Add(hackathon);
+            hackathonContext.SaveChanges();
         }
 
         hackathonEvent.PrintSummarizedCompletedHackathonsStatistics();
-
-        hackathonContext.SaveChanges();
         appLifetime.StopApplication();
     }
 
     public Task StopAsync(CancellationToken cancellationToken)
     {
         return Task.CompletedTask;
-    }
-
-    private List<Preference> GeneratePreferences(List<Employee> employees, List<Employee> desiredEmployees)
-    {
-        var preferences =
-            PreferencesGenerator.GeneratePreferences(employees, desiredEmployees);
-
-        List<Wishlist> wishlistsEntities = [];
-
-        foreach (var wishlist in preferences)
-        {
-            var we = wishlist.DesiredEmployees.Select(de => new Wishlist
-            {
-                Employee = wishlist.Employee,
-                DesiredEmployee = de,
-                PriorityNumber = wishlist.DesiredEmployees.IndexOf(de)
-            });
-            wishlistsEntities.AddRange(we);
-        }
-
-        hackathonContext.Wishlists.AddRange(wishlistsEntities);
-        hackathonContext.SaveChanges();
-
-        return preferences;
     }
 }

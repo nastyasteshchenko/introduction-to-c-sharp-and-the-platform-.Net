@@ -9,15 +9,15 @@ public class HrDirectorTest
     [Test]
     public void HarmonicMeanForTeamTest()
     {
-        var junior1 = new Employee(1, "Юдин Адам");
-        var junior2 = new Employee(2, "Яшина Яна");
-        var junior3 = new Employee(3, "Никитина Вероника");
-        var junior4 = new Employee(4, "Рябинин Александр");
-    
-        var teamLead1 = new Employee(1, "Филиппова Ульяна");
-        var teamLead2 = new Employee(2, "Николаев Григорий");
-        var teamLead3 = new Employee(3, "Андреева Вероника");
-        var teamLead4 = new Employee(4, "Коротков Михаил");
+        var junior1 = CreateJunior(1, "Юдин Адам");
+        var junior2 = CreateJunior(2, "Яшина Яна");
+        var junior3 = CreateJunior(3, "Никитина Вероника");
+        var junior4 = CreateJunior(4, "Рябинин Александр");
+
+        var teamLead1 = CreateTeamLead(1, "Филиппова Ульяна");
+        var teamLead2 = CreateTeamLead(2, "Николаев Григорий");
+        var teamLead3 = CreateTeamLead(3, "Андреева Вероника");
+        var teamLead4 = CreateTeamLead(4, "Коротков Михаил");
     
         var teamLeadsWishlists = new List<Preference>
         {
@@ -37,10 +37,10 @@ public class HrDirectorTest
     
         var teams = new List<Team>
         {
-            new(teamLead1, junior2),
-            new(teamLead2, junior1),
-            new(teamLead3, junior4),
-            new(teamLead4, junior3)
+            CreateTeam(teamLead1, junior2),
+            CreateTeam(teamLead2, junior1),
+            CreateTeam(teamLead3, junior4),
+            CreateTeam(teamLead4, junior3)
         };
     
         var director = new HrDirector();
@@ -51,15 +51,42 @@ public class HrDirectorTest
         
         teams =
         [
-            new Team(teamLead1, junior1),
-            new Team(teamLead2, junior2),
-            new Team(teamLead3, junior3),
-            new Team(teamLead4, junior4)
+            CreateTeam(teamLead1, junior1),
+            CreateTeam(teamLead2, junior2),
+            CreateTeam(teamLead3, junior3),
+            CreateTeam(teamLead4, junior4)
         ];
         
         director.SaveStatistics(teams, teamLeadsWishlists, juniorsWishlists);
         
         Assert.That(Math.Round(director.CurrentHackathonHarmonicMean, 2),
             Is.EqualTo(2.09));
+    }
+    
+    private static Team CreateTeam(TeamLead teamLead, Junior junior)
+    {
+        return new Team
+        {
+            TeamLead = teamLead,
+            Junior = junior
+        };
+    }
+    
+    private static Junior CreateJunior(long id, string name)
+    {
+        return new Junior
+        {
+            Id = id,
+            Name = name
+        };
+    }
+    
+    private static TeamLead CreateTeamLead(long id, string name)
+    {
+        return new TeamLead
+        {
+            Id = id,
+            Name = name
+        };
     }
 }
