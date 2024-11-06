@@ -7,7 +7,7 @@ using Nsu.Hackathon.Problem.Worker;
 
 namespace Test;
 
-public class HackathonEventTest
+public class HackathonBdTest
 {
     private static HackathonContext CreateInMemoryContext()
     {
@@ -20,7 +20,7 @@ public class HackathonEventTest
     }
 
     [Test]
-    public void HolingHackathonEventTest()
+    public void HolingHackathonWithDataBaseTest()
     {
         var junior1 = CreateJunior(1, "Юдин Адам");
         var junior2 = CreateJunior(2, "Яшина Яна");
@@ -34,7 +34,7 @@ public class HackathonEventTest
 
         var participants = new List<Employee>
             { junior1, junior2, junior3, junior4, teamLead1, teamLead2, teamLead3, teamLead4 };
-        
+
         var teamLeadsWishlists = new List<Preference>
         {
             new(teamLead1, [junior2, junior1, junior3, junior4]),
@@ -51,15 +51,44 @@ public class HackathonEventTest
             new(junior4, [teamLead2, teamLead4, teamLead3, teamLead1]),
         };
 
-        var hackathonRepository = new HackathonRepository(CreateInMemoryContext());
+        var expectedTeams = new List<Team>
+        {
+            CreateTeam(teamLead1, junior2),
+            CreateTeam(teamLead2, junior1),
+            CreateTeam(teamLead3, junior4),
+            CreateTeam(teamLead4, junior3)
+        };
 
         var hrManager = new HrManager(new TeamBuildingStrategy());
         var hrDirector = new HrDirector();
+
+        var context = CreateInMemoryContext();
+        var hackathonRepository = new HackathonRepository(context);
+
         var hackathonEvent = new HackathonEvent(hrManager, hrDirector, hackathonRepository);
 
-        hackathonEvent.Start(participants, teamLeadsWishlists, juniorsWishlists);
-        
-        Assert.That(Math.Round(hrDirector.CurrentHackathonHarmonicMean, 2), Is.EqualTo(2.67));
+        var hackathonId = hackathonEvent.Start(participants, teamLeadsWishlists, juniorsWishlists);
+
+        var hackathonEntity = hackathonRepository.GetHackathonById(hackathonId);
+
+        Assert.That(hackathonEntity, Is.Not.Null);
+        Assert.That(hackathonEntity.Id, Is.EqualTo(hackathonId));
+        Assert.That(Math.Round(hackathonEntity.HarmonicMean, 2), Is.EqualTo(2.67));
+
+        Assert.That(hackathonEntity.Participants, Has.Count.EqualTo(participants.Count));
+        var hackathonParticipants = hackathonEntity.Participants.Select(p => p.Participant)
+            .ToList();
+        foreach (var participant in participants)
+        {
+            Assert.That(hackathonParticipants, Does.Contain(participant));
+        }
+
+        Assert.That(hackathonEntity.Teams, Has.Count.EqualTo(expectedTeams.Count));
+        var hackathonTeams = hackathonEntity.Teams.Select(t => t.Team).ToList();
+        foreach (var team in expectedTeams)
+        {
+            Assert.That(hackathonTeams, Does.Contain(team));
+        }
     }
 
     private static Junior CreateJunior(long id, string name)
@@ -77,6 +106,15 @@ public class HackathonEventTest
         {
             Id = id,
             Name = name
+        };
+    }
+
+    private static Team CreateTeam(TeamLead teamLead, Junior junior)
+    {
+        return new Team
+        {
+            TeamLead = teamLead,
+            Junior = junior
         };
     }
 }

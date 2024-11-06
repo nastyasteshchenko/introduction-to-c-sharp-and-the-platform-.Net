@@ -12,7 +12,7 @@ public class HackathonWorker(
     HackathonRepository hackathonRepository
 ) : IHostedService
 {
-    private const int Times = 2;
+    private const int Times = 1;
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
