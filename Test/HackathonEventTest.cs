@@ -1,3 +1,5 @@
+using Moq;
+using Nsu.Hackathon.Problem;
 using Nsu.Hackathon.Problem.Hackathon;
 using Nsu.Hackathon.Problem.Preferences;
 using Nsu.Hackathon.Problem.TeamBuilding;
@@ -36,9 +38,11 @@ public class HackathonEventTest
             new(junior4, [teamLead2, teamLead4, teamLead3, teamLead1]),
         };
 
+        var mockRepo = new Mock<HackathonRepository>();
+
         var hrManager = new HrManager(new TeamBuildingStrategy());
         var hrDirector = new HrDirector();
-        var hackathonEvent = new HackathonEvent(hrManager, hrDirector);
+        var hackathonEvent = new HackathonEvent(hrManager, hrDirector, mockRepo.Object);
 
         hackathonEvent.Start([], teamLeadsWishlists, juniorsWishlists);
 

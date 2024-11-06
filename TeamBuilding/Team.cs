@@ -12,7 +12,7 @@ public class Team
     
     public override string ToString()
     {
-        return $"TeamLead: ({TeamLead}) - Junior: ({Junior})";
+        return $"{TeamLead} - {Junior}";
     }
 
     public override bool Equals(object? obj)

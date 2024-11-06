@@ -3,14 +3,17 @@ namespace Nsu.Hackathon.Problem.Hackathon;
 using Preferences;
 using Worker;
 
-public class HackathonEvent(HrManager hrManager, HrDirector hrDirector)
+public class HackathonEvent(HrManager hrManager, HrDirector hrDirector, HackathonRepository hackathonRepository)
 {
-    public HackathonEntity Start(List<Employee> participants, List<Preference> teamLeadsPreferences,
+    private const string LineSeparator = "------------------------------------------";
+
+    public long Start(List<Employee> participants, List<Preference> teamLeadsPreferences,
         List<Preference> juniorsPreferences)
     {
         var hackathon = new HackathonEntity();
+
         hackathon.AddParticipants(participants);
-        
+
         hackathon.AddWishlists(teamLeadsPreferences);
         hackathon.AddWishlists(juniorsPreferences);
 
@@ -19,16 +22,46 @@ public class HackathonEvent(HrManager hrManager, HrDirector hrDirector)
 
         hackathon.AddTeams(teams);
         hrDirector.SaveStatistics(teams, teamLeadsPreferences, juniorsPreferences);
-        hrDirector.SayCurrentHackathonStatistics();
 
         hackathon.HarmonicMean = hrDirector.CurrentHackathonHarmonicMean;
 
-        return hackathon;
+        return hackathonRepository.SaveHackathon(hackathon);
     }
 
-    public void PrintSummarizedCompletedHackathonsStatistics()
+    public void PrintHackathonInfo(long hackathonId)
     {
-        hrDirector.SummarizeResults();
-        hrDirector.SayTotalHackathonsStatistics();
+        var hackathon = hackathonRepository.GetHackathonById(hackathonId);
+        if (hackathon is null)
+        {
+            Console.WriteLine("No hackathon with id " + hackathonId);
+            return;
+        }
+
+        Console.WriteLine($"Information about hackathon with id {hackathonId}");
+        Console.WriteLine("Participants:");
+        foreach (var participant in hackathon.Participants)
+        {
+            Console.WriteLine(participant.Participant);
+        }
+
+        Console.WriteLine(LineSeparator);
+        Console.WriteLine("Teams:");
+        foreach (var team in hackathon.Teams)
+        {
+            Console.WriteLine(team.Team);
+        }
+
+        Console.WriteLine(LineSeparator);
+
+        Console.WriteLine($"Harmonic mean: {hackathon.HarmonicMean:0.000}");
+    }
+    
+    public void PrintAllHackathonsHarmonicMean()
+    {
+        var hackathons = hackathonRepository.GetAllHackathons();
+        var harmonicMeans = hackathons.Select(h => h.HarmonicMean).ToList();
+        var harmonicMeansAverage = hrDirector.CountTotalHarmonicMeanAverage(harmonicMeans);
+        Console.WriteLine(LineSeparator);
+        Console.WriteLine($"Total harmonic mean average: {harmonicMeansAverage:0.000}");
     }
 }

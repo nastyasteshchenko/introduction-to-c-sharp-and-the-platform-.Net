@@ -9,7 +9,7 @@ public class HackathonWorker(
     EmployeeRepository employeeRepository,
     HackathonEvent hackathonEvent,
     IHostApplicationLifetime appLifetime,
-    HackathonContext hackathonContext
+    HackathonRepository hackathonRepository
 ) : IHostedService
 {
     private const int Times = 2;
@@ -22,34 +22,29 @@ public class HackathonWorker(
 
     private void RunAsync()
     {
-        var juniors = employeeRepository.Juniors;
-        var teamLeads = employeeRepository.TeamLeads;
+        hackathonRepository.EnsureCreated();
 
-        hackathonContext.BulkInsert(juniors, options =>
-        {
-            options.InsertIfNotExists = true;
-            options.ColumnPrimaryKeyExpression = customer => customer.Id;
-        });
-        hackathonContext.BulkInsert(teamLeads, options =>
-        {
-            options.InsertIfNotExists = true;
-            options.ColumnPrimaryKeyExpression = customer => customer.Id;
-        });
+        hackathonRepository.AddEmployeesIfItIsEmpty(employeeRepository);
+
+        var juniors = hackathonRepository.GetJuniors();
+        var teamLeads = hackathonRepository.GetTeamLeads();
 
         for (var i = 0; i < Times; i++)
         {
-            var juniorsPreferences = PreferencesGenerator.GeneratePreferences(juniors, teamLeads);
-            var teamLeadsPreferences = PreferencesGenerator.GeneratePreferences(teamLeads, juniors);
+            var juniorsPreferences =
+                PreferencesGenerator.GeneratePreferences(juniors, teamLeads);
+            var teamLeadsPreferences =
+                PreferencesGenerator.GeneratePreferences(teamLeads, juniors);
 
             Console.WriteLine($"Hackathon № {i + 1} started.");
 
-            var hackathon = hackathonEvent.Start(juniors.Concat(teamLeads).ToList(), teamLeadsPreferences,
+            var hackathonId = hackathonEvent.Start(juniors.Concat(teamLeads).ToList(), teamLeadsPreferences,
                 juniorsPreferences);
 
-            hackathonContext.BulkInsert([hackathon]);
+            hackathonEvent.PrintHackathonInfo(hackathonId);
         }
 
-        hackathonEvent.PrintSummarizedCompletedHackathonsStatistics();
+        hackathonEvent.PrintAllHackathonsHarmonicMean();
         appLifetime.StopApplication();
     }
 

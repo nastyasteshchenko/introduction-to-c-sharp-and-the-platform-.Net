@@ -62,11 +62,6 @@ public class TeamBuildingStrategy : ITeamBuildingStrategy
                 return team;
             })
             .ToList();
-        
-        foreach (var team in teams)
-        {
-            Console.WriteLine(team);
-        }
 
         return teams;
     }

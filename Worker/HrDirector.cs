@@ -7,36 +7,19 @@ namespace Nsu.Hackathon.Problem.Worker;
 public class HrDirector
 {
     public double CurrentHackathonHarmonicMean { get; private set; }
-
-    private readonly List<int> _allHackathonsSatisfactionIndexes = [];
-    private readonly List<double> _allHackathonsHarmonicMeans = [];
     private double _totalHarmonicMeanAverage;
-    private double _totalHarmonicMean;
 
     public void SaveStatistics
         (List<Team> teams, List<Preference> teamLeadsWishlists, List<Preference> juniorsWishlists)
     {
         var indexes = SatisfactionCalculator.CalculateSatisfaction(teams, teamLeadsWishlists, juniorsWishlists);
-        _allHackathonsSatisfactionIndexes.AddRange(indexes);
-
         CurrentHackathonHarmonicMean = HarmonicMeanCalculator.CalculateHarmonicMean(indexes);
-        _allHackathonsHarmonicMeans.Add(CurrentHackathonHarmonicMean);
     }
 
-    public void SummarizeResults()
+    public double CountTotalHarmonicMeanAverage(List<double> hackathonsHarmonicMean)
     {
-        _totalHarmonicMeanAverage = _allHackathonsHarmonicMeans.Average();
-        _totalHarmonicMean = HarmonicMeanCalculator.CalculateHarmonicMean(_allHackathonsSatisfactionIndexes);
+        _totalHarmonicMeanAverage = hackathonsHarmonicMean.Average();
+        return _totalHarmonicMeanAverage;
     }
-
-    public void SayCurrentHackathonStatistics()
-    {
-        Console.WriteLine($"Current harmonic mean: {CurrentHackathonHarmonicMean:0.000}");
-    }
-
-    public void SayTotalHackathonsStatistics()
-    {
-        Console.WriteLine($"Total harmonic mean: {_totalHarmonicMean:0.000}");
-        Console.WriteLine($"Total harmonic mean average: {_totalHarmonicMeanAverage:0.000}");
-    }
+    
 }

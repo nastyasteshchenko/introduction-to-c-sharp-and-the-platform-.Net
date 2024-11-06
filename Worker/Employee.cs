@@ -10,9 +10,9 @@ public class Employee
 
     public override string ToString()
     {
-        return $"Id: {Id}, Name: {Name}";
+        return $"{GetType().Name} Id: {Id}, Name: {Name} ";
     }
-    
+
     public override bool Equals(object? obj)
     {
         if (obj == this)

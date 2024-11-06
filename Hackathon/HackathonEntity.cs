@@ -39,7 +39,7 @@ public class HackathonEntity
         });
         Participants.AddRange(participants);
     }
-    
+
     public void AddTeams(List<Team> teams)
     {
         var hackathonTeams = teams.Select(team => new HackathonTeam

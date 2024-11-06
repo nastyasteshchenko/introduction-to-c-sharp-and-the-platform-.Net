@@ -6,24 +6,21 @@ using Nsu.Hackathon.Problem.Worker;
 
 namespace Nsu.Hackathon.Problem;
 
-public sealed class HackathonContext : DbContext
+public class HackathonContext : DbContext
 {
     public DbSet<HackathonEntity> Hackathons { get; set; }
     public DbSet<Employee> Employees { get; set; }
+    public DbSet<Junior> Juniors { get; set; }
+    public DbSet<TeamLead> TeamLeads { get; set; }
 
     public HackathonContext()
     {
-        Database.EnsureCreated();
     }
-
-    protected override void
-        OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    
+    public HackathonContext(DbContextOptions<HackathonContext> options) : base(options)
     {
-        const string connectionString = "Server=localhost;Database=hackathon-problem;" +
-                                        "User Id=sa;Password=strongPassword123;TrustServerCertificate=True;";
-        optionsBuilder.UseSqlServer(connectionString);
     }
-
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         BuildHackathonEntityModel(modelBuilder);
@@ -56,7 +53,7 @@ public sealed class HackathonContext : DbContext
         modelBuilder.Entity<Employee>()
             .Property(e => e.Id)
             .ValueGeneratedNever();
-        
+
         modelBuilder.Entity<Employee>()
             .HasMany<Wishlist>(e => e.Wishlists)
             .WithOne(w => w.Employee);
@@ -87,7 +84,7 @@ public sealed class HackathonContext : DbContext
 
         modelBuilder.Entity<HackathonParticipant>()
             .HasOne(p => p.HackathonEntity)
-            .WithMany()
+            .WithMany(h => h.Participants)
             .HasForeignKey(h => h.HackathonId)
             .OnDelete(DeleteBehavior.NoAction);
     }
