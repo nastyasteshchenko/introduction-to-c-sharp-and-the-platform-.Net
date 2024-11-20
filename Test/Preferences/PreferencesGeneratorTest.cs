@@ -1,8 +1,7 @@
-using Nsu.Hackathon.Problem.Preferences;
+using Nsu.Hackathon.Problem.Common.Model;
+using Nsu.Hackathon.Problem.Developer;
 
 namespace Test.Preferences;
-
-using Nsu.Hackathon.Problem.Worker;
 
 public class PreferencesGeneratorTest
 {

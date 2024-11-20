@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using Nsu.Hackathon.Problem;
-using Nsu.Hackathon.Problem.Hackathon;
-using Nsu.Hackathon.Problem.Preferences;
-using Nsu.Hackathon.Problem.TeamBuilding;
-using Nsu.Hackathon.Problem.Worker;
+using Nsu.Hackathon.Problem.Common.Dto;
+using Nsu.Hackathon.Problem.Common.Mapper;
+using Nsu.Hackathon.Problem.Common.Model;
+using Nsu.Hackathon.Problem.HrDirector;
+using Nsu.Hackathon.Problem.HrDirector.DataBase;
 
 namespace Test;
 
@@ -59,15 +59,23 @@ public class HackathonBdTest
             CreateTeam(teamLead4, junior3)
         };
 
-        var hrManager = new HrManager(new TeamBuildingStrategy());
-        var hrDirector = new HrDirector();
+        var employeeMapper = new EmployeeMapper();
+        var preferenceMapper = new PreferenceMapper(employeeMapper);
+        var teamMapper = new TeamMapper(employeeMapper);
 
         var context = CreateInMemoryContext();
         var hackathonRepository = new HackathonRepository(context);
 
-        var hackathonEvent = new HackathonEvent(hrManager, hrDirector, hackathonRepository);
+        var hrDirector = new HrDirectorService(preferenceMapper, teamMapper, hackathonRepository);
+        var juniorPreferencesDto = preferenceMapper.PreferenceToPreferenceDto(juniorsWishlists)
+            .ToList();
+        var teamLeadPreferencesDto = preferenceMapper.PreferenceToPreferenceDto(teamLeadsWishlists)
+            .ToList();
+        var teamsDto = teamMapper.TeamToTeamDto(expectedTeams);
 
-        var hackathonId = hackathonEvent.Start(participants, teamLeadsWishlists, juniorsWishlists);
+        var hackathonId = hrDirector.SummarizeAndSaveHackathon(new PreferencesAndTeamDto(
+            juniorPreferencesDto.Concat(teamLeadPreferencesDto).ToList(),
+            teamsDto));
 
         var hackathonEntity = hackathonRepository.GetHackathonById(hackathonId);
 

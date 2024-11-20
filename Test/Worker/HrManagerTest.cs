@@ -1,7 +1,8 @@
 using Moq;
-using Nsu.Hackathon.Problem.Preferences;
-using Nsu.Hackathon.Problem.TeamBuilding;
-using Nsu.Hackathon.Problem.Worker;
+using Nsu.Hackathon.Problem.Common.Mapper;
+using Nsu.Hackathon.Problem.Common.Model;
+using Nsu.Hackathon.Problem.HrManager;
+using Nsu.Hackathon.Problem.HrManager.TeamBuilding;
 
 namespace Test.Worker;
 
@@ -19,7 +20,13 @@ public class HrManagerTest
             .Setup(strategy => strategy.BuildTeams(teamLeadsWishlists, juniorsWishlists))
             .Returns([]);
 
-        var hrManager = new HrManager(mockStrategy.Object);
+        var employeeMapper = new EmployeeMapper();
+        var preferenceMapper = new PreferenceMapper(employeeMapper);
+        var teamMapper = new TeamMapper(employeeMapper);
+
+        var hrManager = new HrManagerService(mockStrategy.Object,
+            new HrManagerControllerOptions(8),
+            preferenceMapper, teamMapper);
 
         hrManager.BuildTeams(teamLeadsWishlists, juniorsWishlists);
 
@@ -63,7 +70,13 @@ public class HrManagerTest
             CreateTeam(teamLead4, junior3)
         };
 
-        var hrManager = new HrManager(new TeamBuildingStrategy());
+        var employeeMapper = new EmployeeMapper();
+        var preferenceMapper = new PreferenceMapper(employeeMapper);
+        var teamMapper = new TeamMapper(employeeMapper);
+
+        var hrManager = new HrManagerService(new TeamBuildingStrategy(),
+            new HrManagerControllerOptions(8),
+            preferenceMapper, teamMapper);
 
         var actualTeams = hrManager.BuildTeams(teamLeadsWishlists, juniorsWishlists);
 

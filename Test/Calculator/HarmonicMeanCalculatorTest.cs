@@ -1,4 +1,4 @@
-using Nsu.Hackathon.Problem.Calculator;
+using Nsu.Hackathon.Problem.Web.HrDirector.Calculator;
 
 namespace Test;
 
