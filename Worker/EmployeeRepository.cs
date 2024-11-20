@@ -6,8 +6,8 @@ namespace Nsu.Hackathon.Problem.Worker;
 
 public class EmployeeRepository
 {
-    private const string JuniorResourcesFile = "./Resources/Juniors20.csv";
-    private const string TeamLeadsResourcesFile = "./Resources/Teamleads20.csv";
+    private const string JuniorResourcesFile = "./Resources/Juniors5.csv";
+    private const string TeamLeadsResourcesFile = "./Resources/Teamleads5.csv";
 
     public List<Employee> Juniors { get; } = ReadEmployeesFromCsvFile(JuniorResourcesFile);
     public List<Employee> TeamLeads { get; } = ReadEmployeesFromCsvFile(TeamLeadsResourcesFile);
