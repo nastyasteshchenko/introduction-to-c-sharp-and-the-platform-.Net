@@ -17,11 +17,11 @@ public class HrDirectorService(
 {
     private const string LineSeparator = "------------------------------------------";
 
-    public long SummarizeAndSaveHackathon(PreferencesAndTeamDto preferencesAndTeamDto)
+    public long SummarizeAndSaveHackathon(PreferencesAndTeamsDto preferencesAndTeamsDto)
     {
         hackathonRepository.EnsureCreated();
-        var preferencesDtos = preferencesAndTeamDto.Preferences;
-        var teamDtos = preferencesAndTeamDto.Teams;
+        var preferencesDtos = preferencesAndTeamsDto.Preferences;
+        var teamDtos = preferencesAndTeamsDto.Teams;
 
         var preferences = preferenceMapper.PreferenceDtoToPreference(preferencesDtos);
         var teams = teamMapper.TeamDtoToTeam(teamDtos);
@@ -34,14 +34,11 @@ public class HrDirectorService(
                 .ToList());
 
         hackathon.AddParticipants(participants);
-
         hackathon.AddWishlists(preferences, employeeEntityMapper);
-
         hackathon.AddTeams(teamsEntities);
 
         var teamLeadsPreferences = preferences.Where(preference => preference.Employee is TeamLead)
             .ToList();
- 
         var juniorsPreferences = preferences.Where(preference => preference.Employee is Junior)
             .ToList();
 

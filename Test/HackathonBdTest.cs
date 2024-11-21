@@ -77,7 +77,7 @@ public class HackathonBdTest
             .ToList();
         var teamsDto = teamMapper.TeamToTeamDto(expectedTeams);
 
-        var hackathonId = hrDirector.SummarizeAndSaveHackathon(new PreferencesAndTeamDto(
+        var hackathonId = hrDirector.SummarizeAndSaveHackathon(new PreferencesAndTeamsDto(
             juniorPreferencesDto.Concat(teamLeadPreferencesDto).ToList(),
             teamsDto));
 

@@ -57,7 +57,7 @@ public class HrManagerService(
 
         var teamsDtos = teamMapper.TeamToTeamDto(teams);
 
-        var requestBody = new PreferencesAndTeamDto(
+        var requestBody = new PreferencesAndTeamsDto(
             preferencesDtos,
             teamsDtos
         );

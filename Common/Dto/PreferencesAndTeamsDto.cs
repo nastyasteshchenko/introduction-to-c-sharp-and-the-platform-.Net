@@ -1,6 +1,6 @@
 namespace Common.Dto;
 
-public record PreferencesAndTeamDto(
+public record PreferencesAndTeamsDto(
     List<PreferenceDto> Preferences,
     List<TeamDto> Teams
 );
