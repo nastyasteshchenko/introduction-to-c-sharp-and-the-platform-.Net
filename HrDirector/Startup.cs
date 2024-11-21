@@ -8,13 +8,13 @@ public class Startup
 {
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddTransient<HrDirectorService>();
-        services.AddTransient<TeamMapper>();
-        services.AddTransient<PreferenceMapper>();
-        services.AddTransient<EmployeeMapper>();
-        services.AddTransient<EmployeeEntityMapper>();
-        services.AddTransient<TeamEntityMapper>();
-        services.AddTransient<HackathonRepository>();
+        services.AddSingleton<HrDirectorService>();
+        services.AddSingleton<TeamMapper>();
+        services.AddSingleton<PreferenceMapper>();
+        services.AddSingleton<EmployeeMapper>();
+        services.AddSingleton<EmployeeEntityMapper>();
+        services.AddSingleton<TeamEntityMapper>();
+        services.AddSingleton<HackathonRepository>();
         services.AddDbContext<HackathonContext>(options =>
             options.UseSqlServer("Server=localhost;Database=hackathon-problem;" +
                                  "User Id=sa;Password=strongPassword123;TrustServerCertificate=True"));

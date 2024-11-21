@@ -1,5 +1,4 @@
 using System.Text;
-using System.Text.Json.Serialization;
 using Common.Dto;
 using Common.Mapper;
 using Common.Model;
@@ -15,26 +14,25 @@ public class HrManagerService(
     TeamMapper teamMapper)
 {
     private readonly object _lock = new();
-    
+
     private readonly List<Preference> _preferences = [];
 
     public async void AddPreference(PreferenceDto preferenceDto)
     {
         var preference = preferenceMapper.PreferenceDtoToPreference(preferenceDto);
-        _preferences.Add(preference);
-        List<Team> teams = null!;
+        List<Team>? teams = null;
 
         lock (_lock)
         {
             _preferences.Add(preference);
             if (_preferences.Count == hrManagerServiceOptions.ExpectedPreferencesAmount)
             {
+                Console.WriteLine("Hererere");
                 var teamLeadsPreferences = _preferences.Where(x => x.Employee is TeamLead)
                     .ToList();
                 var juniorsPreferences = _preferences.Where(x => x.Employee is Junior)
                     .ToList();
                 teams = BuildTeams(teamLeadsPreferences, juniorsPreferences);
-                _preferences.Clear();
             }
         }
 
@@ -51,7 +49,13 @@ public class HrManagerService(
 
     private async Task SendTeams(List<Team> teams)
     {
-        var preferencesDtos = preferenceMapper.PreferenceToPreferenceDto(_preferences);
+        List<PreferenceDto> preferencesDtos;
+        lock (_lock)
+        {
+            preferencesDtos = preferenceMapper.PreferenceToPreferenceDto(_preferences);
+            _preferences.Clear();
+        }
+
         var teamsDtos = teamMapper.TeamToTeamDto(teams);
 
         var requestBody = new PreferencesAndTeamDto(

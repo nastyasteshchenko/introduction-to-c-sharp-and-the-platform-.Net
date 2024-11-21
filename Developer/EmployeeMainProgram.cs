@@ -6,18 +6,18 @@ public static class EmployeeMainProgram
 {
     public static void Main(string[] args)
     {
-        var role = Environment.GetEnvironmentVariable("ROLE");
+        var type = Environment.GetEnvironmentVariable("TYPE");
         var id = long.Parse(Environment.GetEnvironmentVariable("ID")!);
         
         var host = Host.CreateDefaultBuilder(args)
             .ConfigureServices((_, services) =>
             {
-                services.AddSingleton(new EmployeeWorkerOptions(role!, id));
+                services.AddSingleton(new EmployeeWorkerOptions(type!, id));
                 services.AddHostedService<EmployeeWorker>();
-                services.AddTransient<EmployeeRepository>();
-                services.AddTransient<EmployeeService>();
-                services.AddTransient<PreferenceMapper>();
-                services.AddTransient<EmployeeMapper>();
+                services.AddSingleton<EmployeeRepository>();
+                services.AddSingleton<EmployeeService>();
+                services.AddSingleton<PreferenceMapper>();
+                services.AddSingleton<EmployeeMapper>();
             })
             .Build();
 
