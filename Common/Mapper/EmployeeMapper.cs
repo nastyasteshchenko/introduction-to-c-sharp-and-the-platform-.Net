@@ -1,7 +1,7 @@
-using Nsu.Hackathon.Problem.Common.Dto;
-using Nsu.Hackathon.Problem.Common.Model;
+using Common.Dto;
+using Common.Model;
 
-namespace Nsu.Hackathon.Problem.Common.Mapper;
+namespace Common.Mapper;
 
 public class EmployeeMapper
 {

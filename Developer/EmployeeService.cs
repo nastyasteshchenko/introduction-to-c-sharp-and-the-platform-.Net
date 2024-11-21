@@ -1,6 +1,6 @@
-using Nsu.Hackathon.Problem.Common.Model;
+using Common.Model;
 
-namespace Nsu.Hackathon.Problem.Developer;
+namespace Developer;
 
 public class EmployeeService(EmployeeRepository employeeRepository)
 {

@@ -1,3 +1,3 @@
-namespace Nsu.Hackathon.Problem.Developer;
+namespace Developer;
 
 public record EmployeeWorkerOptions(string Type, long Id);

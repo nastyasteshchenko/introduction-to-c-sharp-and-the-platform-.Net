@@ -1,6 +1,6 @@
-using Nsu.Hackathon.Problem.Common.Model;
+using Common.Model;
 
-namespace Nsu.Hackathon.Problem.HrManager.TeamBuilding;
+namespace HrManager.TeamBuilding;
 
 public class TeamBuildingStrategy : ITeamBuildingStrategy
 {

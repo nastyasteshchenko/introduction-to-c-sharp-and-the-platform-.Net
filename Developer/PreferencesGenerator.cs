@@ -1,7 +1,7 @@
 using System.Runtime.InteropServices;
-using Nsu.Hackathon.Problem.Common.Model;
+using Common.Model;
 
-namespace Nsu.Hackathon.Problem.Developer;
+namespace Developer;
 
 public static class PreferencesGenerator
 {

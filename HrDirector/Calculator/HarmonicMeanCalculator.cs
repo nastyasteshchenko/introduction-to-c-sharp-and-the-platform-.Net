@@ -1,4 +1,4 @@
-namespace Nsu.Hackathon.Problem.Web.HrDirector.Calculator;
+namespace HrDirector.Calculator;
 
 public static class HarmonicMeanCalculator
 {

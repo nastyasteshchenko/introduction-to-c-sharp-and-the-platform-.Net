@@ -1,8 +1,8 @@
 using System.Text;
+using Common.Mapper;
 using Newtonsoft.Json;
-using Nsu.Hackathon.Problem.Common.Mapper;
 
-namespace Nsu.Hackathon.Problem.Developer;
+namespace Developer;
 
 public class EmployeeWorker(
     EmployeeService employeeService,

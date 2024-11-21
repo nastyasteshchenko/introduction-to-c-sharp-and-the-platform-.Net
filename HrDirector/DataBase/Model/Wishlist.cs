@@ -1,6 +1,6 @@
-using Nsu.Hackathon.Problem.HrDirector.DataBase.Model.Employee;
+using HrDirector.DataBase.Model.Employee;
 
-namespace Nsu.Hackathon.Problem.HrDirector.DataBase.Model;
+namespace HrDirector.DataBase.Model;
 
 public class Wishlist
 {

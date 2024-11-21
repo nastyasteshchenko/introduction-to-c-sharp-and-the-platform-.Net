@@ -1,8 +1,8 @@
+using Common.Mapper;
+using Common.Model;
+using HrManager;
+using HrManager.TeamBuilding;
 using Moq;
-using Nsu.Hackathon.Problem.Common.Mapper;
-using Nsu.Hackathon.Problem.Common.Model;
-using Nsu.Hackathon.Problem.HrManager;
-using Nsu.Hackathon.Problem.HrManager.TeamBuilding;
 
 namespace Test.Worker;
 

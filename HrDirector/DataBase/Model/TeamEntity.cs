@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using Nsu.Hackathon.Problem.HrDirector.DataBase.Model.Employee;
+using HrDirector.DataBase.Model.Employee;
 
-namespace Nsu.Hackathon.Problem.HrDirector.DataBase.Model;
+namespace HrDirector.DataBase.Model;
 
 [Table(name: "Team")]
 public class TeamEntity

@@ -1,13 +1,12 @@
-using Nsu.Hackathon.Problem.Common.Dto;
-using Nsu.Hackathon.Problem.Common.Mapper;
-using Nsu.Hackathon.Problem.Common.Model;
-using Nsu.Hackathon.Problem.HrDirector.Calculator;
-using Nsu.Hackathon.Problem.HrDirector.DataBase;
-using Nsu.Hackathon.Problem.HrDirector.DataBase.Mapper;
-using Nsu.Hackathon.Problem.HrDirector.DataBase.Model.Hackathon;
-using Nsu.Hackathon.Problem.Web.HrDirector.Calculator;
+using Common.Dto;
+using Common.Mapper;
+using Common.Model;
+using HrDirector.Calculator;
+using HrDirector.DataBase;
+using HrDirector.DataBase.Mapper;
+using HrDirector.DataBase.Model.Hackathon;
 
-namespace Nsu.Hackathon.Problem.HrDirector;
+namespace HrDirector;
 
 public class HrDirectorService(
     PreferenceMapper preferenceMapper,

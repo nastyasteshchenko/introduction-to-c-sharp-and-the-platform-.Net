@@ -1,3 +1,3 @@
-namespace Nsu.Hackathon.Problem.HrManager;
+namespace HrManager;
 
 public record HrManagerControllerOptions(int ExpectedPreferencesAmount);

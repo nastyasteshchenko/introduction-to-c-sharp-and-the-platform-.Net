@@ -1,9 +1,9 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using Nsu.Hackathon.Problem.Common.Model;
-using Nsu.Hackathon.Problem.HrDirector.DataBase.Mapper;
-using Nsu.Hackathon.Problem.HrDirector.DataBase.Model.Employee;
+using Common.Model;
+using HrDirector.DataBase.Mapper;
+using HrDirector.DataBase.Model.Employee;
 
-namespace Nsu.Hackathon.Problem.HrDirector.DataBase.Model.Hackathon;
+namespace HrDirector.DataBase.Model.Hackathon;
 
 [Table(name: "Hackathon")]
 public class HackathonEntity

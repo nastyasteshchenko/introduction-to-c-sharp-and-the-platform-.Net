@@ -1,4 +1,4 @@
-namespace Nsu.Hackathon.Problem.Common.Dto;
+namespace Common.Dto;
 
 public record PreferencesAndTeamDto(
     List<PreferenceDto> Preferences,

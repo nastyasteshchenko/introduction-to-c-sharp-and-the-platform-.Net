@@ -1,6 +1,6 @@
-using Nsu.Hackathon.Problem.HrDirector.DataBase.Model.Employee;
+using HrDirector.DataBase.Model.Employee;
 
-namespace Nsu.Hackathon.Problem.HrDirector.DataBase.Model.Hackathon;
+namespace HrDirector.DataBase.Model.Hackathon;
 
 public class HackathonParticipant
 {

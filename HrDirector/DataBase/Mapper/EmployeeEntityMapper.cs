@@ -1,8 +1,7 @@
-using Nsu.Hackathon.Problem.Common.Model;
-using Nsu.Hackathon.Problem.HrDirector.DataBase.Model;
-using Nsu.Hackathon.Problem.HrDirector.DataBase.Model.Employee;
+using Common.Model;
+using HrDirector.DataBase.Model.Employee;
 
-namespace Nsu.Hackathon.Problem.HrDirector.DataBase.Mapper;
+namespace HrDirector.DataBase.Mapper;
 
 public class EmployeeEntityMapper(HackathonContext hackathonContext)
 {

@@ -1,0 +1,82 @@
+version: '3.8'
+
+services:
+#  teamlead-1:
+#    image: developer:latest
+#    build:
+#      context: ./Developer
+#    deploy:
+#      replicas: 1
+#    environment:
+#      ROLE: teamlead
+#      ID: 1
+#    ports:
+#      - "5007:80"
+#
+#  teamlead-2:
+#    image: developer:latest
+#    build:
+#      context: ./Developer
+#    deploy:
+#      replicas: 1
+#    environment:
+#      ROLE: teamlead
+#      ID: 2
+#    ports:
+#      - "5008:80"
+#
+#  junior-1:
+#    image: developer:latest
+#    build:
+#      context: ./Developer
+#    deploy:
+#      replicas: 1
+#    environment:
+#      ROLE: junior
+#      ID: 1
+#    ports:
+#      - "5003:80"
+#
+#  junior-2:
+#    image: developer:latest
+#    build:
+#      context: ./Developer
+#    deploy:
+#      replicas: 1
+#    environment:
+#      ROLE: junior
+#      ID: 2
+#    ports:
+#      - "5009:80"
+#  
+  hr-manager:
+    build:
+      context: .
+      dockerfile: ./HrManager/Dockerfile
+    deploy:
+      replicas: 1
+    ports:
+      - "5001:8080"
+
+  hr-director:
+    build:
+      context: .
+      dockerfile: ./HrDirector/Dockerfile
+    deploy:
+      replicas: 1
+    ports:
+      - "5002:8080"
+
+#  database:
+#    image: postgres:latest
+#    environment:
+#      POSTGRES_USER: admin
+#      POSTGRES_PASSWORD: admin
+#      POSTGRES_DB: hackathon
+#    ports:
+#      - "5432:5432"
+#    volumes:
+#      - db_data:/var/lib/postgresql/data
+
+#volumes:
+#  db_data:

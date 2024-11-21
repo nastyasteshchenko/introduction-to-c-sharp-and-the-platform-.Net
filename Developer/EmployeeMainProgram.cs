@@ -1,18 +1,18 @@
-using Nsu.Hackathon.Problem.Common.Mapper;
+using Common.Mapper;
 
-namespace Nsu.Hackathon.Problem.Developer;
+namespace Developer;
 
 public static class EmployeeMainProgram
 {
     public static void Main(string[] args)
     {
-        var type = args[0];
-        var id = int.Parse(args[1]);
-
+        var role = Environment.GetEnvironmentVariable("ROLE");
+        var id = long.Parse(Environment.GetEnvironmentVariable("ID")!);
+        
         var host = Host.CreateDefaultBuilder(args)
             .ConfigureServices((_, services) =>
             {
-                services.AddSingleton(new EmployeeWorkerOptions(type, id));
+                services.AddSingleton(new EmployeeWorkerOptions(role!, id));
                 services.AddHostedService<EmployeeWorker>();
                 services.AddTransient<EmployeeRepository>();
                 services.AddTransient<EmployeeService>();

@@ -1,4 +1,4 @@
-namespace Nsu.Hackathon.Problem.HrDirector;
+namespace HrDirector;
 
 public static class HrDirectorMainProgram
 {

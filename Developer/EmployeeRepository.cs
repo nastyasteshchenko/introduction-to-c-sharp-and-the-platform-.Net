@@ -1,9 +1,9 @@
 using System.Globalization;
+using Common.Model;
 using CsvHelper;
 using CsvHelper.Configuration;
-using Nsu.Hackathon.Problem.Common.Model;
 
-namespace Nsu.Hackathon.Problem.Developer;
+namespace Developer;
 
 public class EmployeeRepository
 {

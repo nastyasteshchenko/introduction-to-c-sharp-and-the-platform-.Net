@@ -1,7 +1,7 @@
+using Common.Dto;
 using Microsoft.AspNetCore.Mvc;
-using Nsu.Hackathon.Problem.Common.Dto;
 
-namespace Nsu.Hackathon.Problem.HrManager;
+namespace HrManager;
 
 [ApiController]
 [Route("api/hr-manager")]

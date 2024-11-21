@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Nsu.Hackathon.Problem.HrDirector.DataBase.Model.Employee;
+namespace HrDirector.DataBase.Model.Employee;
 
 [Table(name: "Employee")]
 public class EmployeeEntity

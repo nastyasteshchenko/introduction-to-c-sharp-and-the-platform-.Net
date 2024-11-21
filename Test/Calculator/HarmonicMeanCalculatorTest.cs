@@ -1,6 +1,6 @@
-using Nsu.Hackathon.Problem.Web.HrDirector.Calculator;
+using HrDirector.Calculator;
 
-namespace Test;
+namespace Test.Calculator;
 
 public class HarmonicMeanCalculatorTest
 {

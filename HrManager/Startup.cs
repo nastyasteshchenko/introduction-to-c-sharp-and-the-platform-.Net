@@ -1,7 +1,8 @@
-using Nsu.Hackathon.Problem.Common.Mapper;
-using Nsu.Hackathon.Problem.HrManager.TeamBuilding;
+using Common.Mapper;
+using HrManager.TeamBuilding;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Nsu.Hackathon.Problem.HrManager;
+namespace HrManager;
 
 internal class Startup
 {

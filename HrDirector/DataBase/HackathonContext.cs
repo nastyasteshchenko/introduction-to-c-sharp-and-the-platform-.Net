@@ -1,9 +1,9 @@
+using HrDirector.DataBase.Model;
+using HrDirector.DataBase.Model.Employee;
+using HrDirector.DataBase.Model.Hackathon;
 using Microsoft.EntityFrameworkCore;
-using Nsu.Hackathon.Problem.HrDirector.DataBase.Model;
-using Nsu.Hackathon.Problem.HrDirector.DataBase.Model.Employee;
-using Nsu.Hackathon.Problem.HrDirector.DataBase.Model.Hackathon;
 
-namespace Nsu.Hackathon.Problem.HrDirector.DataBase;
+namespace HrDirector.DataBase;
 
 public class HackathonContext : DbContext
 {

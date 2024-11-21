@@ -1,11 +1,12 @@
 using System.Text;
+using System.Text.Json.Serialization;
+using Common.Dto;
+using Common.Mapper;
+using Common.Model;
+using HrManager.TeamBuilding;
 using Newtonsoft.Json;
-using Nsu.Hackathon.Problem.Common.Dto;
-using Nsu.Hackathon.Problem.Common.Mapper;
-using Nsu.Hackathon.Problem.Common.Model;
-using Nsu.Hackathon.Problem.HrManager.TeamBuilding;
 
-namespace Nsu.Hackathon.Problem.HrManager;
+namespace HrManager;
 
 public class HrManagerService(
     ITeamBuildingStrategy teamBuildingStrategy,

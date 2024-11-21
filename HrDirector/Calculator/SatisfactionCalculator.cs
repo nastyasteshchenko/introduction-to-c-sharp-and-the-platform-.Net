@@ -1,6 +1,6 @@
-using Nsu.Hackathon.Problem.Common.Model;
+using Common.Model;
 
-namespace Nsu.Hackathon.Problem.HrDirector.Calculator;
+namespace HrDirector.Calculator;
 
 public static class SatisfactionCalculator
 {

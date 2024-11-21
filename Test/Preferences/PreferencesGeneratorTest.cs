@@ -1,5 +1,5 @@
-using Nsu.Hackathon.Problem.Common.Model;
-using Nsu.Hackathon.Problem.Developer;
+using Common.Model;
+using Developer;
 
 namespace Test.Preferences;
 

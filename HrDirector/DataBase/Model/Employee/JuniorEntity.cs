@@ -1,3 +1,3 @@
-namespace Nsu.Hackathon.Problem.HrDirector.DataBase.Model.Employee;
+namespace HrDirector.DataBase.Model.Employee;
 
 public class JuniorEntity : EmployeeEntity;

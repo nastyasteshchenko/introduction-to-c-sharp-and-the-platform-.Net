@@ -1,9 +1,8 @@
+using Common.Mapper;
+using HrDirector.DataBase;
+using HrDirector.DataBase.Mapper;
 using Microsoft.EntityFrameworkCore;
-using Nsu.Hackathon.Problem.Common.Mapper;
-using Nsu.Hackathon.Problem.HrDirector.DataBase;
-using Nsu.Hackathon.Problem.HrDirector.DataBase.Mapper;
-
-namespace Nsu.Hackathon.Problem.HrDirector;
+namespace HrDirector;
 
 public class Startup
 {

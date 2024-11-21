@@ -1,9 +1,9 @@
+using Common.Mapper;
+using Common.Model;
+using HrDirector;
+using HrDirector.DataBase;
+using HrDirector.DataBase.Mapper;
 using Microsoft.EntityFrameworkCore;
-using Nsu.Hackathon.Problem.Common.Mapper;
-using Nsu.Hackathon.Problem.Common.Model;
-using Nsu.Hackathon.Problem.HrDirector;
-using Nsu.Hackathon.Problem.HrDirector.DataBase;
-using Nsu.Hackathon.Problem.HrDirector.DataBase.Mapper;
 
 namespace Test.Worker;
 
