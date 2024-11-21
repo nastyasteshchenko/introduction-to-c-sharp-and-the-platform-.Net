@@ -84,7 +84,6 @@ public class HrDirectorService(
         }
 
         Console.WriteLine(LineSeparator);
-
         Console.WriteLine($"Harmonic mean: {hackathon.HarmonicMean:0.000}");
         
         PrintAllHackathonsHarmonicMean();

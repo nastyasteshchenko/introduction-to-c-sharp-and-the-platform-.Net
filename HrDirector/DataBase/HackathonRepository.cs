@@ -1,4 +1,3 @@
-using HrDirector.DataBase.Model.Employee;
 using HrDirector.DataBase.Model.Hackathon;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,16 +21,6 @@ public class HackathonRepository(HackathonContext hackathonContext)
         return hackathonContext.Hackathons
             .ToList();
     }
-
-    // public List<EmployeeEntity> GetJuniors()
-    // {
-    //     return hackathonContext.Juniors.Cast<EmployeeEntity>().ToList();
-    // }
-    //
-    // public List<EmployeeEntity> GetTeamLeads()
-    // {
-    //     return hackathonContext.TeamLeads.Cast<EmployeeEntity>().ToList();
-    // }
 
     public long SaveHackathon(HackathonEntity hackathon)
     {
