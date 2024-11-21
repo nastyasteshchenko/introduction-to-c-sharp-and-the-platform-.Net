@@ -21,7 +21,7 @@ public class HrManagerService(
     {
         var preference = preferenceMapper.PreferenceDtoToPreference(preferenceDto);
         _preferences.Add(preference);
-        List<Team> teams = null;
+        List<Team> teams = null!;
 
         lock (_lock)
         {
