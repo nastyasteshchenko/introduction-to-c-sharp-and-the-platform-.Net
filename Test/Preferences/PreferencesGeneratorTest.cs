@@ -70,19 +70,11 @@ public class PreferencesGeneratorTest
 
     private static Junior CreateJunior(long id, string name)
     {
-        return new Junior
-        {
-            Id = id,
-            Name = name
-        };
+        return new Junior(id, name);
     }
-    
+
     private static TeamLead CreateTeamLead(long id, string name)
     {
-        return new TeamLead
-        {
-            Id = id,
-            Name = name
-        };
+        return new TeamLead(id, name);
     }
 }

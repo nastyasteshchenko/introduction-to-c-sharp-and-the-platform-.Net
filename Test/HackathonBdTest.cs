@@ -4,6 +4,7 @@ using Nsu.Hackathon.Problem.Common.Mapper;
 using Nsu.Hackathon.Problem.Common.Model;
 using Nsu.Hackathon.Problem.HrDirector;
 using Nsu.Hackathon.Problem.HrDirector.DataBase;
+using Nsu.Hackathon.Problem.HrDirector.DataBase.Mapper;
 
 namespace Test;
 
@@ -59,14 +60,17 @@ public class HackathonBdTest
             CreateTeam(teamLead4, junior3)
         };
 
+        var context = CreateInMemoryContext();
+        var hackathonRepository = new HackathonRepository(context);
+        
         var employeeMapper = new EmployeeMapper();
         var preferenceMapper = new PreferenceMapper(employeeMapper);
         var teamMapper = new TeamMapper(employeeMapper);
+        var employeeEntityMapper = new EmployeeEntityMapper(context);
+        var teamEntityMapper = new TeamEntityMapper(employeeEntityMapper);
 
-        var context = CreateInMemoryContext();
-        var hackathonRepository = new HackathonRepository(context);
-
-        var hrDirector = new HrDirectorService(preferenceMapper, teamMapper, hackathonRepository);
+        var hrDirector = new HrDirectorService(preferenceMapper, teamMapper, employeeEntityMapper,
+            teamEntityMapper, hackathonRepository);
         var juniorPreferencesDto = preferenceMapper.PreferenceToPreferenceDto(juniorsWishlists)
             .ToList();
         var teamLeadPreferencesDto = preferenceMapper.PreferenceToPreferenceDto(teamLeadsWishlists)
@@ -88,41 +92,30 @@ public class HackathonBdTest
             .ToList();
         foreach (var participant in participants)
         {
-            Assert.That(hackathonParticipants, Does.Contain(participant));
+            Assert.That(hackathonParticipants,
+                Does.Contain(employeeEntityMapper.EmployeeToEmployeeEntity(participant)));
         }
 
         Assert.That(hackathonEntity.Teams, Has.Count.EqualTo(expectedTeams.Count));
-        var hackathonTeams = hackathonEntity.Teams.Select(t => t.Team).ToList();
+        var hackathonTeams = hackathonEntity.Teams.Select(t => t.TeamEntity).ToList();
         foreach (var team in expectedTeams)
         {
-            Assert.That(hackathonTeams, Does.Contain(team));
+            Assert.That(hackathonTeams, Does.Contain(teamEntityMapper.TeamToTeamEntity(team)));
         }
-    }
-
-    private static Junior CreateJunior(long id, string name)
-    {
-        return new Junior
-        {
-            Id = id,
-            Name = name
-        };
-    }
-
-    private static TeamLead CreateTeamLead(long id, string name)
-    {
-        return new TeamLead
-        {
-            Id = id,
-            Name = name
-        };
     }
 
     private static Team CreateTeam(TeamLead teamLead, Junior junior)
     {
-        return new Team
-        {
-            TeamLead = teamLead,
-            Junior = junior
-        };
+        return new Team(junior, teamLead);
+    }
+
+    private static Junior CreateJunior(long id, string name)
+    {
+        return new Junior(id, name);
+    }
+
+    private static TeamLead CreateTeamLead(long id, string name)
+    {
+        return new TeamLead(id, name);
     }
 }

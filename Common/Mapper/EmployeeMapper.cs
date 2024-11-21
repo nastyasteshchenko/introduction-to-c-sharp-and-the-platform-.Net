@@ -25,17 +25,9 @@ public class EmployeeMapper
     {
         if (employeeDto.Type == "Junior")
         {
-            return new Junior
-            {
-                Id = employeeDto.Id,
-                Name = employeeDto.Name,
-            };
+            return new Junior(employeeDto.Id, employeeDto.Name);
         }
 
-        return new TeamLead
-        {
-            Id = employeeDto.Id,
-            Name = employeeDto.Name
-        };
+        return new TeamLead(employeeDto.Id, employeeDto.Name);
     }
 }

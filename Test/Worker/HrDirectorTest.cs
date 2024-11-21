@@ -3,6 +3,7 @@ using Nsu.Hackathon.Problem.Common.Mapper;
 using Nsu.Hackathon.Problem.Common.Model;
 using Nsu.Hackathon.Problem.HrDirector;
 using Nsu.Hackathon.Problem.HrDirector.DataBase;
+using Nsu.Hackathon.Problem.HrDirector.DataBase.Mapper;
 
 namespace Test.Worker;
 
@@ -55,13 +56,17 @@ public class HrDirectorTest
             CreateTeam(teamLead4, junior3)
         };
 
+        var context = CreateInMemoryContext();
+        var hackathonRepository = new HackathonRepository(context);
+        
         var employeeMapper = new EmployeeMapper();
         var preferenceMapper = new PreferenceMapper(employeeMapper);
         var teamMapper = new TeamMapper(employeeMapper);
-        var context = CreateInMemoryContext();
-        var hackathonRepository = new HackathonRepository(context);
+        var employeeEntityMapper = new EmployeeEntityMapper(context);
+        var teamEntityMapper = new TeamEntityMapper(employeeEntityMapper);
 
-        var director = new HrDirectorService(preferenceMapper, teamMapper, hackathonRepository);
+        var director = new HrDirectorService(preferenceMapper, teamMapper, employeeEntityMapper,
+            teamEntityMapper, hackathonRepository);
         var currentHackathonHarmonicMean =
             director.CalculateStatistics(teams, teamLeadsWishlists, juniorsWishlists);
 
@@ -84,28 +89,16 @@ public class HrDirectorTest
 
     private static Team CreateTeam(TeamLead teamLead, Junior junior)
     {
-        return new Team
-        {
-            TeamLead = teamLead,
-            Junior = junior
-        };
+        return new Team(junior, teamLead);
     }
 
     private static Junior CreateJunior(long id, string name)
     {
-        return new Junior
-        {
-            Id = id,
-            Name = name
-        };
+        return new Junior(id, name);
     }
 
     private static TeamLead CreateTeamLead(long id, string name)
     {
-        return new TeamLead
-        {
-            Id = id,
-            Name = name
-        };
+        return new TeamLead(id, name);
     }
 }

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Nsu.Hackathon.Problem.Common.Mapper;
 using Nsu.Hackathon.Problem.HrDirector.DataBase;
+using Nsu.Hackathon.Problem.HrDirector.DataBase.Mapper;
 
 namespace Nsu.Hackathon.Problem.HrDirector;
 
@@ -12,6 +13,8 @@ public class Startup
         services.AddTransient<TeamMapper>();
         services.AddTransient<PreferenceMapper>();
         services.AddTransient<EmployeeMapper>();
+        services.AddTransient<EmployeeEntityMapper>();
+        services.AddTransient<TeamEntityMapper>();
         services.AddTransient<HackathonRepository>();
         services.AddDbContext<HackathonContext>(options =>
             options.UseSqlServer("Server=localhost;Database=hackathon-problem;" +
@@ -22,9 +25,6 @@ public class Startup
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         app.UseRouting();
-        app.UseEndpoints(endpoints =>
-        {
-            endpoints.MapControllers();
-        });
+        app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
     }
 }

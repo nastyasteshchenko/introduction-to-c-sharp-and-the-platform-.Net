@@ -3,7 +3,8 @@ using Nsu.Hackathon.Problem.Common.Mapper;
 using Nsu.Hackathon.Problem.Common.Model;
 using Nsu.Hackathon.Problem.HrDirector.Calculator;
 using Nsu.Hackathon.Problem.HrDirector.DataBase;
-using Nsu.Hackathon.Problem.HrDirector.DataBase.Model;
+using Nsu.Hackathon.Problem.HrDirector.DataBase.Mapper;
+using Nsu.Hackathon.Problem.HrDirector.DataBase.Model.Hackathon;
 using Nsu.Hackathon.Problem.Web.HrDirector.Calculator;
 
 namespace Nsu.Hackathon.Problem.HrDirector;
@@ -11,6 +12,8 @@ namespace Nsu.Hackathon.Problem.HrDirector;
 public class HrDirectorService(
     PreferenceMapper preferenceMapper,
     TeamMapper teamMapper,
+    EmployeeEntityMapper employeeEntityMapper,
+    TeamEntityMapper teamEntityMapper,
     HackathonRepository hackathonRepository)
 {
     private const string LineSeparator = "------------------------------------------";
@@ -22,29 +25,34 @@ public class HrDirectorService(
 
         var preferences = preferenceMapper.PreferenceDtoToPreference(preferencesDtos);
         var teams = teamMapper.TeamDtoToTeam(teamDtos);
+        var teamsEntities = teamEntityMapper.TeamToTeamEntity(teamMapper.TeamDtoToTeam(teamDtos));
 
         var hackathon = new HackathonEntity();
 
-        var participants = preferences.Select(preference => preference.Employee).ToList();
+        var participants =
+            employeeEntityMapper.EmployeeToEmployeeEntity(preferences.Select(preference => preference.Employee)
+                .ToList());
 
         hackathon.AddParticipants(participants);
 
-        hackathon.AddWishlists(preferences);
+        hackathon.AddWishlists(preferences, employeeEntityMapper);
 
-        hackathon.AddTeams(teams);
+        hackathon.AddTeams(teamsEntities);
 
         var teamLeadsPreferences = preferences.Where(preference => preference.Employee is TeamLead)
             .ToList();
         foreach (var f in teamLeadsPreferences)
         {
-            Console.WriteLine(f.Employee);
+            Console.WriteLine(employeeEntityMapper.EmployeeToEmployeeEntity(f.Employee));
         }
+
         var juniorsPreferences = preferences.Where(preference => preference.Employee is Junior)
             .ToList();
         foreach (var f in juniorsPreferences)
         {
-            Console.WriteLine(f.Employee);
+            Console.WriteLine(employeeEntityMapper.EmployeeToEmployeeEntity(f.Employee));
         }
+
         hackathon.HarmonicMean = CalculateStatistics(teams, teamLeadsPreferences, juniorsPreferences);
 
         var id = hackathonRepository.SaveHackathon(hackathon);
@@ -72,7 +80,7 @@ public class HrDirectorService(
         Console.WriteLine("Teams:");
         foreach (var team in hackathon.Teams)
         {
-            Console.WriteLine(team.Team);
+            Console.WriteLine(team.TeamEntity);
         }
 
         Console.WriteLine(LineSeparator);

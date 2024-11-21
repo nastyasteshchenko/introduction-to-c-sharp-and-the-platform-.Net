@@ -1,6 +1,4 @@
-using Nsu.Hackathon.Problem.Common.Model;
-
-namespace Nsu.Hackathon.Problem.HrDirector.DataBase.Model;
+namespace Nsu.Hackathon.Problem.HrDirector.DataBase.Model.Hackathon;
 
 public class HackathonTeam
 {
@@ -8,5 +6,5 @@ public class HackathonTeam
     public long HackathonId { get; set; }
     public HackathonEntity HackathonEntity { get; set; } = null!;
     public long TeamId { get; set; }
-    public Team Team { get; set; } = null!;
+    public TeamEntity TeamEntity { get; set; } = null!;
 }

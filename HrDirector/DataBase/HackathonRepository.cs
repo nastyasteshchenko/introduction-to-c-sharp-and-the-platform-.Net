@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using Nsu.Hackathon.Problem.Common.Model;
-using Nsu.Hackathon.Problem.Developer;
-using Nsu.Hackathon.Problem.HrDirector.DataBase.Model;
+using Nsu.Hackathon.Problem.HrDirector.DataBase.Model.Employee;
+using Nsu.Hackathon.Problem.HrDirector.DataBase.Model.Hackathon;
 
 namespace Nsu.Hackathon.Problem.HrDirector.DataBase;
 
@@ -24,14 +23,14 @@ public class HackathonRepository(HackathonContext hackathonContext)
             .ToList();
     }
 
-    public List<Employee> GetJuniors()
+    public List<EmployeeEntity> GetJuniors()
     {
-        return hackathonContext.Juniors.Cast<Employee>().ToList();
+        return hackathonContext.Juniors.Cast<EmployeeEntity>().ToList();
     }
 
-    public List<Employee> GetTeamLeads()
+    public List<EmployeeEntity> GetTeamLeads()
     {
-        return hackathonContext.TeamLeads.Cast<Employee>().ToList();
+        return hackathonContext.TeamLeads.Cast<EmployeeEntity>().ToList();
     }
 
     public long SaveHackathon(HackathonEntity hackathon)
@@ -39,14 +38,6 @@ public class HackathonRepository(HackathonContext hackathonContext)
         hackathonContext.Hackathons.Add(hackathon);
         hackathonContext.SaveChanges();
         return hackathon.Id;
-    }
-
-    public void AddEmployeesIfItIsEmpty(EmployeeRepository employeeRepository)
-    {
-        if (hackathonContext.Employees.Any()) return;
-        hackathonContext.Employees.AddRange(employeeRepository.Juniors);
-        hackathonContext.Employees.AddRange(employeeRepository.TeamLeads);
-        hackathonContext.SaveChanges();
     }
 
     public void EnsureCreated()

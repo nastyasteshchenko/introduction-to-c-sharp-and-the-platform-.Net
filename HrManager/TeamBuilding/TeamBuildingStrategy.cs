@@ -10,25 +10,25 @@ public class TeamBuildingStrategy : ITeamBuildingStrategy
     {
         var juniors = juniorsPreferences.Select(x => x.Employee).ToList();
         var teamLeads = teamLeadsPreferences.Select(x => x.Employee).ToList();
-        
+
         var teamLeadsPartners = teamLeads.ToDictionary(junior => junior, _ => NoPair);
-        
+
         var juniorsDesiredEmployees =
             juniorsPreferences.ToDictionary(w => w.Employee, w => w.DesiredEmployees);
         var teamLeadsDesiredEmployees =
             teamLeadsPreferences.ToDictionary(w => w.Employee, w => w.DesiredEmployees);
-        
+
         var freeJuniors = new Queue<Employee>();
         foreach (var employee in juniors)
         {
             freeJuniors.Enqueue(employee);
         }
-        
+
         while (freeJuniors.Count > 0)
         {
             var junior = freeJuniors.Dequeue();
             var juniorPreferences = juniorsDesiredEmployees[junior];
-        
+
             foreach (var preferTeamLead in juniorPreferences)
             {
                 var currentTeamLeadPartner = teamLeadsPartners[preferTeamLead];
@@ -37,27 +37,23 @@ public class TeamBuildingStrategy : ITeamBuildingStrategy
                     teamLeadsPartners[preferTeamLead] = junior;
                     break;
                 }
-        
+
                 var teamLeadPreferences = teamLeadsDesiredEmployees[preferTeamLead];
                 if (TeamLeadPrefersJ1OverJ(teamLeadPreferences, junior, currentTeamLeadPartner))
                 {
                     continue;
                 }
-        
+
                 teamLeadsPartners[preferTeamLead] = junior;
                 freeJuniors.Enqueue(currentTeamLeadPartner);
                 break;
             }
         }
-        
+
         var teams = teamLeadsPartners
             .Select(entry =>
             {
-                var team = new Team()
-                {
-                    TeamLead = entry.Key,
-                    Junior = entry.Value!
-                };
+                var team = new Team(entry.Value!, entry.Key);
                 return team;
             })
             .ToList();

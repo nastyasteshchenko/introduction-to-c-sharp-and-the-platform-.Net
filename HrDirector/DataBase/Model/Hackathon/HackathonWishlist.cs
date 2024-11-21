@@ -1,4 +1,4 @@
-namespace Nsu.Hackathon.Problem.HrDirector.DataBase.Model;
+namespace Nsu.Hackathon.Problem.HrDirector.DataBase.Model.Hackathon;
 
 public class HackathonWishlist
 {

@@ -89,28 +89,16 @@ public class HrManagerTest
 
     private static Team CreateTeam(TeamLead teamLead, Junior junior)
     {
-        return new Team
-        {
-            TeamLead = teamLead,
-            Junior = junior
-        };
+        return new Team(junior, teamLead);
     }
 
     private static Junior CreateJunior(long id, string name)
     {
-        return new Junior
-        {
-            Id = id,
-            Name = name
-        };
+        return new Junior(id, name);
     }
 
     private static TeamLead CreateTeamLead(long id, string name)
     {
-        return new TeamLead
-        {
-            Id = id,
-            Name = name
-        };
+        return new TeamLead(id, name);
     }
 }

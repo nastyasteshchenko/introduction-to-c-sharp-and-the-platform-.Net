@@ -1,15 +1,16 @@
 using Microsoft.EntityFrameworkCore;
-using Nsu.Hackathon.Problem.Common.Model;
 using Nsu.Hackathon.Problem.HrDirector.DataBase.Model;
+using Nsu.Hackathon.Problem.HrDirector.DataBase.Model.Employee;
+using Nsu.Hackathon.Problem.HrDirector.DataBase.Model.Hackathon;
 
 namespace Nsu.Hackathon.Problem.HrDirector.DataBase;
 
 public class HackathonContext : DbContext
 {
     public DbSet<HackathonEntity> Hackathons { get; set; }
-    public DbSet<Employee> Employees { get; set; }
-    public DbSet<Junior> Juniors { get; set; }
-    public DbSet<TeamLead> TeamLeads { get; set; }
+    public DbSet<EmployeeEntity> Employees { get; set; }
+    public DbSet<JuniorEntity> Juniors { get; set; }
+    public DbSet<TeamLeadEntity> TeamLeads { get; set; }
 
     public HackathonContext()
     {
@@ -33,13 +34,13 @@ public class HackathonContext : DbContext
 
     private static void BuildTeamModel(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Team>()
+        modelBuilder.Entity<TeamEntity>()
             .HasOne(e => e.TeamLead)
             .WithMany()
             .HasForeignKey(t => t.TeamLeadId)
             .OnDelete(DeleteBehavior.NoAction);
 
-        modelBuilder.Entity<Team>()
+        modelBuilder.Entity<TeamEntity>()
             .HasOne(e => e.Junior)
             .WithMany()
             .HasForeignKey(t => t.JuniorId)
@@ -48,25 +49,25 @@ public class HackathonContext : DbContext
 
     private static void BuildEmployeeModel(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Employee>()
+        modelBuilder.Entity<EmployeeEntity>()
             .Property(e => e.Id)
             .ValueGeneratedNever();
 
-        modelBuilder.Entity<Employee>()
+        modelBuilder.Entity<EmployeeEntity>()
             .HasMany<Wishlist>(e => e.Wishlists)
-            .WithOne(w => w.Employee);
+            .WithOne(w => w.EmployeeEntity);
     }
 
     private static void BuildWishlistModel(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Wishlist>()
-            .HasOne(w => w.Employee)
+            .HasOne(w => w.EmployeeEntity)
             .WithMany()
             .HasForeignKey(w => w.EmployeeId)
             .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<Wishlist>()
-            .HasOne(w => w.DesiredEmployee)
+            .HasOne(w => w.DesiredEmployeeEntity)
             .WithMany()
             .HasForeignKey(w => w.DesiredEmployeeId)
             .OnDelete(DeleteBehavior.NoAction);
@@ -90,7 +91,7 @@ public class HackathonContext : DbContext
     private static void BuildHackathonTeamModel(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<HackathonTeam>()
-            .HasOne(t => t.Team)
+            .HasOne(t => t.TeamEntity)
             .WithMany()
             .HasForeignKey(t => t.TeamId)
             .OnDelete(DeleteBehavior.NoAction);

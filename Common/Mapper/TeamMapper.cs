@@ -26,12 +26,6 @@ public class TeamMapper(EmployeeMapper employeeMapper)
     {
         var junior = employeeMapper.EmployeeDtoToEmployee(teamDto.Junior);
         var teamLead = employeeMapper.EmployeeDtoToEmployee(teamDto.TeamLead);
-        return new Team()
-        {
-            Junior = junior,
-            TeamLead = teamLead,
-            TeamLeadId = teamLead.Id,
-            JuniorId = junior.Id
-        };
+        return new Team(junior, teamLead);
     }
 }

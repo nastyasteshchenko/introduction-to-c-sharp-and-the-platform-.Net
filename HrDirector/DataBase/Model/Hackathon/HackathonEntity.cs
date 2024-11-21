@@ -1,7 +1,11 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using Nsu.Hackathon.Problem.Common.Model;
+using Nsu.Hackathon.Problem.HrDirector.DataBase.Mapper;
+using Nsu.Hackathon.Problem.HrDirector.DataBase.Model.Employee;
 
-namespace Nsu.Hackathon.Problem.HrDirector.DataBase.Model;
+namespace Nsu.Hackathon.Problem.HrDirector.DataBase.Model.Hackathon;
 
+[Table(name: "Hackathon")]
 public class HackathonEntity
 {
     public long Id { get; set; }
@@ -10,7 +14,7 @@ public class HackathonEntity
     public List<HackathonTeam> Teams { get; set; } = [];
     public double HarmonicMean { get; set; }
 
-    public void AddWishlists(List<Preference> preferences)
+    public void AddWishlists(List<Preference> preferences, EmployeeEntityMapper employeeEntityMapper)
     {
         foreach (var wishlist in preferences)
         {
@@ -18,8 +22,8 @@ public class HackathonEntity
             {
                 Wishlist = new Wishlist
                 {
-                    Employee = wishlist.Employee,
-                    DesiredEmployee = de,
+                    EmployeeEntity = employeeEntityMapper.EmployeeToEmployeeEntity(wishlist.Employee),
+                    DesiredEmployeeEntity = employeeEntityMapper.EmployeeToEmployeeEntity(de),
                     PriorityNumber = wishlist.DesiredEmployees.IndexOf(de)
                 },
                 HackathonEntity = this
@@ -28,7 +32,7 @@ public class HackathonEntity
         }
     }
 
-    public void AddParticipants(List<Employee> employees)
+    public void AddParticipants(List<EmployeeEntity> employees)
     {
         var participants = employees.Select(e => new HackathonParticipant
         {
@@ -38,11 +42,11 @@ public class HackathonEntity
         Participants.AddRange(participants);
     }
 
-    public void AddTeams(List<Team> teams)
+    public void AddTeams(List<TeamEntity> teams)
     {
         var hackathonTeams = teams.Select(team => new HackathonTeam
         {
-            Team = team,
+            TeamEntity = team,
             HackathonEntity = this
         });
         Teams.AddRange(hackathonTeams);
