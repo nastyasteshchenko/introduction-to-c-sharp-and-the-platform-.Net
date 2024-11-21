@@ -7,20 +7,6 @@ public static class SatisfactionCalculator
     public static List<int> CalculateSatisfaction(List<Team> teams,
         List<Preference> teamLeadsWishlists, List<Preference> juniorsWishlists)
     {
-        foreach (var f in juniorsWishlists)
-        {
-            Console.WriteLine(f.Employee);
-        }
-        
-        foreach (var f in teamLeadsWishlists)
-        {
-            Console.WriteLine(f.Employee);
-        }
-        
-        foreach (var f in teams)
-        {
-            Console.WriteLine(f);
-        }
         var juniorsDesiredEmployees =
             juniorsWishlists.ToDictionary(w => w.Employee, w => w.DesiredEmployees);
         var teamLeadsDesiredEmployees =

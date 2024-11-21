@@ -4,6 +4,6 @@ public class TeamLeadEntity : EmployeeEntity
 {
     public override string ToString()
     {
-        return $"TeamLead Id: {Id}, Name: {Name} Hash: {GetHashCode()}";
+        return $"TeamLead Id: {Id}, Name: {Name}";
     }
 }

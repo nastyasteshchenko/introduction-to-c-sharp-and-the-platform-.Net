@@ -41,17 +41,9 @@ public class HrDirectorService(
 
         var teamLeadsPreferences = preferences.Where(preference => preference.Employee is TeamLead)
             .ToList();
-        foreach (var f in teamLeadsPreferences)
-        {
-            Console.WriteLine(employeeEntityMapper.EmployeeToEmployeeEntity(f.Employee));
-        }
-
+ 
         var juniorsPreferences = preferences.Where(preference => preference.Employee is Junior)
             .ToList();
-        foreach (var f in juniorsPreferences)
-        {
-            Console.WriteLine(employeeEntityMapper.EmployeeToEmployeeEntity(f.Employee));
-        }
 
         hackathon.HarmonicMean = CalculateStatistics(teams, teamLeadsPreferences, juniorsPreferences);
 
@@ -103,5 +95,6 @@ public class HrDirectorService(
         var harmonicMeansAverage = harmonicMeans.Average();
         Console.WriteLine(LineSeparator);
         Console.WriteLine($"Total harmonic mean average: {harmonicMeansAverage:0.000}");
+        Console.WriteLine(LineSeparator);
     }
 }

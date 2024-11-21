@@ -27,7 +27,6 @@ public class HrManagerService(
             _preferences.Add(preference);
             if (_preferences.Count == hrManagerServiceOptions.ExpectedPreferencesAmount)
             {
-                Console.WriteLine("Hererere");
                 var teamLeadsPreferences = _preferences.Where(x => x.Employee is TeamLead)
                     .ToList();
                 var juniorsPreferences = _preferences.Where(x => x.Employee is Junior)
