@@ -10,19 +10,19 @@ public class TeamMapper(EmployeeMapper employeeMapper)
         return teams.Select(TeamToTeamDto).ToList();
     }
 
-    public TeamDto TeamToTeamDto(Team team)
+    public List<Team> TeamDtoToTeam(List<TeamDto> teamsDtos)
+    {
+        return teamsDtos.Select(TeamDtoToTeam).ToList();
+    }
+
+    private TeamDto TeamToTeamDto(Team team)
     {
         var junior = employeeMapper.EmployeeToEmployeeDto(team.Junior);
         var teamLead = employeeMapper.EmployeeToEmployeeDto(team.TeamLead);
         return new TeamDto(junior, teamLead);
     }
 
-    public List<Team> TeamDtoToTeam(List<TeamDto> teamsDtos)
-    {
-        return teamsDtos.Select(TeamDtoToTeam).ToList();
-    }
-
-    public Team TeamDtoToTeam(TeamDto teamDto)
+    private Team TeamDtoToTeam(TeamDto teamDto)
     {
         var junior = employeeMapper.EmployeeDtoToEmployee(teamDto.Junior);
         var teamLead = employeeMapper.EmployeeDtoToEmployee(teamDto.TeamLead);

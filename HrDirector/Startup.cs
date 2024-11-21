@@ -2,6 +2,7 @@ using Common.Mapper;
 using HrDirector.DataBase;
 using HrDirector.DataBase.Mapper;
 using Microsoft.EntityFrameworkCore;
+
 namespace HrDirector;
 
 public class Startup
@@ -16,8 +17,8 @@ public class Startup
         services.AddSingleton<TeamEntityMapper>();
         services.AddSingleton<HackathonRepository>();
         services.AddDbContext<HackathonContext>(options =>
-            options.UseSqlServer("Server=localhost;Database=hackathon-problem;" +
-                                 "User Id=sa;Password=strongPassword123;TrustServerCertificate=True"));
+            options.UseNpgsql("Host=db;Port=5432;Database=hackathon-problem;Username=postgres;Password=postgres",
+                sqlOptions => sqlOptions.EnableRetryOnFailure()));
         services.AddControllers();
     }
 

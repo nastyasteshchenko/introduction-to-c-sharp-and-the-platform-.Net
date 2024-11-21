@@ -26,11 +26,17 @@ public class EmployeeEntityMapper(HackathonContext hackathonContext)
             return entity;
         }
 
-        entity = new EmployeeEntity
-        {
-            Id = employee.Id,
-            Name = employee.Name
-        };
+        entity = employee is Junior
+            ? new TeamLeadEntity
+            {
+                Id = employee.Id,
+                Name = employee.Name
+            }
+            : new JuniorEntity
+            {
+                Id = employee.Id,
+                Name = employee.Name
+            };
         _mappedEntities.Add(entity);
         return entity;
     }

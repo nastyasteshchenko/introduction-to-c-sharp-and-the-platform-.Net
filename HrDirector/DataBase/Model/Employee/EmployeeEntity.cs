@@ -8,11 +8,6 @@ public class EmployeeEntity
     public long Id { get; set; }
     public string Name { get; set; } = null!;
     public List<Wishlist> Wishlists { get; set; } = null!;
-
-    public override string ToString()
-    {
-        return $"{GetType().Name} Id: {Id}, Name: {Name} Hash: {GetHashCode()}";
-    }
     
     public override int GetHashCode()
     {

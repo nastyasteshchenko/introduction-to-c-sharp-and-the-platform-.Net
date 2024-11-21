@@ -19,6 +19,7 @@ public class HrDirectorService(
 
     public long SummarizeAndSaveHackathon(PreferencesAndTeamDto preferencesAndTeamDto)
     {
+        hackathonRepository.EnsureCreated();
         var preferencesDtos = preferencesAndTeamDto.Preferences;
         var teamDtos = preferencesAndTeamDto.Teams;
 
@@ -85,6 +86,8 @@ public class HrDirectorService(
         Console.WriteLine(LineSeparator);
 
         Console.WriteLine($"Harmonic mean: {hackathon.HarmonicMean:0.000}");
+        
+        PrintAllHackathonsHarmonicMean();
     }
 
     public double CalculateStatistics
@@ -93,9 +96,13 @@ public class HrDirectorService(
         var indexes = SatisfactionCalculator.CalculateSatisfaction(teams, teamLeadsWishlists, juniorsWishlists);
         return HarmonicMeanCalculator.CalculateHarmonicMean(indexes);
     }
-
-    public double CountTotalHarmonicMeanAverage(List<double> hackathonsHarmonicMean)
+    
+    private void PrintAllHackathonsHarmonicMean()
     {
-        return hackathonsHarmonicMean.Average();
+        var hackathons = hackathonRepository.GetAllHackathons();
+        var harmonicMeans = hackathons.Select(h => h.HarmonicMean).ToList();
+        var harmonicMeansAverage = harmonicMeans.Average();
+        Console.WriteLine(LineSeparator);
+        Console.WriteLine($"Total harmonic mean average: {harmonicMeansAverage:0.000}");
     }
 }

@@ -1,6 +1,24 @@
 version: '3.8'
 
 services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d hackathon-problem -U postgres || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - hackathon_net
+  
   hr-manager:
     build:
       context: .
@@ -8,7 +26,7 @@ services:
     deploy:
       replicas: 1
     environment:
-      PREFS_AMOUNT: 10
+      PREFS_AMOUNT: ${PREFS_AMOUNT}
     ports:
       - "${HR_MANAGER_PORT}:8080"
     networks:
@@ -24,6 +42,8 @@ services:
       - "${HR_DIRECTOR_PORT}:8080"
     networks:
       - hackathon_net
+    depends_on:
+      - db
 
   teamlead-1:
     image: developer:latest
