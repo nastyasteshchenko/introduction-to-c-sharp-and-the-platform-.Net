@@ -13,31 +13,41 @@ public class HrManagerService(
     PreferenceMapper preferenceMapper,
     TeamMapper teamMapper)
 {
-    //Todo многопоточка
+    private readonly object _lock = new();
+    
     private readonly List<Preference> _preferences = [];
 
     public async void AddPreference(PreferenceDto preferenceDto)
     {
         var preference = preferenceMapper.PreferenceDtoToPreference(preferenceDto);
         _preferences.Add(preference);
-        if (_preferences.Count != hrManagerServiceOptions.ExpectedPreferencesAmount)
+        List<Team> teams = null;
+
+        lock (_lock)
         {
-            return;
+            _preferences.Add(preference);
+            if (_preferences.Count == hrManagerServiceOptions.ExpectedPreferencesAmount)
+            {
+                var teamLeadsPreferences = _preferences.Where(x => x.Employee is TeamLead)
+                    .ToList();
+                var juniorsPreferences = _preferences.Where(x => x.Employee is Junior)
+                    .ToList();
+                teams = BuildTeams(teamLeadsPreferences, juniorsPreferences);
+                _preferences.Clear();
+            }
         }
 
-        var teamLeadsPreferences = _preferences.Where(x => x.Employee is TeamLead).ToList();
-        var juniorsPreferences = _preferences.Where(x => x.Employee is Junior).ToList();
-        var teams = BuildTeams(teamLeadsPreferences, juniorsPreferences);
-
-        await SendTeams(teams);
-        _preferences.Clear();
+        if (teams != null)
+        {
+            await SendTeams(teams);
+        }
     }
 
     public List<Team> BuildTeams(List<Preference> teamLeadsPreferences, List<Preference> juniorsPreferences)
     {
         return teamBuildingStrategy.BuildTeams(teamLeadsPreferences, juniorsPreferences);
     }
-    
+
     private async Task SendTeams(List<Team> teams)
     {
         var preferencesDtos = preferenceMapper.PreferenceToPreferenceDto(_preferences);
