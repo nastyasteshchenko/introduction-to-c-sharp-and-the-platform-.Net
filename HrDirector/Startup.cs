@@ -9,6 +9,7 @@ public class Startup
 {
     public void ConfigureServices(IServiceCollection services)
     {
+        var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
         services.AddSingleton<HrDirectorService>();
         services.AddSingleton<TeamMapper>();
         services.AddSingleton<PreferenceMapper>();
@@ -17,8 +18,7 @@ public class Startup
         services.AddSingleton<TeamEntityMapper>();
         services.AddSingleton<HackathonRepository>();
         services.AddDbContext<HackathonContext>(options =>
-            options.UseNpgsql("Host=db;Port=5432;Database=hackathon-problem;Username=postgres;Password=postgres",
-                sqlOptions => sqlOptions.EnableRetryOnFailure()));
+            options.UseNpgsql(connectionString, sqlOptions => sqlOptions.EnableRetryOnFailure()));
         services.AddControllers();
     }
 

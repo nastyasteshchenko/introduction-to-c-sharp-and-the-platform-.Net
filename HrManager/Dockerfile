@@ -5,7 +5,6 @@ EXPOSE 8080
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Копируем и восстанавливаем зависимости проекта
 COPY ["HrManager/HrManager.csproj", "HrManager/"]
 RUN dotnet restore "HrManager/HrManager.csproj"
 
@@ -20,5 +19,4 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 
-# Выполняем миграции при запуске контейнера
 ENTRYPOINT ["dotnet", "HrManager.dll"]
