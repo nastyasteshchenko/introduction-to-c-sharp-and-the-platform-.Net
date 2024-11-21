@@ -61,7 +61,7 @@ public class HrManagerService(
 
         var requestBodyJson = JsonConvert.SerializeObject(requestBody);
         using var client = new HttpClient();
-        await client.PostAsync("http://localhost:5002/api/hr-director/teams",
+        await client.PostAsync("http://hr-director:8080/api/hr-director/teams",
             new StringContent(requestBodyJson, Encoding.UTF8, "application/json"));
     }
 }

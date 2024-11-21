@@ -1,13 +1,25 @@
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
+EXPOSE 8080
 
-COPY HrManager/HrManager.csproj ./
-RUN dotnet restore
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
 
-COPY HrManager/ ./
-RUN dotnet publish -c Release -o /out
+# Копируем и восстанавливаем зависимости проекта
+COPY ["HrManager/HrManager.csproj", "HrManager/"]
+RUN dotnet restore "HrManager/HrManager.csproj"
 
-FROM mcr.microsoft.com/dotnet/aspnet:7.0
+COPY . .
+WORKDIR "/src/HrManager"
+RUN dotnet build "HrManager.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "HrManager.csproj" -c $BUILD_CONFIGURATION -o /app/publish
+
+FROM base AS final
 WORKDIR /app
-COPY --from=build /out .
+COPY --from=publish /app/publish .
+
+# Выполняем миграции при запуске контейнера
 ENTRYPOINT ["dotnet", "HrManager.dll"]

@@ -1,12 +1,25 @@
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
+EXPOSE 8080
+
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
+
+# Копируем и восстанавливаем зависимости проекта
+COPY ["Developer/Developer.csproj", "Developer/"]
+RUN dotnet restore "Developer/Developer.csproj"
 
 COPY . .
+WORKDIR "/src/Developer"
+RUN dotnet build "Developer.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-RUN dotnet publish -c Release -o /out
+FROM build AS publish
+RUN dotnet publish "Developer.csproj" -c $BUILD_CONFIGURATION -o /app/publish
 
-# Рантайм
-FROM mcr.microsoft.com/dotnet/aspnet:7.0
+FROM base AS final
 WORKDIR /app
-COPY --from=build /out .
-ENTRYPOINT ["dotnet", "EmployeeMainProgram.dll"]
+COPY --from=publish /app/publish .
+
+# Выполняем миграции при запуске контейнера
+ENTRYPOINT ["dotnet", "Developer.dll"]

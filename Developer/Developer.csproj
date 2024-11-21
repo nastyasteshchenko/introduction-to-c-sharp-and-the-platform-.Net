@@ -12,10 +12,18 @@
 
     <ItemGroup>
         <PackageReference Include="CsvHelper" Version="33.0.1"/>
-        <Content Include="Resources/*" CopyToOutputDirectory="Always"/>
-        <ProjectReference Include="../Common/Common.csproj" />
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <Content Include="Resources/*" CopyToOutputDirectory="Always"/>
+        <ProjectReference Include="../Common/Common.csproj"/>
+    </ItemGroup>
+    
+    <ItemGroup>
+        <Content Include="../.dockerignore">
+            <Link>.dockerignore</Link>
+        </Content>
+    </ItemGroup>
 </Project>

@@ -22,9 +22,8 @@ public class EmployeeWorker(
         var preference = employeeService.GetPreference(options.Type, options.Id);
         var preferenceDto = preferenceMapper.PreferenceToPreferenceDto(preference);
         var requestBodyJson = JsonConvert.SerializeObject(preferenceDto);
-        Console.WriteLine(requestBodyJson);
         using var client = new HttpClient();
-        await client.PostAsync("http://localhost:5001/api/hr-manager/preferences",
+        await client.PostAsync("http://hr-manager:8080/api/hr-manager/preferences",
             new StringContent(requestBodyJson, Encoding.UTF8, "application/json"));
         appLifetime.StopApplication();
     }

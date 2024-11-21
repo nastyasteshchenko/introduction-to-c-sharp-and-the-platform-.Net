@@ -8,7 +8,6 @@ public static class HrManagerMainProgram
             .ConfigureWebHostDefaults(webBuilder =>
             {
                 webBuilder.UseStartup<Startup>();
-                webBuilder.UseUrls("http://localhost:5001");
             }).Build();
         
         host.Run();

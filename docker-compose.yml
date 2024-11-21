@@ -1,54 +1,6 @@
 version: '3.8'
 
 services:
-#  teamlead-1:
-#    image: developer:latest
-#    build:
-#      context: ./Developer
-#    deploy:
-#      replicas: 1
-#    environment:
-#      ROLE: teamlead
-#      ID: 1
-#    ports:
-#      - "5007:80"
-#
-#  teamlead-2:
-#    image: developer:latest
-#    build:
-#      context: ./Developer
-#    deploy:
-#      replicas: 1
-#    environment:
-#      ROLE: teamlead
-#      ID: 2
-#    ports:
-#      - "5008:80"
-#
-#  junior-1:
-#    image: developer:latest
-#    build:
-#      context: ./Developer
-#    deploy:
-#      replicas: 1
-#    environment:
-#      ROLE: junior
-#      ID: 1
-#    ports:
-#      - "5003:80"
-#
-#  junior-2:
-#    image: developer:latest
-#    build:
-#      context: ./Developer
-#    deploy:
-#      replicas: 1
-#    environment:
-#      ROLE: junior
-#      ID: 2
-#    ports:
-#      - "5009:80"
-#  
   hr-manager:
     build:
       context: .
@@ -56,7 +8,9 @@ services:
     deploy:
       replicas: 1
     ports:
-      - "5001:8080"
+      - "${HR_MANAGER_PORT}:8080"
+    networks:
+      - hackathon_net
 
   hr-director:
     build:
@@ -65,18 +19,189 @@ services:
     deploy:
       replicas: 1
     ports:
-      - "5002:8080"
+      - "${HR_DIRECTOR_PORT}:8080"
+    networks:
+      - hackathon_net
 
-#  database:
-#    image: postgres:latest
-#    environment:
-#      POSTGRES_USER: admin
-#      POSTGRES_PASSWORD: admin
-#      POSTGRES_DB: hackathon
-#    ports:
-#      - "5432:5432"
-#    volumes:
-#      - db_data:/var/lib/postgresql/data
+  teamlead-1:
+    image: developer:latest
+    build:
+      context: .
+      dockerfile: ./Developer/Dockerfile
+    deploy:
+      replicas: 1
+    environment:
+      ROLE: teamlead
+      ID: 6
+    ports:
+      - "${TEAMLEAD_1_PORT}:8080"
+    depends_on:
+      - hr-director
+      - hr-manager
+    networks:
+      - hackathon_net
 
-#volumes:
-#  db_data:
+  teamlead-2:
+    image: developer:latest
+    build:
+      context: .
+      dockerfile: ./Developer/Dockerfile
+    deploy:
+      replicas: 1
+    environment:
+      ROLE: teamlead
+      ID: 7
+    ports:
+      - "${TEAMLEAD_2_PORT}:8080"
+    depends_on:
+      - hr-director
+      - hr-manager
+    networks:
+      - hackathon_net
+
+  teamlead-3:
+    image: developer:latest
+    build:
+      context: .
+      dockerfile: ./Developer/Dockerfile
+    deploy:
+      replicas: 1
+    environment:
+      ROLE: teamlead
+      ID: 8
+    ports:
+      - "${TEAMLEAD_3_PORT}:8080"
+    depends_on:
+      - hr-director
+      - hr-manager
+    networks:
+      - hackathon_net
+  
+  teamlead-4:
+    image: developer:latest
+    build:
+      context: .
+      dockerfile: ./Developer/Dockerfile
+    deploy:
+      replicas: 1
+    environment:
+      ROLE: teamlead
+      ID: 9
+    ports:
+      - "${TEAMLEAD_4_PORT}:8080"
+    depends_on:
+      - hr-director
+      - hr-manager
+    networks:
+      - hackathon_net
+  
+  teamlead-5:
+    image: developer:latest
+    build:
+      context: .
+      dockerfile: ./Developer/Dockerfile
+    deploy:
+      replicas: 1
+    environment:
+      ROLE: teamlead
+      ID: 10
+    ports:
+      - "${TEAMLEAD_5_PORT}:8080"
+    depends_on:
+      - hr-director
+      - hr-manager
+    networks:
+      - hackathon_net
+      
+  junior-1:
+    build:
+      context: .
+      dockerfile: ./Developer/Dockerfile
+    deploy:
+      replicas: 1
+    environment:
+      ROLE: junior
+      ID: 1
+    ports:
+      - "${JUNIOR_1_PORT}:8080"
+    depends_on:
+      - hr-director
+      - hr-manager
+    networks:
+      - hackathon_net
+  
+  junior-2:
+    image: developer:latest
+    build:
+      context: .
+      dockerfile: ./Developer/Dockerfile
+    deploy:
+      replicas: 1
+    environment:
+      ROLE: junior
+      ID: 2
+    ports:
+      - "${JUNIOR_2_PORT}:8080"
+    depends_on:
+      - hr-director
+      - hr-manager
+    networks:
+      - hackathon_net
+  
+  junior-3:
+    image: developer:latest
+    build:
+      context: .
+      dockerfile: ./Developer/Dockerfile
+    deploy:
+      replicas: 1
+    environment:
+      ROLE: junior
+      ID: 3
+    ports:
+      - "${JUNIOR_3_PORT}:8080"
+    depends_on:
+      - hr-director
+      - hr-manager
+    networks:
+      - hackathon_net
+
+  junior-4:
+    image: developer:latest
+    build:
+      context: .
+      dockerfile: ./Developer/Dockerfile
+    deploy:
+      replicas: 1
+    environment:
+      ROLE: junior
+      ID: 4
+    ports:
+      - "${JUNIOR_4_PORT}:8080"
+    depends_on:
+      - hr-director
+      - hr-manager
+    networks:
+      - hackathon_net
+  
+  junior-5:
+    image: developer:latest
+    build:
+      context: .
+      dockerfile: ./Developer/Dockerfile
+    deploy:
+      replicas: 1
+    environment:
+      ROLE: junior
+      ID: 5
+    ports:
+      - "${JUNIOR_5_PORT}:8080"
+    depends_on:
+      - hr-director
+      - hr-manager
+    networks:
+      - hackathon_net
+      
+networks:
+  hackathon_net:
+    driver: bridge
