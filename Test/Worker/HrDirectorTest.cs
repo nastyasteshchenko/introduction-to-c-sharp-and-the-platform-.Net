@@ -73,7 +73,8 @@ public class HrDirectorTest
         var hackathonEventManager = new HackathonEventManager(new Options(10),
             publishEndpoint.Object, applicationLifetime.Object);
         var director = new HrDirectorService(preferenceMapper, teamMapper, employeeEntityMapper,
-            teamEntityMapper, hackathonRepository, hackathonEventManager);
+            teamEntityMapper, hackathonRepository, hackathonEventManager,
+            new HackathonInfoPrinter(hackathonRepository));
         var currentHackathonHarmonicMean =
             director.CalculateStatistics(teams, teamLeadsWishlists, juniorsWishlists);
 

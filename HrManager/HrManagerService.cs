@@ -18,9 +18,9 @@ public class HrManagerService(
 
     private readonly List<Preference> _preferences = [];
 
-    public async void AddPreference(PreferencesMessage preferencesMessage)
+    public async void AddPreference(SendPreferences sendPreferences)
     {
-        var preferenceDto = preferencesMessage.Preference;
+        var preferenceDto = sendPreferences.Preference;
         var preference = preferenceMapper.PreferenceDtoToPreference(preferenceDto);
         List<Team>? teams = null;
 

@@ -1,6 +1,6 @@
 namespace Common.Message;
 
-public class StartHackathonMessage
+public class HackathonStarted
 {
     public long HackathonId { get; set; }
 }

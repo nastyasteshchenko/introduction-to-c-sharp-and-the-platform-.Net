@@ -16,6 +16,7 @@ public class Startup
         var rabbitMqPassword = Environment.GetEnvironmentVariable("RABBITMQ_PASSWORD")!;
         var hackathonEventTimes = int.Parse(Environment.GetEnvironmentVariable("HACKATHON_EVENT_TIMES")!);
 
+        services.AddSingleton<HackathonInfoPrinter>();
         services.AddSingleton(new Options(hackathonEventTimes));
         services.AddHostedService<HrDirectorWorker>();
         services.AddSingleton<HrDirectorService>();
@@ -24,6 +25,7 @@ public class Startup
         services.AddSingleton<EmployeeMapper>();
         services.AddSingleton<EmployeeEntityMapper>();
         services.AddSingleton<TeamEntityMapper>();
+        services.AddSingleton<HackathonEventManager>();
         services.AddSingleton<HackathonRepository>();
         services.AddDbContext<HackathonContext>(options =>
             options.UseNpgsql(connectionString, sqlOptions => sqlOptions.EnableRetryOnFailure()));

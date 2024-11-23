@@ -1,9 +1,8 @@
 using Common.Dto;
-using Common.Model;
 
 namespace Common.Message;
 
-public class PreferencesMessage
+public class SendPreferences
 {
     public required PreferenceDto Preference { get; set; }
 }

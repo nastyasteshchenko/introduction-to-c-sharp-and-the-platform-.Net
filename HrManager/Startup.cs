@@ -15,7 +15,8 @@ internal class Startup
 
         services.AddMassTransit(x =>
         {
-            x.AddConsumer<PreferencesMessageConsumer>();
+            x.AddConsumer<SendPreferencesConsumer>();
+            x.AddConsumer<HackathonsStoppedConsumer>();
             x.UsingRabbitMq((context, cfg) =>
             {
                 cfg.Host(rabbitMqHost, "/", h =>
@@ -24,6 +25,8 @@ internal class Startup
                     h.Password(rabbitMqPassword);
                 });
                 cfg.ConfigureEndpoints(context);
+                cfg.ReceiveEndpoint("stop-queue-hr-manager",
+                    e => { e.Consumer<HackathonsStoppedConsumer>(context); });
             });
         });
         services.AddSingleton<HrManagerService>();

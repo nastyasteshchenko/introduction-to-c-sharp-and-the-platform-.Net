@@ -15,7 +15,7 @@ public class HrDirectorWorker(
 
     private async void RunAsync(CancellationToken cancellationToken)
     {
-        await publishEndpoint.Publish(new StartHackathonMessage { HackathonId = 1 }, cancellationToken);
+        await publishEndpoint.Publish(new HackathonStarted { HackathonId = 1 }, cancellationToken);
     }
 
     public Task StopAsync(CancellationToken cancellationToken)

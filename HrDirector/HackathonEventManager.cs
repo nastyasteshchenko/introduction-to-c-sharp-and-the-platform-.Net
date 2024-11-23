@@ -8,25 +8,25 @@ public class HackathonEventManager(
     IPublishEndpoint publishEndpoint,
     IHostApplicationLifetime lifetime)
 {
-    private int CurrentHackathonEventTime = 0;
+    private int _currentHackathonEventTime;
 
-    public Boolean IsNeedNextHackathon()
+    public bool IsNeedNextHackathon()
     {
-        return options.HackathonEventTimes == CurrentHackathonEventTime;
+        return options.HackathonEventTimes != _currentHackathonEventTime;
     }
 
     public void StartNewHackathon()
     {
-        CurrentHackathonEventTime++;
-        publishEndpoint.Publish(new StartHackathonMessage()
+        _currentHackathonEventTime++;
+        publishEndpoint.Publish(new HackathonStarted()
         {
-            HackathonId = CurrentHackathonEventTime
+            HackathonId = _currentHackathonEventTime
         });
     }
 
     public void StopHackathons()
     {
-        publishEndpoint.Publish(new StopHackathonsMessage());
+        publishEndpoint.Publish(new HackathonsStopped());
         lifetime.StopApplication();
     }
 }

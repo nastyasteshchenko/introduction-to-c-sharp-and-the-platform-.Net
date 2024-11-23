@@ -24,7 +24,8 @@ public static class EmployeeMainProgram
                 services.AddSingleton<EmployeeMapper>();
                 services.AddMassTransit(x =>
                 {
-                    x.AddConsumer<StartHackathonMessageConsumer>();
+                    x.AddConsumer<HackathonStartedConsumer>();
+                    x.AddConsumer<HackathonsStoppedConsumer>();
                     x.UsingRabbitMq((context, cfg) =>
                     {
                         cfg.Host(rabbitMqHost, "/", h =>
@@ -33,7 +34,9 @@ public static class EmployeeMainProgram
                             h.Password(rabbitMqPassword);
                         });
                         cfg.ReceiveEndpoint(queueName,
-                            e => { e.Consumer<StartHackathonMessageConsumer>(context); });
+                            e => { e.Consumer<HackathonStartedConsumer>(context); });
+                        cfg.ReceiveEndpoint("stop-queue-" + type + "-" + id,
+                            e => { e.Consumer<HackathonsStoppedConsumer>(context); });
                     });
                 });
             })

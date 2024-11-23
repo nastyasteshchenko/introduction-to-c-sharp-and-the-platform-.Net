@@ -1,9 +1,7 @@
-using System.Text;
 using Common.Mapper;
 using Common.Message;
 using Common.Model;
 using MassTransit;
-using Newtonsoft.Json;
 
 namespace Developer;
 
@@ -14,12 +12,12 @@ public class EmployeeService(
     IBus bus
 )
 {
-    public async void HandleStartHackathonMessage(StartHackathonMessage message)
+    public async void HandleStartHackathonMessage(HackathonStarted started)
     {
-        Console.WriteLine($"Hackathon №{message.HackathonId} was started.");
+        Console.WriteLine($"Hackathon №{started.HackathonId} was started.");
         var preference = GetPreference(options.Type, options.Id);
         var preferenceDto = preferenceMapper.PreferenceToPreferenceDto(preference);
-        var prefMessage = new PreferencesMessage
+        var prefMessage = new SendPreferences
         {
             Preference = preferenceDto
         };

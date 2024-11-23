@@ -3,9 +3,9 @@ using MassTransit;
 
 namespace Developer;
 
-public class StartHackathonMessageConsumer(EmployeeService employeeService) : IConsumer<StartHackathonMessage>
+public class HackathonStartedConsumer(EmployeeService employeeService) : IConsumer<HackathonStarted>
 {
-    public Task Consume(ConsumeContext<StartHackathonMessage> context)
+    public Task Consume(ConsumeContext<HackathonStarted> context)
     {
         employeeService.HandleStartHackathonMessage(context.Message);
         return Task.CompletedTask;

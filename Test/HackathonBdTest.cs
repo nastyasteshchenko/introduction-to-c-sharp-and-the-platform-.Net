@@ -74,10 +74,11 @@ public class HackathonBdTest
 
         var applicationLifetime = new Mock<IHostApplicationLifetime>();
         var publishEndpoint = new Mock<IPublishEndpoint>();
-        var hackathonEventManager = new HackathonEventManager(new Options(10), 
+        var hackathonEventManager = new HackathonEventManager(new Options(10),
             publishEndpoint.Object, applicationLifetime.Object);
         var hrDirector = new HrDirectorService(preferenceMapper, teamMapper, employeeEntityMapper,
-            teamEntityMapper, hackathonRepository, hackathonEventManager);
+            teamEntityMapper, hackathonRepository, hackathonEventManager,
+            new HackathonInfoPrinter(hackathonRepository));
 
         var juniorPreferencesDto = preferenceMapper.PreferenceToPreferenceDto(juniorsWishlists)
             .ToList();
