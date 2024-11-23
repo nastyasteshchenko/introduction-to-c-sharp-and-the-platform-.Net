@@ -1,21 +1,13 @@
-using Common.Message;
-using MassTransit;
-
 namespace HrDirector;
 
 public class HrDirectorWorker(
-    IPublishEndpoint publishEndpoint
+    HackathonEventManager hackathonEventManager
 ) : IHostedService
 {
     public Task StartAsync(CancellationToken cancellationToken)
     {
-        Task.Run(() => RunAsync(cancellationToken), cancellationToken);
+        Task.Run(hackathonEventManager.StartNewHackathon, cancellationToken);
         return Task.CompletedTask;
-    }
-
-    private async void RunAsync(CancellationToken cancellationToken)
-    {
-        await publishEndpoint.Publish(new HackathonStarted { HackathonId = 1 }, cancellationToken);
     }
 
     public Task StopAsync(CancellationToken cancellationToken)
