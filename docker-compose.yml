@@ -47,11 +47,20 @@ services:
     depends_on:
       - db
 
-  teamlead-1:
-    image: developer:latest
+  x-developer-base: &developer-base
     build:
       context: .
       dockerfile: ./Developer/Dockerfile
+    deploy:
+      replicas: 1
+    depends_on:
+      - hr-manager
+      - hr-director
+    networks:
+      - hackathon_net
+
+  teamlead-1:
+    <<: *developer-base
     deploy:
       replicas: 1
     environment:
@@ -59,17 +68,9 @@ services:
       ID: 6
     ports:
       - "${TEAMLEAD_1_PORT}:8080"
-    depends_on:
-      - hr-director
-      - hr-manager
-    networks:
-      - hackathon_net
 
   teamlead-2:
-    image: developer:latest
-    build:
-      context: .
-      dockerfile: ./Developer/Dockerfile
+    <<: *developer-base
     deploy:
       replicas: 1
     environment:
@@ -77,17 +78,9 @@ services:
       ID: 7
     ports:
       - "${TEAMLEAD_2_PORT}:8080"
-    depends_on:
-      - hr-director
-      - hr-manager
-    networks:
-      - hackathon_net
 
   teamlead-3:
-    image: developer:latest
-    build:
-      context: .
-      dockerfile: ./Developer/Dockerfile
+    <<: *developer-base
     deploy:
       replicas: 1
     environment:
@@ -95,17 +88,9 @@ services:
       ID: 8
     ports:
       - "${TEAMLEAD_3_PORT}:8080"
-    depends_on:
-      - hr-director
-      - hr-manager
-    networks:
-      - hackathon_net
-  
+
   teamlead-4:
-    image: developer:latest
-    build:
-      context: .
-      dockerfile: ./Developer/Dockerfile
+    <<: *developer-base
     deploy:
       replicas: 1
     environment:
@@ -113,17 +98,9 @@ services:
       ID: 9
     ports:
       - "${TEAMLEAD_4_PORT}:8080"
-    depends_on:
-      - hr-director
-      - hr-manager
-    networks:
-      - hackathon_net
-  
+
   teamlead-5:
-    image: developer:latest
-    build:
-      context: .
-      dockerfile: ./Developer/Dockerfile
+    <<: *developer-base
     deploy:
       replicas: 1
     environment:
@@ -131,16 +108,9 @@ services:
       ID: 10
     ports:
       - "${TEAMLEAD_5_PORT}:8080"
-    depends_on:
-      - hr-director
-      - hr-manager
-    networks:
-      - hackathon_net
-  
+
   junior-1:
-    build:
-      context: .
-      dockerfile: ./Developer/Dockerfile
+    <<: *developer-base
     deploy:
       replicas: 1
     environment:
@@ -148,17 +118,9 @@ services:
       ID: 1
     ports:
       - "${JUNIOR_1_PORT}:8080"
-    depends_on:
-      - hr-director
-      - hr-manager
-    networks:
-      - hackathon_net
-  
+
   junior-2:
-    image: developer:latest
-    build:
-      context: .
-      dockerfile: ./Developer/Dockerfile
+    <<: *developer-base
     deploy:
       replicas: 1
     environment:
@@ -166,17 +128,9 @@ services:
       ID: 2
     ports:
       - "${JUNIOR_2_PORT}:8080"
-    depends_on:
-      - hr-director
-      - hr-manager
-    networks:
-      - hackathon_net
-  
+
   junior-3:
-    image: developer:latest
-    build:
-      context: .
-      dockerfile: ./Developer/Dockerfile
+    <<: *developer-base
     deploy:
       replicas: 1
     environment:
@@ -184,17 +138,9 @@ services:
       ID: 3
     ports:
       - "${JUNIOR_3_PORT}:8080"
-    depends_on:
-      - hr-director
-      - hr-manager
-    networks:
-      - hackathon_net
 
   junior-4:
-    image: developer:latest
-    build:
-      context: .
-      dockerfile: ./Developer/Dockerfile
+    <<: *developer-base
     deploy:
       replicas: 1
     environment:
@@ -202,17 +148,9 @@ services:
       ID: 4
     ports:
       - "${JUNIOR_4_PORT}:8080"
-    depends_on:
-      - hr-director
-      - hr-manager
-    networks:
-      - hackathon_net
-  
+
   junior-5:
-    image: developer:latest
-    build:
-      context: .
-      dockerfile: ./Developer/Dockerfile
+    <<: *developer-base
     deploy:
       replicas: 1
     environment:
@@ -220,11 +158,6 @@ services:
       ID: 5
     ports:
       - "${JUNIOR_5_PORT}:8080"
-    depends_on:
-      - hr-director
-      - hr-manager
-    networks:
-      - hackathon_net
 
 networks:
   hackathon_net:
