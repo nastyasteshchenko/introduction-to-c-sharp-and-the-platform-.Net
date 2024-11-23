@@ -27,12 +27,12 @@ public class EmployeeEntityMapper(HackathonContext hackathonContext)
         }
 
         entity = employee is Junior
-            ? new TeamLeadEntity
+            ? new JuniorEntity
             {
                 Id = employee.Id,
                 Name = employee.Name
             }
-            : new JuniorEntity
+            : new TeamLeadEntity
             {
                 Id = employee.Id,
                 Name = employee.Name
