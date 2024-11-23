@@ -21,6 +21,7 @@ public class HrManagerService(
     {
         var preference = preferenceMapper.PreferenceDtoToPreference(preferenceDto);
         List<Team>? teams = null;
+        List<Preference>? preferences = null;
 
         lock (_lock)
         {
@@ -32,12 +33,14 @@ public class HrManagerService(
                 var juniorsPreferences = _preferences.Where(x => x.Employee is Junior)
                     .ToList();
                 teams = BuildTeams(teamLeadsPreferences, juniorsPreferences);
+                preferences = [.._preferences];
+                _preferences.Clear();
             }
         }
 
-        if (teams != null)
+        if (teams != null && preferences != null)
         {
-            await SendTeams(teams);
+            await SendTeams(teams, preferences);
         }
     }
 
@@ -46,14 +49,9 @@ public class HrManagerService(
         return teamBuildingStrategy.BuildTeams(teamLeadsPreferences, juniorsPreferences);
     }
 
-    private async Task SendTeams(List<Team> teams)
+    private async Task SendTeams(List<Team> teams, List<Preference> preferences)
     {
-        List<PreferenceDto> preferencesDtos;
-        lock (_lock)
-        {
-            preferencesDtos = preferenceMapper.PreferenceToPreferenceDto(_preferences);
-            _preferences.Clear();
-        }
+        var preferencesDtos = preferenceMapper.PreferenceToPreferenceDto(preferences);
 
         var teamsDtos = teamMapper.TeamToTeamDto(teams);
 
