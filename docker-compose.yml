@@ -29,6 +29,8 @@ services:
       PREFS_AMOUNT: ${PREFS_AMOUNT}
     ports:
       - "${HR_MANAGER_PORT}:8080"
+    depends_on:
+      - hr-director
     networks:
       - hackathon_net
 
@@ -47,20 +49,14 @@ services:
     depends_on:
       - db
 
-  developer-base: &developer-base
+  teamlead-1:
     build:
       context: .
       dockerfile: ./Developer/Dockerfile
-    deploy:
-      replicas: 1
     depends_on:
       - hr-manager
-      - hr-director
     networks:
       - hackathon_net
-
-  teamlead-1:
-    <<: *developer-base
     deploy:
       replicas: 1
     environment:
@@ -70,7 +66,13 @@ services:
       - "${TEAMLEAD_1_PORT}:8080"
 
   teamlead-2:
-    <<: *developer-base
+    build:
+      context: .
+      dockerfile: ./Developer/Dockerfile
+    depends_on:
+      - hr-manager
+    networks:
+      - hackathon_net
     deploy:
       replicas: 1
     environment:
@@ -80,7 +82,13 @@ services:
       - "${TEAMLEAD_2_PORT}:8080"
 
   teamlead-3:
-    <<: *developer-base
+    build:
+      context: .
+      dockerfile: ./Developer/Dockerfile
+    depends_on:
+      - hr-manager
+    networks:
+      - hackathon_net
     deploy:
       replicas: 1
     environment:
@@ -90,7 +98,13 @@ services:
       - "${TEAMLEAD_3_PORT}:8080"
 
   teamlead-4:
-    <<: *developer-base
+    build:
+      context: .
+      dockerfile: ./Developer/Dockerfile
+    depends_on:
+      - hr-manager
+    networks:
+      - hackathon_net
     deploy:
       replicas: 1
     environment:
@@ -100,7 +114,13 @@ services:
       - "${TEAMLEAD_4_PORT}:8080"
 
   teamlead-5:
-    <<: *developer-base
+    build:
+      context: .
+      dockerfile: ./Developer/Dockerfile
+    depends_on:
+      - hr-manager
+    networks:
+      - hackathon_net
     deploy:
       replicas: 1
     environment:
@@ -110,7 +130,13 @@ services:
       - "${TEAMLEAD_5_PORT}:8080"
 
   junior-1:
-    <<: *developer-base
+    build:
+      context: .
+      dockerfile: ./Developer/Dockerfile
+    depends_on:
+      - hr-manager
+    networks:
+      - hackathon_net
     deploy:
       replicas: 1
     environment:
@@ -120,7 +146,13 @@ services:
       - "${JUNIOR_1_PORT}:8080"
 
   junior-2:
-    <<: *developer-base
+    build:
+      context: .
+      dockerfile: ./Developer/Dockerfile
+    depends_on:
+      - hr-manager
+    networks:
+      - hackathon_net
     deploy:
       replicas: 1
     environment:
@@ -130,7 +162,13 @@ services:
       - "${JUNIOR_2_PORT}:8080"
 
   junior-3:
-    <<: *developer-base
+    build:
+      context: .
+      dockerfile: ./Developer/Dockerfile
+    depends_on:
+      - hr-manager
+    networks:
+      - hackathon_net
     deploy:
       replicas: 1
     environment:
@@ -140,7 +178,13 @@ services:
       - "${JUNIOR_3_PORT}:8080"
 
   junior-4:
-    <<: *developer-base
+    build:
+      context: .
+      dockerfile: ./Developer/Dockerfile
+    depends_on:
+      - hr-manager
+    networks:
+      - hackathon_net
     deploy:
       replicas: 1
     environment:
@@ -150,7 +194,13 @@ services:
       - "${JUNIOR_4_PORT}:8080"
 
   junior-5:
-    <<: *developer-base
+    build:
+      context: .
+      dockerfile: ./Developer/Dockerfile
+    depends_on:
+      - hr-manager
+    networks:
+      - hackathon_net
     deploy:
       replicas: 1
     environment:
