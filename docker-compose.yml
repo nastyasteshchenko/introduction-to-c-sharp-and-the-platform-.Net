@@ -47,7 +47,7 @@ services:
     depends_on:
       - db
 
-  x-developer-base: &developer-base
+  developer-base: &developer-base
     build:
       context: .
       dockerfile: ./Developer/Dockerfile
