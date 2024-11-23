@@ -20,12 +20,10 @@ public class HrDirectorService(
     public long SummarizeAndSaveHackathon(PreferencesAndTeamsDto preferencesAndTeamsDto)
     {
         hackathonRepository.EnsureCreated();
-        var preferencesDtos = preferencesAndTeamsDto.Preferences;
-        var teamDtos = preferencesAndTeamsDto.Teams;
 
-        var preferences = preferenceMapper.PreferenceDtoToPreference(preferencesDtos);
-        var teams = teamMapper.TeamDtoToTeam(teamDtos);
-        var teamsEntities = teamEntityMapper.TeamToTeamEntity(teamMapper.TeamDtoToTeam(teamDtos));
+        var preferences = preferenceMapper.PreferenceDtoToPreference(preferencesAndTeamsDto.Preferences);
+        var teams = teamMapper.TeamDtoToTeam( preferencesAndTeamsDto.Teams);
+        var teamsEntities = teamEntityMapper.TeamToTeamEntity(teams);
 
         var hackathon = new HackathonEntity();
 
