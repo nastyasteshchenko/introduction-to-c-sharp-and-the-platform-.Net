@@ -8,7 +8,7 @@ public class HackathonEventManager(
     IPublishEndpoint publishEndpoint,
     IHostApplicationLifetime lifetime)
 {
-    private int _currentHackathonEventTime;
+    private int _currentHackathonEventTime = 1;
 
     public bool IsNeedNextHackathon()
     {
@@ -18,7 +18,7 @@ public class HackathonEventManager(
     public void StartNewHackathon()
     {
         _currentHackathonEventTime++;
-        publishEndpoint.Publish(new HackathonStarted()
+        publishEndpoint.Publish(new HackathonStarted
         {
             HackathonId = _currentHackathonEventTime
         });
