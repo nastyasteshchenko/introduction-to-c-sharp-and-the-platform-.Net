@@ -4,8 +4,7 @@ using MassTransit;
 namespace HrDirector;
 
 public class HrDirectorWorker(
-    IPublishEndpoint publishEndpoint,
-    IHostApplicationLifetime appLifetime
+    IPublishEndpoint publishEndpoint
 ) : IHostedService
 {
     public Task StartAsync(CancellationToken cancellationToken)

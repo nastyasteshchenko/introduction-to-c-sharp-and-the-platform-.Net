@@ -10,6 +10,9 @@ public static class EmployeeMainProgram
         var type = Environment.GetEnvironmentVariable("TYPE");
         var id = long.Parse(Environment.GetEnvironmentVariable("ID")!);
         var queueName = Environment.GetEnvironmentVariable("QUEUE_NAME")!;
+        var rabbitMqHost = Environment.GetEnvironmentVariable("RABBITMQ_HOST")!;
+        var rabbitMqUsername = Environment.GetEnvironmentVariable("RABBITMQ_USERNAME")!;
+        var rabbitMqPassword = Environment.GetEnvironmentVariable("RABBITMQ_PASSWORD")!;
 
         var host = Host.CreateDefaultBuilder(args)
             .ConfigureServices((_, services) =>
@@ -24,10 +27,10 @@ public static class EmployeeMainProgram
                     x.AddConsumer<StartHackathonMessageConsumer>();
                     x.UsingRabbitMq((context, cfg) =>
                     {
-                        cfg.Host("rabbitmq", "/", h =>
+                        cfg.Host(rabbitMqHost, "/", h =>
                         {
-                            h.Username("guest");
-                            h.Password("guest");
+                            h.Username(rabbitMqUsername);
+                            h.Password(rabbitMqPassword);
                         });
                         cfg.ReceiveEndpoint(queueName,
                             e => { e.Consumer<StartHackathonMessageConsumer>(context); });

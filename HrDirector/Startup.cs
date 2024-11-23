@@ -11,6 +11,10 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
+        var rabbitMqHost = Environment.GetEnvironmentVariable("RABBITMQ_HOST")!;
+        var rabbitMqUsername = Environment.GetEnvironmentVariable("RABBITMQ_USERNAME")!;
+        var rabbitMqPassword = Environment.GetEnvironmentVariable("RABBITMQ_PASSWORD")!;
+        
         services.AddHostedService<HrDirectorWorker>();
         services.AddSingleton<HrDirectorService>();
         services.AddSingleton<TeamMapper>();
@@ -25,10 +29,10 @@ public class Startup
         {
             x.UsingRabbitMq((context, cfg) =>
             {
-                cfg.Host("rabbitmq", "/", h =>
+                cfg.Host(rabbitMqHost, "/", h =>
                 {
-                    h.Username("guest");
-                    h.Password("guest");
+                    h.Username(rabbitMqUsername);
+                    h.Password(rabbitMqPassword);
                 });
                 cfg.ConfigureEndpoints(context);
             });
