@@ -10,6 +10,7 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
+        services.AddSingleton<HackathonInfoPrinter>();
         services.AddSingleton<HrDirectorService>();
         services.AddSingleton<TeamMapper>();
         services.AddSingleton<PreferenceMapper>();

@@ -4,6 +4,8 @@ using HrDirector;
 using HrDirector.DataBase;
 using HrDirector.DataBase.Mapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
+using Moq;
 
 namespace Test.Worker;
 
@@ -65,8 +67,9 @@ public class HrDirectorTest
         var employeeEntityMapper = new EmployeeEntityMapper(context);
         var teamEntityMapper = new TeamEntityMapper(employeeEntityMapper);
 
+        var appLifetime = new Mock<IHostApplicationLifetime>();
         var director = new HrDirectorService(preferenceMapper, teamMapper, employeeEntityMapper,
-            teamEntityMapper, hackathonRepository);
+            teamEntityMapper, hackathonRepository, new HackathonInfoPrinter(hackathonRepository), appLifetime.Object);
         var currentHackathonHarmonicMean =
             director.CalculateStatistics(teams, teamLeadsWishlists, juniorsWishlists);
 

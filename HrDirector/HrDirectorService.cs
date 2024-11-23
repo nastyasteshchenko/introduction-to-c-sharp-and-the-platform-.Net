@@ -13,10 +13,10 @@ public class HrDirectorService(
     TeamMapper teamMapper,
     EmployeeEntityMapper employeeEntityMapper,
     TeamEntityMapper teamEntityMapper,
-    HackathonRepository hackathonRepository)
+    HackathonRepository hackathonRepository,
+    HackathonInfoPrinter hackathonInfoPrinter,
+    IHostApplicationLifetime appLifetime)
 {
-    private const string LineSeparator = "------------------------------------------";
-
     public long SummarizeAndSaveHackathon(PreferencesAndTeamsDto preferencesAndTeamsDto)
     {
         hackathonRepository.EnsureCreated();
@@ -45,37 +45,10 @@ public class HrDirectorService(
         hackathon.HarmonicMean = CalculateStatistics(teams, teamLeadsPreferences, juniorsPreferences);
 
         var id = hackathonRepository.SaveHackathon(hackathon);
-        PrintHackathonInfo(id);
+        hackathonInfoPrinter.PrintHackathonInfo(id);
+
+        appLifetime.StopApplication();
         return id;
-    }
-
-    private void PrintHackathonInfo(long hackathonId)
-    {
-        var hackathon = hackathonRepository.GetHackathonById(hackathonId);
-        if (hackathon is null)
-        {
-            Console.WriteLine("No hackathon with id " + hackathonId);
-            return;
-        }
-
-        Console.WriteLine($"Information about hackathon with id {hackathonId}");
-        Console.WriteLine("Participants:");
-        foreach (var participant in hackathon.Participants)
-        {
-            Console.WriteLine(participant.Participant);
-        }
-
-        Console.WriteLine(LineSeparator);
-        Console.WriteLine("Teams:");
-        foreach (var team in hackathon.Teams)
-        {
-            Console.WriteLine(team.TeamEntity);
-        }
-
-        Console.WriteLine(LineSeparator);
-        Console.WriteLine($"Harmonic mean: {hackathon.HarmonicMean:0.000}");
-        
-        PrintAllHackathonsHarmonicMean();
     }
 
     public double CalculateStatistics
@@ -83,15 +56,5 @@ public class HrDirectorService(
     {
         var indexes = SatisfactionCalculator.CalculateSatisfaction(teams, teamLeadsWishlists, juniorsWishlists);
         return HarmonicMeanCalculator.CalculateHarmonicMean(indexes);
-    }
-    
-    private void PrintAllHackathonsHarmonicMean()
-    {
-        var hackathons = hackathonRepository.GetAllHackathons();
-        var harmonicMeans = hackathons.Select(h => h.HarmonicMean).ToList();
-        var harmonicMeansAverage = harmonicMeans.Average();
-        Console.WriteLine(LineSeparator);
-        Console.WriteLine($"Total harmonic mean average: {harmonicMeansAverage:0.000}");
-        Console.WriteLine(LineSeparator);
     }
 }

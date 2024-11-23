@@ -2,6 +2,7 @@ using Common.Mapper;
 using Common.Model;
 using HrManager;
 using HrManager.TeamBuilding;
+using Microsoft.Extensions.Hosting;
 using Moq;
 
 namespace Test.Worker;
