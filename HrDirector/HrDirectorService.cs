@@ -46,6 +46,7 @@ public class HrDirectorService(
 
         var id = hackathonRepository.SaveHackathon(hackathon);
         PrintHackathonInfo(id);
+        
         return id;
     }
 

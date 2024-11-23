@@ -1,6 +1,7 @@
 using System.Text;
 using Common.Dto;
 using Common.Mapper;
+using Common.Message;
 using Common.Model;
 using HrManager.TeamBuilding;
 using Newtonsoft.Json;
@@ -17,8 +18,9 @@ public class HrManagerService(
 
     private readonly List<Preference> _preferences = [];
 
-    public async void AddPreference(PreferenceDto preferenceDto)
+    public async void AddPreference(PreferencesMessage preferencesMessage)
     {
+        var preferenceDto = preferencesMessage.Preference;
         var preference = preferenceMapper.PreferenceDtoToPreference(preferenceDto);
         List<Team>? teams = null;
 

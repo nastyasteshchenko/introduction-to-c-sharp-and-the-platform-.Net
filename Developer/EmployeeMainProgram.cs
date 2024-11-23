@@ -28,7 +28,7 @@ public static class EmployeeMainProgram
                             h.Username("guest");
                             h.Password("guest");
                         });
-                        cfg.ReceiveEndpoint("start-hackathon-service",
+                        cfg.ReceiveEndpoint($"start-hackathon-{Guid.NewGuid()}",
                             e => { e.Consumer<StartHackathonMessageConsumer>(context); });
                     });
                 });

@@ -1,12 +1,13 @@
+using Common.Message;
 using MassTransit;
 
 namespace HrManager;
 
-public class PreferencesMessageConsumer : IConsumer<PreferencesMessageConsumer>
+public class PreferencesMessageConsumer(HrManagerService hrManagerService) : IConsumer<PreferencesMessage>
 {
-    public Task Consume(ConsumeContext<PreferencesMessageConsumer> context)
+    public Task Consume(ConsumeContext<PreferencesMessage> context)
     {
-        // employeeService.HandleStartHackathonMessage(context.Message);
+        hrManagerService.AddPreference(context.Message);
         return Task.CompletedTask;
     }
 }

@@ -45,7 +45,27 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
-      hr-director:
+      db:
+        condition: service_healthy
+      teamlead-1:
+        condition: service_started
+      teamlead-2:
+        condition: service_started
+      teamlead-3:
+        condition: service_started
+      teamlead-4:
+        condition: service_started
+      teamlead-5:
+        condition: service_started
+      junior-1:
+        condition: service_started
+      junior-2:
+        condition: service_started
+      junior-3:
+        condition: service_started
+      junior-4:
+        condition: service_started
+      junior-5:
         condition: service_started
     networks:
       - hackathon_net
@@ -67,21 +87,20 @@ services:
         condition: service_healthy
       db:
         condition: service_healthy
-
-  developer-base: &developer-base
+      hr-manager:
+        condition: service_started
+  
+  teamlead-1:
     build:
       context: .
       dockerfile: ./Developer/Dockerfile
     depends_on:
       rabbitmq:
         condition: service_healthy
-#      hr-manager:
-#        condition: service_started
     networks:
       - hackathon_net
-  
-  teamlead-1:
-    <<: *developer-base
+    deploy:
+      replicas: 1
     environment:
       TYPE: teamlead
       ID: 6
@@ -89,7 +108,14 @@ services:
       - "${TEAMLEAD_1_PORT}:8080"
 
   teamlead-2:
-    <<: *developer-base
+    build:
+      context: .
+      dockerfile: ./Developer/Dockerfile
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - hackathon_net
     deploy:
       replicas: 1
     environment:
@@ -99,7 +125,14 @@ services:
       - "${TEAMLEAD_2_PORT}:8080"
 
   teamlead-3:
-    <<: *developer-base
+    build:
+      context: .
+      dockerfile: ./Developer/Dockerfile
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - hackathon_net
     deploy:
       replicas: 1
     environment:
@@ -107,9 +140,16 @@ services:
       ID: 8
     ports:
       - "${TEAMLEAD_3_PORT}:8080"
-  
+
   teamlead-4:
-    <<: *developer-base
+    build:
+      context: .
+      dockerfile: ./Developer/Dockerfile
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - hackathon_net
     deploy:
       replicas: 1
     environment:
@@ -117,9 +157,16 @@ services:
       ID: 9
     ports:
       - "${TEAMLEAD_4_PORT}:8080"
-  
+
   teamlead-5:
-    <<: *developer-base
+    build:
+      context: .
+      dockerfile: ./Developer/Dockerfile
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - hackathon_net
     deploy:
       replicas: 1
     environment:
@@ -127,9 +174,16 @@ services:
       ID: 10
     ports:
       - "${TEAMLEAD_5_PORT}:8080"
-  
+
   junior-1:
-    <<: *developer-base
+    build:
+      context: .
+      dockerfile: ./Developer/Dockerfile
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - hackathon_net
     deploy:
       replicas: 1
     environment:
@@ -137,9 +191,16 @@ services:
       ID: 1
     ports:
       - "${JUNIOR_1_PORT}:8080"
-  
+
   junior-2:
-    <<: *developer-base
+    build:
+      context: .
+      dockerfile: ./Developer/Dockerfile
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - hackathon_net
     deploy:
       replicas: 1
     environment:
@@ -147,9 +208,16 @@ services:
       ID: 2
     ports:
       - "${JUNIOR_2_PORT}:8080"
-  
+
   junior-3:
-    <<: *developer-base
+    build:
+      context: .
+      dockerfile: ./Developer/Dockerfile
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - hackathon_net
     deploy:
       replicas: 1
     environment:
@@ -159,7 +227,14 @@ services:
       - "${JUNIOR_3_PORT}:8080"
 
   junior-4:
-    <<: *developer-base
+    build:
+      context: .
+      dockerfile: ./Developer/Dockerfile
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - hackathon_net
     deploy:
       replicas: 1
     environment:
@@ -167,9 +242,16 @@ services:
       ID: 4
     ports:
       - "${JUNIOR_4_PORT}:8080"
-  
+
   junior-5:
-    <<: *developer-base
+    build:
+      context: .
+      dockerfile: ./Developer/Dockerfile
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - hackathon_net
     deploy:
       replicas: 1
     environment:
