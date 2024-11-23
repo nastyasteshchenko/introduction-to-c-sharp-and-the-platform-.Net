@@ -9,7 +9,7 @@ namespace Developer;
 
 public class EmployeeService(
     EmployeeRepository employeeRepository,
-    EmployeeWorkerOptions options,
+    Options options,
     PreferenceMapper preferenceMapper,
     IBus bus
 )

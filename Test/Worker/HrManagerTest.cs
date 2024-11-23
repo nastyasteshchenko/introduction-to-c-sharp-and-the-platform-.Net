@@ -25,7 +25,7 @@ public class HrManagerTest
         var teamMapper = new TeamMapper(employeeMapper);
 
         var hrManager = new HrManagerService(mockStrategy.Object,
-            new HrManagerControllerOptions(8),
+            new Options(8),
             preferenceMapper, teamMapper);
 
         hrManager.BuildTeams(teamLeadsWishlists, juniorsWishlists);
@@ -75,7 +75,7 @@ public class HrManagerTest
         var teamMapper = new TeamMapper(employeeMapper);
 
         var hrManager = new HrManagerService(new TeamBuildingStrategy(),
-            new HrManagerControllerOptions(8),
+            new Options(8),
             preferenceMapper, teamMapper);
 
         var actualTeams = hrManager.BuildTeams(teamLeadsWishlists, juniorsWishlists);

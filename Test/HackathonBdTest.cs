@@ -4,7 +4,10 @@ using Common.Model;
 using HrDirector;
 using HrDirector.DataBase;
 using HrDirector.DataBase.Mapper;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
+using Moq;
 
 namespace Test;
 
@@ -62,15 +65,20 @@ public class HackathonBdTest
 
         var context = CreateInMemoryContext();
         var hackathonRepository = new HackathonRepository(context);
-        
+
         var employeeMapper = new EmployeeMapper();
         var preferenceMapper = new PreferenceMapper(employeeMapper);
         var teamMapper = new TeamMapper(employeeMapper);
         var employeeEntityMapper = new EmployeeEntityMapper(context);
         var teamEntityMapper = new TeamEntityMapper(employeeEntityMapper);
 
+        var applicationLifetime = new Mock<IHostApplicationLifetime>();
+        var publishEndpoint = new Mock<IPublishEndpoint>();
+        var hackathonEventManager = new HackathonEventManager(new Options(10), 
+            publishEndpoint.Object, applicationLifetime.Object);
         var hrDirector = new HrDirectorService(preferenceMapper, teamMapper, employeeEntityMapper,
-            teamEntityMapper, hackathonRepository);
+            teamEntityMapper, hackathonRepository, hackathonEventManager);
+
         var juniorPreferencesDto = preferenceMapper.PreferenceToPreferenceDto(juniorsWishlists)
             .ToList();
         var teamLeadPreferencesDto = preferenceMapper.PreferenceToPreferenceDto(teamLeadsWishlists)

@@ -13,7 +13,8 @@ public class HrDirectorService(
     TeamMapper teamMapper,
     EmployeeEntityMapper employeeEntityMapper,
     TeamEntityMapper teamEntityMapper,
-    HackathonRepository hackathonRepository)
+    HackathonRepository hackathonRepository,
+    HackathonEventManager hackathonEventManager)
 {
     private const string LineSeparator = "------------------------------------------";
 
@@ -46,7 +47,16 @@ public class HrDirectorService(
 
         var id = hackathonRepository.SaveHackathon(hackathon);
         PrintHackathonInfo(id);
-        
+
+        if (hackathonEventManager.IsNeedNextHackathon())
+        {
+            hackathonEventManager.StartNewHackathon();
+        }
+        else
+        {
+            hackathonEventManager.StopHackathons();
+        }
+
         return id;
     }
 
@@ -75,7 +85,7 @@ public class HrDirectorService(
 
         Console.WriteLine(LineSeparator);
         Console.WriteLine($"Harmonic mean: {hackathon.HarmonicMean:0.000}");
-        
+
         PrintAllHackathonsHarmonicMean();
     }
 
@@ -85,7 +95,7 @@ public class HrDirectorService(
         var indexes = SatisfactionCalculator.CalculateSatisfaction(teams, teamLeadsWishlists, juniorsWishlists);
         return HarmonicMeanCalculator.CalculateHarmonicMean(indexes);
     }
-    
+
     private void PrintAllHackathonsHarmonicMean()
     {
         var hackathons = hackathonRepository.GetAllHackathons();

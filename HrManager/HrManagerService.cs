@@ -10,7 +10,7 @@ namespace HrManager;
 
 public class HrManagerService(
     ITeamBuildingStrategy teamBuildingStrategy,
-    HrManagerControllerOptions hrManagerServiceOptions,
+    Options serviceOptions,
     PreferenceMapper preferenceMapper,
     TeamMapper teamMapper)
 {
@@ -27,7 +27,7 @@ public class HrManagerService(
         lock (_lock)
         {
             _preferences.Add(preference);
-            if (_preferences.Count == hrManagerServiceOptions.ExpectedPreferencesAmount)
+            if (_preferences.Count == serviceOptions.ExpectedPreferencesAmount)
             {
                 var teamLeadsPreferences = _preferences.Where(x => x.Employee is TeamLead)
                     .ToList();

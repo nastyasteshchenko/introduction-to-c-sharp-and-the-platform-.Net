@@ -17,7 +17,7 @@ public static class EmployeeMainProgram
         var host = Host.CreateDefaultBuilder(args)
             .ConfigureServices((_, services) =>
             {
-                services.AddSingleton(new EmployeeWorkerOptions(type!, id));
+                services.AddSingleton(new Options(type!, id));
                 services.AddSingleton<EmployeeRepository>();
                 services.AddSingleton<EmployeeService>();
                 services.AddSingleton<PreferenceMapper>();

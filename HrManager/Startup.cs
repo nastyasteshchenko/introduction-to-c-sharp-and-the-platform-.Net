@@ -30,7 +30,7 @@ internal class Startup
         services.AddSingleton<TeamMapper>();
         services.AddSingleton<PreferenceMapper>();
         services.AddSingleton<EmployeeMapper>();
-        services.AddSingleton(new HrManagerControllerOptions(expectedPreferencesAmount));
+        services.AddSingleton(new Options(expectedPreferencesAmount));
         services.AddSingleton<ITeamBuildingStrategy, TeamBuildingStrategy>();
         services.AddControllers();
     }

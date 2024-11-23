@@ -14,7 +14,9 @@ public class Startup
         var rabbitMqHost = Environment.GetEnvironmentVariable("RABBITMQ_HOST")!;
         var rabbitMqUsername = Environment.GetEnvironmentVariable("RABBITMQ_USERNAME")!;
         var rabbitMqPassword = Environment.GetEnvironmentVariable("RABBITMQ_PASSWORD")!;
-        
+        var hackathonEventTimes = int.Parse(Environment.GetEnvironmentVariable("HACKATHON_EVENT_TIMES")!);
+
+        services.AddSingleton(new Options(hackathonEventTimes));
         services.AddHostedService<HrDirectorWorker>();
         services.AddSingleton<HrDirectorService>();
         services.AddSingleton<TeamMapper>();
