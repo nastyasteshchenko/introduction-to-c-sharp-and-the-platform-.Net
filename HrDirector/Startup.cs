@@ -1,6 +1,7 @@
 using Common.Mapper;
 using HrDirector.DataBase;
 using HrDirector.DataBase.Mapper;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
 namespace HrDirector;
@@ -10,6 +11,7 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
+        services.AddHostedService<HrDirectorWorker>();
         services.AddSingleton<HrDirectorService>();
         services.AddSingleton<TeamMapper>();
         services.AddSingleton<PreferenceMapper>();
@@ -19,6 +21,18 @@ public class Startup
         services.AddSingleton<HackathonRepository>();
         services.AddDbContext<HackathonContext>(options =>
             options.UseNpgsql(connectionString, sqlOptions => sqlOptions.EnableRetryOnFailure()));
+        services.AddMassTransit(x =>
+        {
+            x.UsingRabbitMq((context, cfg) =>
+            {
+                cfg.Host("rabbitmq", "/", h =>
+                {
+                    h.Username("guest");
+                    h.Password("guest");
+                });
+                cfg.ConfigureEndpoints(context);
+            });
+        });
         services.AddControllers();
     }
 
