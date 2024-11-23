@@ -17,9 +17,9 @@ services:
   db:
     image: postgres
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: POSTGRES_USER
+      POSTGRES_PASSWORD: POSTGRES_PASSWORD
+      POSTGRES_DB: POSTGRES_DB
     ports:
       - "${POSTGRES_PORT}:5432"
     volumes:
@@ -104,6 +104,7 @@ services:
     environment:
       TYPE: teamlead
       ID: 6
+      QUEUE_NAME: QUEUE_NAME_TEAMLEAD_1
     ports:
       - "${TEAMLEAD_1_PORT}:8080"
 
@@ -121,6 +122,7 @@ services:
     environment:
       TYPE: teamlead
       ID: 7
+      QUEUE_NAME: QUEUE_NAME_TEAMLEAD_2
     ports:
       - "${TEAMLEAD_2_PORT}:8080"
 
@@ -138,6 +140,7 @@ services:
     environment:
       TYPE: teamlead
       ID: 8
+      QUEUE_NAME: QUEUE_NAME_TEAMLEAD_3
     ports:
       - "${TEAMLEAD_3_PORT}:8080"
 
@@ -155,6 +158,7 @@ services:
     environment:
       TYPE: teamlead
       ID: 9
+      QUEUE_NAME: QUEUE_NAME_TEAMLEAD_4
     ports:
       - "${TEAMLEAD_4_PORT}:8080"
 
@@ -172,6 +176,7 @@ services:
     environment:
       TYPE: teamlead
       ID: 10
+      QUEUE_NAME: QUEUE_NAME_TEAMLEAD_5
     ports:
       - "${TEAMLEAD_5_PORT}:8080"
 
@@ -189,6 +194,7 @@ services:
     environment:
       TYPE: junior
       ID: 1
+      QUEUE_NAME: QUEUE_NAME_JUNIOR_1
     ports:
       - "${JUNIOR_1_PORT}:8080"
 
@@ -206,6 +212,7 @@ services:
     environment:
       TYPE: junior
       ID: 2
+      QUEUE_NAME: QUEUE_NAME_JUNIOR_2
     ports:
       - "${JUNIOR_2_PORT}:8080"
 
@@ -223,6 +230,7 @@ services:
     environment:
       TYPE: junior
       ID: 3
+      QUEUE_NAME: QUEUE_NAME_JUNIOR_3
     ports:
       - "${JUNIOR_3_PORT}:8080"
 
@@ -240,6 +248,7 @@ services:
     environment:
       TYPE: junior
       ID: 4
+      QUEUE_NAME: QUEUE_NAME_JUNIOR_4
     ports:
       - "${JUNIOR_4_PORT}:8080"
 
@@ -257,6 +266,7 @@ services:
     environment:
       TYPE: junior
       ID: 5
+      QUEUE_NAME: QUEUE_NAME_JUNIOR_5
     ports:
       - "${JUNIOR_5_PORT}:8080"
 

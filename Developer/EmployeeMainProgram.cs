@@ -9,6 +9,7 @@ public static class EmployeeMainProgram
     {
         var type = Environment.GetEnvironmentVariable("TYPE");
         var id = long.Parse(Environment.GetEnvironmentVariable("ID")!);
+        var queueName = Environment.GetEnvironmentVariable("QUEUE_NAME")!;
 
         var host = Host.CreateDefaultBuilder(args)
             .ConfigureServices((_, services) =>
@@ -28,7 +29,7 @@ public static class EmployeeMainProgram
                             h.Username("guest");
                             h.Password("guest");
                         });
-                        cfg.ReceiveEndpoint($"start-hackathon-{Guid.NewGuid()}",
+                        cfg.ReceiveEndpoint(queueName,
                             e => { e.Consumer<StartHackathonMessageConsumer>(context); });
                     });
                 });
