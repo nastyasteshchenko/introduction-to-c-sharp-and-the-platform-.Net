@@ -24,7 +24,8 @@ internal class Startup
                     h.Username(rabbitMqUsername);
                     h.Password(rabbitMqPassword);
                 });
-                cfg.ConfigureEndpoints(context);
+                cfg.ReceiveEndpoint("prefs-queue-hr-manager",
+                    e => { e.Consumer<SendPreferencesConsumer>(context); });
                 cfg.ReceiveEndpoint("stop-queue-hr-manager",
                     e => { e.Consumer<HackathonsStoppedConsumer>(context); });
             });

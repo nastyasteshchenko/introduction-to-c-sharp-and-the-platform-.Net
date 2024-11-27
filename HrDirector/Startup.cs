@@ -10,6 +10,7 @@ public class Startup
 {
     public void ConfigureServices(IServiceCollection services)
     {
+        var expectedPreferencesAmount = int.Parse(Environment.GetEnvironmentVariable("PREFS_AMOUNT")!);
         var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
         var rabbitMqHost = Environment.GetEnvironmentVariable("RABBITMQ_HOST")!;
         var rabbitMqUsername = Environment.GetEnvironmentVariable("RABBITMQ_USERNAME")!;
@@ -17,7 +18,7 @@ public class Startup
         var hackathonEventTimes = int.Parse(Environment.GetEnvironmentVariable("HACKATHON_EVENT_TIMES")!);
 
         services.AddSingleton<HackathonInfoPrinter>();
-        services.AddSingleton(new Options(hackathonEventTimes));
+        services.AddSingleton(new Options(hackathonEventTimes, expectedPreferencesAmount));
         services.AddHostedService<HrDirectorWorker>();
         services.AddSingleton<HrDirectorService>();
         services.AddSingleton<TeamMapper>();
@@ -31,6 +32,7 @@ public class Startup
             options.UseNpgsql(connectionString, sqlOptions => sqlOptions.EnableRetryOnFailure()));
         services.AddMassTransit(x =>
         {
+            x.AddConsumer<SendPreferencesConsumer>();
             x.UsingRabbitMq((context, cfg) =>
             {
                 cfg.Host(rabbitMqHost, "/", h =>
@@ -38,7 +40,8 @@ public class Startup
                     h.Username(rabbitMqUsername);
                     h.Password(rabbitMqPassword);
                 });
-                cfg.ConfigureEndpoints(context);
+                cfg.ReceiveEndpoint("prefs-queue-hr-director",
+                    e => { e.Consumer<SendPreferencesConsumer>(context); });
             });
         });
         services.AddControllers();

@@ -80,6 +80,7 @@ services:
     deploy:
       replicas: 1
     environment:
+      PREFS_AMOUNT: ${PREFS_AMOUNT}
       CONNECTION_STRING: "Host=db;Port=5432;Database=hackathon-problem;Username=postgres;Password=postgres"
       RABBITMQ_HOST: ${RABBITMQ_HOST}
       RABBITMQ_USERNAME: ${RABBITMQ_USERNAME}

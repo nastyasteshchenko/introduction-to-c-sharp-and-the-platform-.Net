@@ -1,5 +1,4 @@
 using System.Text;
-using Common.Dto;
 using Common.Mapper;
 using Common.Message;
 using Common.Model;
@@ -42,7 +41,7 @@ public class HrManagerService(
 
         if (teams != null && preferences != null)
         {
-            await SendTeams(teams, preferences);
+            await SendTeams(teams);
         }
     }
 
@@ -51,18 +50,11 @@ public class HrManagerService(
         return teamBuildingStrategy.BuildTeams(teamLeadsPreferences, juniorsPreferences);
     }
 
-    private async Task SendTeams(List<Team> teams, List<Preference> preferences)
+    private async Task SendTeams(List<Team> teams)
     {
-        var preferencesDtos = preferenceMapper.PreferenceToPreferenceDto(preferences);
-
         var teamsDtos = teamMapper.TeamToTeamDto(teams);
 
-        var requestBody = new PreferencesAndTeamsDto(
-            preferencesDtos,
-            teamsDtos
-        );
-
-        var requestBodyJson = JsonConvert.SerializeObject(requestBody);
+        var requestBodyJson = JsonConvert.SerializeObject(teamsDtos);
         using var client = new HttpClient();
         await client.PostAsync("http://hr-director:8080/api/hr-director/teams",
             new StringContent(requestBodyJson, Encoding.UTF8, "application/json"));

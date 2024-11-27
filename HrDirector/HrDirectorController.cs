@@ -8,9 +8,9 @@ namespace HrDirector;
 public class HrDirectorController(HrDirectorService hrDirectorService) : ControllerBase
 {
     [HttpPost("teams")]
-    public IActionResult ReceivePreferencesAndTeams([FromBody] PreferencesAndTeamsDto preferencesAndTeamsDto)
+    public IActionResult ReceiveTeams([FromBody] List<TeamDto> teamsDtos)
     {
-        hrDirectorService.SummarizeAndSaveHackathon(preferencesAndTeamsDto);
+        hrDirectorService.HandleTeamsMessage(teamsDtos);
         return Ok();
     }
 }

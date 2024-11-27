@@ -15,14 +15,47 @@ public class HrDirectorService(
     TeamEntityMapper teamEntityMapper,
     HackathonRepository hackathonRepository,
     HackathonEventManager hackathonEventManager,
-    HackathonInfoPrinter hackathonInfoPrinter)
+    HackathonInfoPrinter hackathonInfoPrinter,
+    Options options)
 {
-    public long SummarizeAndSaveHackathon(PreferencesAndTeamsDto preferencesAndTeamsDto)
+    private readonly object _lock = new();
+    private readonly List<TeamDto> _teamsDtos = [];
+    private readonly List<PreferenceDto> _preferencesDtos = [];
+
+    public void HandleTeamsMessage(List<TeamDto> teams)
+    {
+        lock (_lock)
+        {
+            _teamsDtos.AddRange(teams);
+            if (_preferencesDtos.Count == options.PreferencesAmount)
+            {
+                SummarizeAndSaveHackathon();
+            }
+        }
+    }
+
+    public void HandleSendPreferencesMessage(PreferenceDto preference)
+    {
+        lock (_lock)
+        {
+            _preferencesDtos.Add(preference);
+            if (_preferencesDtos.Count == options.PreferencesAmount && _teamsDtos.Count > 0)
+            {
+                SummarizeAndSaveHackathon();
+            }
+        }
+    }
+
+    private void SummarizeAndSaveHackathon()
     {
         hackathonRepository.EnsureCreated();
 
-        var preferences = GetPreferences(preferencesAndTeamsDto);
-        var teamsDtos = teamMapper.TeamDtoToTeam(preferencesAndTeamsDto.Teams);
+        var preferences = preferenceMapper.PreferenceDtoToPreference(_preferencesDtos);
+        var teamsDtos = teamMapper.TeamDtoToTeam(_teamsDtos);
+
+        _teamsDtos.Clear();
+        _preferencesDtos.Clear();
+
         var teamsEntities = teamEntityMapper.TeamToTeamEntity(teamsDtos);
 
         var hackathon = new HackathonEntity();
@@ -46,21 +79,13 @@ public class HrDirectorService(
         hackathonInfoPrinter.PrintHackathonInfo(id);
 
         DecideIfNeedNewHackathon();
-
-        return id;
     }
 
-    public double CalculateStatistics
+    private double CalculateStatistics
         (List<Team> teams, List<Preference> teamLeadsWishlists, List<Preference> juniorsWishlists)
     {
         var indexes = SatisfactionCalculator.CalculateSatisfaction(teams, teamLeadsWishlists, juniorsWishlists);
         return HarmonicMeanCalculator.CalculateHarmonicMean(indexes);
-    }
-
-    private List<Preference> GetPreferences(PreferencesAndTeamsDto preferencesAndTeamsDto)
-    {
-        var preferencesDtos = preferencesAndTeamsDto.Preferences;
-        return preferenceMapper.PreferenceDtoToPreference(preferencesDtos);
     }
 
     private void DecideIfNeedNewHackathon()
