@@ -9,7 +9,7 @@ public class EmployeeService(
     EmployeeRepository employeeRepository,
     Options options,
     PreferenceMapper preferenceMapper,
-    IBus bus
+    IPublishEndpoint publishEndpoint
 )
 {
     public async void HandleStartHackathonMessage(HackathonStarted started)
@@ -21,7 +21,7 @@ public class EmployeeService(
         {
             Preference = preferenceDto
         };
-        await bus.Publish(prefMessage);
+        await publishEndpoint.Publish(prefMessage);
     }
 
     private Preference GetPreference(string employeeType, long employeeId)
